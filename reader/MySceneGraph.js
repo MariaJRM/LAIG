@@ -3,8 +3,9 @@ function MySceneGraph(filename, scene) {
 	this.loadedOk = null;
 	
 	// Establish bidirectional references between scene and graph
+	//this.initials = new SceneInitials(); 
 	this.scene = scene;
-	scene.graph=this;
+	scene.graph = this;
 		
 	// File reading 
 	this.reader = new CGFXMLreader();
@@ -18,6 +19,67 @@ function MySceneGraph(filename, scene) {
 	this.reader.open('scenes/'+filename, this);  
 }
 
+ 
+ function getUniqueElement(tag, nametag){
+
+	tempInitials = tag.getElementsByTagName(nametag);
+	if (tempInitials == null) {
+	    return (nametag + " element in INITIALS is missing.");
+	}
+	if (tempInitials.length != 1) {
+	    return "either zero or more than one " + nametag + " element found in INITIALS.";
+	}
+
+	return tempInitials[0];
+}
+
+MySceneGraph.prototype.parseInitials = function(rootElement) {
+	
+
+var initials = getUniqueElement(rootElement, "INITIALS");
+	//var initials = tempInitials[0];
+	//console.log("lOL" + tempInitials[0].children);
+	//var nnodes = tempInitials[0].children.length;
+	//console.log(getUniqueElement(initials, frustum));
+	/*
+	tempInitials = initials.getElementsByTagName("frustum");
+	if (tempInitials == null) {
+	    return "frustum element in INITIALS is missing.";
+	}
+	if (tempInitials.length != 1) {
+	    return "either zero or more than one 'frustum' element found in INITIALS.";
+	}*/
+	var frustum = getUniqueElement(initials, "frustum");
+
+	//var frustum = tempInitials[0];
+
+	var near = this.reader.getFloat(frustum, "near");
+	var far = this.reader.getFloat(frustum, "far");
+
+	//--translate--
+/*
+	tempInitials = initials.getElementsByTagName("translate");
+	if (tempInitials == null) {
+	    return "translate element in INITIALS is missing.";
+	}
+	if (tempInitials.length != 1) {
+	    return "either zero or more than one 'translate' element found in INITIALS.";
+	}*/
+	var translate = getUniqueElement(initials, "translate");
+
+	//var translate = tempInitials[0];
+
+	var trans_x = this.reader.getFloat(translate, "x");
+	var trans_y = this.reader.getFloat(translate, "y");
+	var trans_z = this.reader.getFloat(translate, "z");
+
+	console.log('near: ' + near + 'far: ' + far);
+	console.log(trans_x + ' ' + trans_y + ' ' + trans_z);
+
+	//var near = this.reader.getString(tempInitials[0].children[0], "near");
+	//var far = this.reader.getString(tempInitials[0].children[0], "far");
+};
+
 /*
  * Callback to be executed after successful reading
  */
@@ -27,7 +89,8 @@ MySceneGraph.prototype.onXMLReady=function()
 	var rootElement = this.reader.xmlDoc.documentElement;
 	
 	// Here should go the calls for different functions to parse the various blocks
-	var error = this.parseGlobalsExample(rootElement);
+	//var error = this.parseGlobalsExample(rootElement);
+	var error = this.parseInitials(rootElement);
 
 	if (error != null) {
 		this.onXMLError(error);
@@ -39,8 +102,6 @@ MySceneGraph.prototype.onXMLReady=function()
 	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
 	this.scene.onGraphLoaded();
 };
-
-
 
 /*
  * Example of method that parses elements of one block and stores information in a specific data structure

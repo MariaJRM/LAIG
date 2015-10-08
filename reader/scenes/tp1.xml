@@ -2,13 +2,13 @@
 
 
 <INITIALS>
-    <frustum near="ff" far="ff"/>                      <!-- frustum planes-->
-    <translate x="ff" y="ff" z="ff" />                 <!-- initial translate -->
+    <frustum near="0.1" far="0.2"/>                      <!-- frustum planes-->
+    <translate x="1" y="-1" z="2" />               <!-- initial translate -->
     <rotation axis="cc" angle="ff" />                  <!-- initial rotation 3 -->
     <rotation axis="cc" angle="ff" />                  <!-- initial rotation 2 -->
     <rotation axis="cc" angle="ff" />                  <!-- initial rotation 1 -->
-    <scale sx="ff" sy="ff" sz="ff" />                  <!-- initial scaling -->
-    <reference length="ff" />                          <!-- axis length; "0" means no axis-->
+    <scale sx="1" sy="1" sz="1" />                  <!-- initial scaling -->
+    <reference length="1" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
 
 
