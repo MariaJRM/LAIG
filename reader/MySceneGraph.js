@@ -22,7 +22,7 @@ function MySceneGraph(filename, scene) {
  
 function getUniqueElement(tag, nametag){
 
-	tempInitials = tag.getElementsByTagName(nametag);
+	var tempInitials = tag.getElementsByTagName(nametag);
 	if (tempInitials == null) {
 	    return (nametag + " element in " + tag + " is missing.");
 	}
@@ -33,12 +33,22 @@ function getUniqueElement(tag, nametag){
 	return tempInitials[0];
 }
 
+function getAllElements(tag, nametag){
+
+	var tempInitials = tag.getElementsByTagName(nametag);
+	if (tempInitials == null) {
+	    return (nametag + " element in " + tag + " is missing.");
+	}
+	console.log(tempInitials.length);
+	return tempInitials;
+}
+
 MySceneGraph.prototype.parseInitials = function(rootElement) {
 	
 
-var initials = getUniqueElement(rootElement, "INITIALS");
+	var initials = getUniqueElement(rootElement, "INITIALS");
 	
-	var frustum = getUniqueElement(initials, "frustum");
+	var frustum = getAllElements(initials, "frustum");
 
 	var near = this.reader.getFloat(frustum, "near");
 	var far = this.reader.getFloat(frustum, "far");
@@ -53,20 +63,33 @@ var initials = getUniqueElement(rootElement, "INITIALS");
 
 	console.log('near: ' + near + 'far: ' + far);
 	console.log(trans_x + ' ' + trans_y + ' ' + trans_z);
+
+	//--rotation--
+
+	var rotation = getAllElements(initials, "rotation");
+	console.log("rot: " + rotation.children.length);
+	/*for (var i = 0; i < rotation.length; ++i) {
+		
+		var id = this.reader.getString(leaves.children[i], "id");
+		var type = this.reader.getString(leaves.children[i], "type");
+		var args = this.reader.getString(leaves.children[i], "args");
+
+		console.log("ID: " + id + " Type: " + type + " Args: " + args);
+	}*/
 };
 
 MySceneGraph.prototype.parseLeaves= function(rootElement) {
 	
 	var leaves = getUniqueElement(rootElement, "LEAVES");
-	var elems = getUniqueElement(leaves, "LEAF");
 
-	for (var i = 0; i < elems.length; ++i) {
+	for (var i = 0; i < leaves.children.length; ++i) {
+		
+		var id = this.reader.getString(leaves.children[i], "id");
+		var type = this.reader.getString(leaves.children[i], "type");
+		var args = this.reader.getString(leaves.children[i], "args");
 
-		var id = this.reader.getString(elems[i], "id");
-		var type = this.reader.getString(elems[i], "type");
-		var args = this.reader.getString(elems[i], "args");
-
-		/*switch (type) {
+		/*
+		switch (type) {
 			case "square":
 				
 				break;
@@ -80,11 +103,30 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 				
 				break;
 			default:
-				return "Unknown LEAF type: " + type;
-		}*/
+				return "Unknown LEAF type: " + type;*/
+
 		console.log("ID: " + id + " Type: " + type + " Args: " + args);
 	}
 
+};
+
+MySceneGraph.prototype.parseLights= function(rootElement) {
+	
+	var lights = getUniqueElement(rootElement, "LIGHTS");
+
+	/*for (var i = 0; i < lights.children.length; ++i) {
+
+		var enable = getUniqueElement(rootElement, "enable");
+
+		
+		var id = this.reader.getString(leaves.children[i], "id");
+		var type = this.reader.getString(leaves.children[i], "type");
+		var args = this.reader.getString(leaves.children[i], "args");
+
+		
+
+		console.log("ID: " + id + " Type: " + type + " Args: " + args);
+	}*/
 
 };
 
@@ -101,6 +143,7 @@ MySceneGraph.prototype.onXMLReady=function()
 	//var error = this.parseGlobalsExample(rootElement);
 	var error = this.parseInitials(rootElement);
 	var error = this.parseLeaves(rootElement);
+	var error = this.parseLights(rootElement);
 
 	if (error != null) {
 		this.onXMLError(error);
