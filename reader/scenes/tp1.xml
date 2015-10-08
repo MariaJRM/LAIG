@@ -74,9 +74,15 @@
 
 <LEAVES>
     <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
-    <LEAF id="tampo" type="rectangle" args="ff ff ff ff" />
-    <LEAF id="perna" type="cilinder" args="ff ff ff ii ii" />
-    <!-- height, bottom radius, topradius, sections along height, parts per section ­­­­-->
+    <LEAF id="1" type="square" args="0 1 1 0" />
+    <LEAF id="2" type="cylinder" args="1  ff ii ii" />
+    <LEAF id="3" type="sphere" args="ff ff ff ff" />
+    <LEAF id="4" type="triangle" args="ff ff ff ii ii" />
+    <!-- Parameters of the above primitives:                                                         -->
+        <!--rectangle: 2D coordinates for left-top and right-bottom vertices.                        -->
+        <!-- cylinder:  height, bottom radius, top radius, sections along height, parts per section  -->
+        <!-- sphere:    radius, parts along radius, parts per section                                -->
+        <!-- triangle:   coordinates of each vertex                                                  -->
 </LEAVES>
 
 
