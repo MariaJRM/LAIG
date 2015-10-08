@@ -20,14 +20,14 @@ function MySceneGraph(filename, scene) {
 }
 
  
- function getUniqueElement(tag, nametag){
+function getUniqueElement(tag, nametag){
 
 	tempInitials = tag.getElementsByTagName(nametag);
 	if (tempInitials == null) {
-	    return (nametag + " element in INITIALS is missing.");
+	    return (nametag + " element in " + tag + " is missing.");
 	}
 	if (tempInitials.length != 1) {
-	    return "either zero or more than one " + nametag + " element found in INITIALS.";
+	    return "either zero or more than one " + nametag + " element found in" + tag + ".";
 	}
 
 	return tempInitials[0];
@@ -37,37 +37,15 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	
 
 var initials = getUniqueElement(rootElement, "INITIALS");
-	//var initials = tempInitials[0];
-	//console.log("lOL" + tempInitials[0].children);
-	//var nnodes = tempInitials[0].children.length;
-	//console.log(getUniqueElement(initials, frustum));
-	/*
-	tempInitials = initials.getElementsByTagName("frustum");
-	if (tempInitials == null) {
-	    return "frustum element in INITIALS is missing.";
-	}
-	if (tempInitials.length != 1) {
-	    return "either zero or more than one 'frustum' element found in INITIALS.";
-	}*/
+	
 	var frustum = getUniqueElement(initials, "frustum");
-
-	//var frustum = tempInitials[0];
 
 	var near = this.reader.getFloat(frustum, "near");
 	var far = this.reader.getFloat(frustum, "far");
 
 	//--translate--
-/*
-	tempInitials = initials.getElementsByTagName("translate");
-	if (tempInitials == null) {
-	    return "translate element in INITIALS is missing.";
-	}
-	if (tempInitials.length != 1) {
-	    return "either zero or more than one 'translate' element found in INITIALS.";
-	}*/
-	var translate = getUniqueElement(initials, "translate");
 
-	//var translate = tempInitials[0];
+	var translate = getUniqueElement(initials, "translate");
 
 	var trans_x = this.reader.getFloat(translate, "x");
 	var trans_y = this.reader.getFloat(translate, "y");
@@ -75,9 +53,39 @@ var initials = getUniqueElement(rootElement, "INITIALS");
 
 	console.log('near: ' + near + 'far: ' + far);
 	console.log(trans_x + ' ' + trans_y + ' ' + trans_z);
+};
 
-	//var near = this.reader.getString(tempInitials[0].children[0], "near");
-	//var far = this.reader.getString(tempInitials[0].children[0], "far");
+MySceneGraph.prototype.parseLeaves= function(rootElement) {
+	
+	var leaves = getUniqueElement(rootElement, "LEAVES");
+	var elems = getUniqueElement(leaves, "LEAF");
+
+	for (var i = 0; i < elems.length; ++i) {
+
+		var id = this.reader.getString(elems[i], "id");
+		var type = this.reader.getString(elems[i], "type");
+		var args = this.reader.getString(elems[i], "args");
+
+		/*switch (type) {
+			case "square":
+				
+				break;
+			case "cylinder":
+				
+				break;
+			case "sphere":
+				
+				break;
+			case "triangle":
+				
+				break;
+			default:
+				return "Unknown LEAF type: " + type;
+		}*/
+		console.log("ID: " + id + " Type: " + type + " Args: " + args);
+	}
+
+
 };
 
 /*
@@ -89,8 +97,10 @@ MySceneGraph.prototype.onXMLReady=function()
 	var rootElement = this.reader.xmlDoc.documentElement;
 	
 	// Here should go the calls for different functions to parse the various blocks
+
 	//var error = this.parseGlobalsExample(rootElement);
 	var error = this.parseInitials(rootElement);
+	var error = this.parseLeaves(rootElement);
 
 	if (error != null) {
 		this.onXMLError(error);
@@ -106,45 +116,7 @@ MySceneGraph.prototype.onXMLReady=function()
 /*
  * Example of method that parses elements of one block and stores information in a specific data structure
  */
-MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
-	
-	var elems =  rootElement.getElementsByTagName('globals');
-	if (elems == null) {
-		return "globals element is missing.";
-	}
 
-	if (elems.length != 1) {
-		return "either zero or more than one 'globals' element found.";
-	}
-
-	// various examples of different types of access
-	var globals = elems[0];
-	this.background = this.reader.getRGBA(globals, 'background');
-	this.drawmode = this.reader.getItem(globals, 'drawmode', ["fill","line","point"]);
-	this.cullface = this.reader.getItem(globals, 'cullface', ["back","front","none", "frontandback"]);
-	this.cullorder = this.reader.getItem(globals, 'cullorder', ["ccw","cw"]);
-
-	console.log("Globals read from file: {background=" + this.background + ", drawmode=" + this.drawmode + ", cullface=" + this.cullface + ", cullorder=" + this.cullorder + "}");
-
-	var tempList=rootElement.getElementsByTagName('list');
-
-	if (tempList == null  || tempList.length==0) {
-		return "list element is missing.";
-	}
-	
-	this.list=[];
-	// iterate over every element
-	var nnodes=tempList[0].children.length;
-	for (var i=0; i< nnodes; i++)
-	{
-		var e=tempList[0].children[i];
-
-		// process each element and store its information
-		this.list[e.id]=e.attributes.getNamedItem("coords").value;
-		console.log("Read list item id "+ e.id+" with value "+this.list[e.id]);
-	};
-
-};
 	
 /*
  * Callback to be executed on any read error
