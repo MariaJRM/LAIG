@@ -74,7 +74,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 		console.log("AXIS: " + axis + " Angle: " + angle);
 	}
 
-	//--scale-- 
+	//--scale-- DONE
 
 	var scale = getUniqueElement(initials, "scale");
 
@@ -102,7 +102,6 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 		var type = this.reader.getString(leaves.children[i], "type");
 		var args = this.reader.getString(leaves.children[i], "args");
 
-		
 		/*switch (type) {
 			case "square":
 				
@@ -128,8 +127,6 @@ MySceneGraph.prototype.parseLights= function(rootElement) {
 	
 	var lights = getUniqueElement(rootElement, "LIGHTS");
 
-	
-
 };
 
 /*
@@ -141,8 +138,6 @@ MySceneGraph.prototype.onXMLReady=function()
 	var rootElement = this.reader.xmlDoc.documentElement;
 	
 	// Here should go the calls for different functions to parse the various blocks
-
-	//var error = this.parseGlobalsExample(rootElement);
 	var error = this.parseInitials(rootElement);
 	var error = this.parseLeaves(rootElement);
 	var error = this.parseLights(rootElement);
