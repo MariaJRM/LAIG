@@ -39,8 +39,8 @@ function getAllElements(tag, nametag){
 	if (tempInitials == null) {
 	    return (nametag + " element in " + tag + " is missing.");
 	}
-	console.log(nametag + " length: " + tempInitials.length);
-	return tempInitials[0];
+	console.log(nametag + " length: " + tempInitials[0].length);
+	return tempInitials;
 }
 
 MySceneGraph.prototype.parseInitials = function(rootElement) {
@@ -48,7 +48,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	var initials = getUniqueElement(rootElement, "INITIALS");
 
 	//--frustum-- DONE
-	var frustum = getAllElements(initials, "frustum");
+	var frustum = getUniqueElement(initials, "frustum");
 
 	var near = this.reader.getFloat(frustum, "near");
 	var far = this.reader.getFloat(frustum, "far");
@@ -64,17 +64,32 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 
 	console.log('x: ' + trans_x + ' y: ' + trans_y + ' z: ' + trans_z);
 
-	//--rotation--
+	//--rotation-- DONE
 
 	var rotation = getAllElements(initials, "rotation");
 
 	for (var i = 0; i < rotation.length; ++i) {
-		console.log("AQUI DÁ MERDA!!!!!");
-		
-		var axis = this.reader.getString(rotation.children[i], "axis");
-		var angle = this.reader.getString(leaves.children[i], "angle");
+		var axis = this.reader.getString(rotation[i], "axis");
+		var angle = this.reader.getString(rotation[i], "angle");
 		console.log("AXIS: " + axis + " Angle: " + angle);
 	}
+
+	//--scale-- 
+
+	var scale = getUniqueElement(initials, "scale");
+
+	var sx = this.reader.getFloat(scale, "sx");
+	var sy = this.reader.getFloat(scale, "sy");
+	var sz = this.reader.getFloat(scale, "sz");
+
+	console.log("sx: " + sx + " sy: " + sy + " sz: " + sz);
+
+	var reference = getUniqueElement(initials, "reference");
+
+	var ref_length = this.reader.getFloat(reference, "length");
+
+	console.log("reference: " + ref_length);
+
 };
 
 MySceneGraph.prototype.parseLeaves= function(rootElement) {
@@ -113,19 +128,7 @@ MySceneGraph.prototype.parseLights= function(rootElement) {
 	
 	var lights = getUniqueElement(rootElement, "LIGHTS");
 
-	for (var i = 0; i < lights.children.length; ++i) {
-
-		/*var enable = getUniqueElement(rootElement, "enable");
-
-		
-		var id = this.reader.getString(leaves.children[i], "id");
-		var type = this.reader.getString(leaves.children[i], "type");
-		var args = this.reader.getString(leaves.children[i], "args");
-
-		
-
-		console.log("ID: " + id + " Type: " + type + " Args: " + args);*/
-	}
+	
 
 };
 
