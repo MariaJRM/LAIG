@@ -29,7 +29,7 @@ function getUniqueElement(tag, nametag){
 	if (tempInitials.length != 1) {
 	    return "either zero or more than one " + nametag + " element found in" + tag + ".";
 	}
-
+	console.log(nametag + " length: " +tempInitials.length);
 	return tempInitials[0];
 }
 
@@ -39,21 +39,22 @@ function getAllElements(tag, nametag){
 	if (tempInitials == null) {
 	    return (nametag + " element in " + tag + " is missing.");
 	}
-	console.log(tempInitials.length);
-	return tempInitials;
+	console.log(nametag + " length: " + tempInitials.length);
+	return tempInitials[0];
 }
 
 MySceneGraph.prototype.parseInitials = function(rootElement) {
 	
-
 	var initials = getUniqueElement(rootElement, "INITIALS");
-	
+
+	//--frustum-- DONE
 	var frustum = getAllElements(initials, "frustum");
 
 	var near = this.reader.getFloat(frustum, "near");
 	var far = this.reader.getFloat(frustum, "far");
+	console.log('near: ' + near + ' far: ' + far);
 
-	//--translate--
+	//--translate-- DONE
 
 	var translate = getUniqueElement(initials, "translate");
 
@@ -61,21 +62,19 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	var trans_y = this.reader.getFloat(translate, "y");
 	var trans_z = this.reader.getFloat(translate, "z");
 
-	console.log('near: ' + near + 'far: ' + far);
-	console.log(trans_x + ' ' + trans_y + ' ' + trans_z);
+	console.log('x: ' + trans_x + ' y: ' + trans_y + ' z: ' + trans_z);
 
 	//--rotation--
 
 	var rotation = getAllElements(initials, "rotation");
-	console.log("rot: " + rotation.children.length);
-	/*for (var i = 0; i < rotation.length; ++i) {
-		
-		var id = this.reader.getString(leaves.children[i], "id");
-		var type = this.reader.getString(leaves.children[i], "type");
-		var args = this.reader.getString(leaves.children[i], "args");
 
-		console.log("ID: " + id + " Type: " + type + " Args: " + args);
-	}*/
+	for (var i = 0; i < rotation.length; ++i) {
+		console.log("AQUI DÁ MERDA!!!!!");
+		
+		var axis = this.reader.getString(rotation.children[i], "axis");
+		var angle = this.reader.getString(leaves.children[i], "angle");
+		console.log("AXIS: " + axis + " Angle: " + angle);
+	}
 };
 
 MySceneGraph.prototype.parseLeaves= function(rootElement) {
@@ -88,8 +87,8 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 		var type = this.reader.getString(leaves.children[i], "type");
 		var args = this.reader.getString(leaves.children[i], "args");
 
-		/*
-		switch (type) {
+		
+		/*switch (type) {
 			case "square":
 				
 				break;
@@ -114,9 +113,9 @@ MySceneGraph.prototype.parseLights= function(rootElement) {
 	
 	var lights = getUniqueElement(rootElement, "LIGHTS");
 
-	/*for (var i = 0; i < lights.children.length; ++i) {
+	for (var i = 0; i < lights.children.length; ++i) {
 
-		var enable = getUniqueElement(rootElement, "enable");
+		/*var enable = getUniqueElement(rootElement, "enable");
 
 		
 		var id = this.reader.getString(leaves.children[i], "id");
@@ -125,8 +124,8 @@ MySceneGraph.prototype.parseLights= function(rootElement) {
 
 		
 
-		console.log("ID: " + id + " Type: " + type + " Args: " + args);
-	}*/
+		console.log("ID: " + id + " Type: " + type + " Args: " + args);*/
+	}
 
 };
 
