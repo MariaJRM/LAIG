@@ -44,128 +44,157 @@ function getAllElements(tag, nametag){
 }
 
 MySceneGraph.prototype.parseInitials = function(rootElement) {
+
+	this.initialsInfo= {};
 	
 	var initials = getUniqueElement(rootElement, "INITIALS");
 
 	//--frustum-- DONE
 	var frustum = getUniqueElement(initials, "frustum");
 
-	var near = this.reader.getFloat(frustum, "near");
-	var far = this.reader.getFloat(frustum, "far");
-	//console.log('near: ' + near + ' far: ' + far);
+	this.initialsInfo.frustum = {};
+
+	this.initialsInfo.frustum['near'] = this.reader.getFloat(frustum, "near");
+	this.initialsInfo.frustum['far'] = this.reader.getFloat(frustum, "far");
 
 	//--translate-- DONE
 
-	var translate = getUniqueElement(initials, "translation");
+	var translation = getUniqueElement(initials, "translation");
 
-	var trans_x = this.reader.getFloat(translate, "x");
-	var trans_y = this.reader.getFloat(translate, "y");
-	var trans_z = this.reader.getFloat(translate, "z");
+	this.initialsInfo.translation = {};
 
-	//console.log('x: ' + trans_x + ' y: ' + trans_y + ' z: ' + trans_z);
+	this.initialsInfo.translation['x'] = this.reader.getFloat(translation, "x");
+	this.initialsInfo.translation['y'] = this.reader.getFloat(translation, "y");
+	this.initialsInfo.translation['z'] = this.reader.getFloat(translation, "z");
 
 	//--rotation-- DONE
-
 	var rotation = getAllElements(initials, "rotation");
 
+	this.initialsInfo.rotation = {};
+
 	for (var i = 0; i < rotation.length; ++i) {
-		var axis = this.reader.getString(rotation[i], "axis");
-		var angle = this.reader.getString(rotation[i], "angle");
-		//console.log("AXIS: " + axis + " Angle: " + angle);
+		this.initialsInfo.rotation['axis'] = this.reader.getString(rotation[i], "axis");
+		this.initialsInfo.rotation['angle'] = this.reader.getString(rotation[i], "angle");
 	}
 
 	//--scale-- DONE
-
 	var scale = getUniqueElement(initials, "scale");
+	this.initialsInfo.scale = {};
 
-	var sx = this.reader.getFloat(scale, "sx");
-	var sy = this.reader.getFloat(scale, "sy");
-	var sz = this.reader.getFloat(scale, "sz");
+	this.initialsInfo.scale['sx'] = this.reader.getFloat(scale, "sx");
+	this.initialsInfo.scale['sy'] = this.reader.getFloat(scale, "sy");
+	this.initialsInfo.scale['sz'] = this.reader.getFloat(scale, "sz");
 
-	//console.log("sx: " + sx + " sy: " + sy + " sz: " + sz);
-
+	//--reference--
 	var reference = getUniqueElement(initials, "reference");
 
-	var ref_length = this.reader.getFloat(reference, "length");
+	this.initialsInfo.reference = this.reader.getFloat(reference, "length");
 
-	//console.log("reference: " + ref_length);
-
-};
-
-MySceneGraph.prototype.parseLeaves= function(rootElement) {
-	
-	var leaves = getUniqueElement(rootElement, "LEAVES");
-
-	for (var i = 0; i < leaves.children.length; ++i) {
-		
-		var id = this.reader.getString(leaves.children[i], "id");
-		var type = this.reader.getString(leaves.children[i], "type");
-		var args = this.reader.getString(leaves.children[i], "args");
-
-		/*switch (type) {
-			case "square":
-				
-				break;
-			case "cylinder":
-				
-				break;
-			case "sphere":
-				
-				break;
-			case "triangle":
-				
-				break;
-			default:
-				return "Unknown LEAF type: " + type;*/
-
-		//console.log("ID: " + id + " Type: " + type + " Args: " + args);
-	}
+	//console.log(this.initialsInfo);
 
 };
-
-
 
 MySceneGraph.prototype.parseIllumination = function(rootElement) {
+
+	this.illuminationInfo= {};
 	
 	var illumination = getUniqueElement(rootElement, "ILLUMINATION");
 
 	//--ambient-- DONE
 	var ambient = getUniqueElement(illumination, "ambient");
 
-	var rA = this.reader.getFloat(ambient, "r");
-	var gA = this.reader.getFloat(ambient, "g");
-	var bA = this.reader.getFloat(ambient, "b");
-	var aA = this.reader.getFloat(ambient, "a");
+	this.illuminationInfo.ambient = {};
+
+	this.illuminationInfo.ambient['r'] = this.reader.getFloat(ambient, "r");
+	this.illuminationInfo.ambient['g'] = this.reader.getFloat(ambient, "g");
+	this.illuminationInfo.ambient['b'] = this.reader.getFloat(ambient, "b");
+	this.illuminationInfo.ambient['a'] = this.reader.getFloat(ambient, "a");
 
 	//--background-- DONE
 	var background = getUniqueElement(illumination, "background");
 
-	var rB = this.reader.getFloat(background, "r");
-	var gB = this.reader.getFloat(background, "g");
-	var bB = this.reader.getFloat(background, "b");
-	var aB = this.reader.getFloat(background, "a");
+	this.illuminationInfo.background = {};
+
+	this.illuminationInfo.background['r'] = this.reader.getFloat(background, "r");
+	this.illuminationInfo.background['g'] = this.reader.getFloat(background, "g");
+	this.illuminationInfo.background['b'] = this.reader.getFloat(background, "b");
+	this.illuminationInfo.background['a'] = this.reader.getFloat(background, "a");
+
+	//console.log(this.illuminationInfo);
+};
+
+MySceneGraph.prototype.parseLights= function(rootElement) {
+
+	this.lightsInfo= {};
+	
+	var lights = getUniqueElement(rootElement, "LIGHTS");
+	//console.log(lights.children.length);
+
+	for(var i = 0; i < lights.children.length; ++i){
+		var currLight = {};
+
+		currLight['id'] = this.reader.getString(lights.children[i], "id");
+		var enable = getUniqueElement(lights.children[i],"enable");
+		currLight['enable'] = this.reader.getBoolean(enable, "value");
+
+		var position = getUniqueElement(lights.children[i],"position");
+		currLight['position'] = {};
+		currLight['position']['x'] = this.reader.getString(position, "x");
+		currLight['position']['y'] = this.reader.getString(position, "y");
+		currLight['position']['z'] = this.reader.getString(position, "z");
+		currLight['position']['w'] = this.reader.getString(position, "w");
+
+		var ambient = getUniqueElement(lights.children[i],"ambient");
+		currLight['ambient'] = {};
+		currLight['ambient']['r'] = this.reader.getString(ambient, "r");
+		currLight['ambient']['g'] = this.reader.getString(ambient, "g");
+		currLight['ambient']['b'] = this.reader.getString(ambient, "b");
+		currLight['ambient']['a'] = this.reader.getString(ambient, "a");
+
+		var diffuse = getUniqueElement(lights.children[i],"diffuse");
+		currLight['diffuse'] = {};
+		currLight['diffuse']['r'] = this.reader.getString(diffuse, "r");
+		currLight['diffuse']['g'] = this.reader.getString(diffuse, "g");
+		currLight['diffuse']['b'] = this.reader.getString(diffuse, "b");
+		currLight['diffuse']['a'] = this.reader.getString(diffuse, "a");
+
+		var specular = getUniqueElement(lights.children[i],"specular");
+		currLight['specular'] = {};
+		currLight['specular']['r'] = this.reader.getString(diffuse, "r");
+		currLight['specular']['g'] = this.reader.getString(diffuse, "g");
+		currLight['specular']['b'] = this.reader.getString(diffuse, "b");
+		currLight['specular']['a'] = this.reader.getString(diffuse, "a");
+
+		this.lightsInfo[currLight['id']] = currLight;
+	}
 };
 
 MySceneGraph.prototype.parseTextures= function(rootElement) {
+
+	this.texturesInfo= {};
 	
 	var textures = getUniqueElement(rootElement, "TEXTURES");
 
 	for (var i = 0; i < textures.children.length; i++){
-		var id = this.reader.getString(textures.children[i], "id")
+		var currTexture = {};
+
+		currTexture['id'] = this.reader.getString(textures.children[i], "id")
 		var file = getUniqueElement(textures.children[i], "file");
-		var path = this.reader.getString(file, "path");
-		//console.log("path " + path);
+		currTexture['file'] = this.reader.getString(file, "path");
 
 		var amplif_factor = getUniqueElement(textures.children[i], "amplif_factor");
-		var s = this.reader.getString(amplif_factor, "s");
-		var t = this.reader.getString(amplif_factor, "t");
+		currTexture['amplif_factor'] = {};
+		currTexture['amplif_factor']['s'] = this.reader.getString(amplif_factor, "s");
+		currTexture['amplif_factor']['t'] = this.reader.getString(amplif_factor, "t");
 
-		//console.log("s " + s + "t " + t);
+		this.texturesInfo[currTexture['id']] = currTexture;
 	}
 };
 
 MySceneGraph.prototype.parseMaterials= function(rootElement) {
 	
+	this.materials = {};
+
 	var materials = getUniqueElement(rootElement, "MATERIALS");
 
 	for (var i = 0; i < materials.children.length; i++){
@@ -205,62 +234,35 @@ MySceneGraph.prototype.parseMaterials= function(rootElement) {
 	}
 };
 
-
-MySceneGraph.prototype.parseLights= function(rootElement) {
+MySceneGraph.prototype.parseLeaves= function(rootElement) {
 	
-	var lights = getUniqueElement(rootElement, "LIGHTS");
-	//console.log(lights.children.length);
+	var leaves = getUniqueElement(rootElement, "LEAVES");
+	this.leavesInfo = {};
 
-	for(var i = 0; i < lights.children.length; ++i){
+	for (var i = 0; i < leaves.children.length; ++i) {
 		
-		var id = this.reader.getString(lights.children[i], "id");
-		var enable = getUniqueElement(lights.children[i],"enable");
-		var value = this.reader.getString(enable, "value");
-		//console.log("Value : " + value);
-
-		var position = getUniqueElement(lights.children[i],"position");
-		var x = this.reader.getString(position, "x");
-		var y = this.reader.getString(position, "y");
-		var z = this.reader.getString(position, "z");
-		var w = this.reader.getString(position, "w");
-
-		//console.log("x: " + x + " y: " + y + " z: " + z + " w: " + w);
-
-		var ambient = getUniqueElement(lights.children[i],"ambient");
-		var r = this.reader.getString(ambient, "r");
-		var g = this.reader.getString(ambient, "g");
-		var b = this.reader.getString(ambient, "b");
-		var a = this.reader.getString(ambient, "a");
-
-		//console.log("r: " + r + " g: " + g + " b: " + b + " a: " + a);
-
-		var ambient = getUniqueElement(lights.children[i],"ambient");
-		var a_r = this.reader.getString(ambient, "r");
-		var a_g = this.reader.getString(ambient, "g");
-		var a_b = this.reader.getString(ambient, "b");
-		var a_a = this.reader.getString(ambient, "a");
-
-		//console.log("r: " + a_r + " g: " + a_g + " b: " + a_b + " a: " + a_a);
-
-		var diffuse = getUniqueElement(lights.children[i],"diffuse");
-		var d_r = this.reader.getString(diffuse, "r");
-		var d_g = this.reader.getString(diffuse, "g");
-		var d_b = this.reader.getString(diffuse, "b");
-		var d_a = this.reader.getString(diffuse, "a");
-
-		//console.log("r: " + d_r + " g: " + d_g + " b: " + d_b + " a: " + d_a);
-
-		var specular = getUniqueElement(lights.children[i],"specular");
-		var s_r = this.reader.getString(diffuse, "r");
-		var s_g = this.reader.getString(diffuse, "g");
-		var s_b = this.reader.getString(diffuse, "b");
-		var s_a = this.reader.getString(diffuse, "a");
-
-		//console.log("r: " + s_r + " g: " + s_g + " b: " + s_b + " a: " + s_a);
-
+		this.leavesInfo['id'] = this.reader.getString(leaves.children[i], "id");
+		this.leavesInfo['type'] = this.reader.getString(leaves.children[i], "type");
+		this.leavesInfo['args'] = this.reader.getString(leaves.children[i], "args");
+		/*switch (type) {
+			case "square":
+				
+				break;
+			case "cylinder":
+				
+				break;
+			case "sphere":
+				
+				break;
+			case "triangle":
+				
+				break;
+			default:
+				return "Unknown LEAF type: " + type;*/
+		//console.log(this.leavesInfo);
 	}
-
 };
+
 
 MySceneGraph.prototype.parseNodes= function(rootElement) {
 
@@ -277,7 +279,7 @@ MySceneGraph.prototype.parseNodes= function(rootElement) {
 		var scale = getUniqueElement(nodes.children[i], "SCALE");
 		var rotation = getUniqueElement(nodes.children[i], "ROTATION");
 		var descendants = getUniqueElement(nodes.children[i], "DESCENDANTS");
-		console.log(descendants.children.length);
+		//console.log(descendants.children.length);
 
 		if(material.tagName == "MATERIAL"){
 			var id_m = this.reader.getString(material, "id");
@@ -331,11 +333,11 @@ MySceneGraph.prototype.onXMLReady=function()
 	
 	// Here should go the calls for different functions to parse the various blocks
 	var error = this.parseInitials(rootElement);
-	var error = this.parseLeaves(rootElement);
-	var error = this.parseLights(rootElement);
 	var error = this.parseIllumination(rootElement);
+	var error = this.parseLights(rootElement);
 	var error = this.parseTextures(rootElement);
 	var error = this.parseMaterials(rootElement);
+	var error = this.parseLeaves(rootElement);
 	var error = this.parseNodes(rootElement);
 
 	if (error != null) {
