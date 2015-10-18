@@ -2,13 +2,13 @@
 
 
 <INITIALS>
-    <frustum near="0.1" far="500"/>                      <!-- frustum planes-->
+    <frustum near="0.5" far="100"/>                      <!-- frustum planes-->
     <translation x="0" y="0" z="0" />               <!-- initial translate -->
     <rotation axis="x" angle="0" />                  <!-- initial rotation 3 -->
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
-    <scale sx="1" sy="1" sz="20" />                  <!-- initial scaling -->
-    <reference length="5.0" />                          <!-- axis length; "0" means no axis-->
+    <scale sx="1" sy="1" sz="1" />                  <!-- initial scaling -->
+    <reference length="2.0" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
  
  
@@ -42,30 +42,28 @@
         <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />        <!-- diffuse component -->
         <specular r="0.8" g="0.8" b="0.8" a="1.0" />       <!-- specular component -->
     </LIGHT>
- 
-    <!-- NOTE: this block "LIGHT" must be repeated as necessary with different "id" -->
    
 </LIGHTS>
 
 
 <TEXTURES>
     <TEXTURE id="madeira">
-        <file path="texturas/madeira.jpg" />                             <!-- path to file -->
+        <file path="textures/madeira.jpg" />                             <!-- path to file -->
         <amplif_factor s="0.25" t="0.25" />                <!-- x/s, y/t -->
     </TEXTURE>
  
     <TEXTURE id="metal">
-        <file path="texturas/metal.jpg" />                             <!-- path to file -->
+        <file path="textures/metal.jpg" />                             <!-- path to file -->
         <amplif_factor s="0" t="0" />                <!-- x/s, y/t -->
     </TEXTURE>
 
     <TEXTURE id="madeira_chao">
-        <file path="texturas/madeira2.jpg" />                             <!-- path to file -->
+        <file path="textures/madeira2.jpg" />                             <!-- path to file -->
         <amplif_factor s="0" t="0" />                <!-- x/s, y/t -->
     </TEXTURE>
 
     <TEXTURE id="parede">
-        <file path="texturas/parede.png" />                             <!-- path to file -->
+        <file path="textures/parede.png" />                             <!-- path to file -->
         <amplif_factor s="0" t="0" />                <!-- x/s, y/t -->
     </TEXTURE>
     <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->

@@ -22,15 +22,15 @@ XMLscene.prototype.init = function (application) {
 	this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
-    this.axis=new CGFaxis(this);
+    
 
-   	//this.rect = new Rectangle(this, 0,1,1,0);
-    this.tri = new Triangle(this, 0,0,0,0.5,1,0,1,0,0);
-    //this.sp = new Sphere(this,convertDegtoRad(360),20,20);
-	//this.cl = new Cylinder(this, 2, 1, 0, 20, 100);
+
+    this.sp = new Sphere(this,convertDegtoRad(360),20,20);
+   //this.cyl = new Cylinder(this,3,convertDegtoRad(360),convertDegtoRad(360),20,20,0,0);
+
+   this.axis=new CGFaxis(this);
 	
 };
-
 
 
 XMLscene.prototype.initCameras = function () {
@@ -77,6 +77,57 @@ XMLscene.prototype.processIllumination = function(){
 		this.graph.illuminationInfo.ambient.b,
 		this.graph.illuminationInfo.ambient.a);
 };
+
+XMLscene.prototype.processTextures = function(){
+
+	this.texture = {};
+	for(texture in this.graph.texturesInfo){
+		this.texture[texture] = new CGFtexture(this,this.graph.texturesInfo[texture].path);
+		this.texture[texture].amp = {};
+		this.texture[texture].amp.s = this.graph.texturesInfo[texture].amplif_factor.s; 
+		this.texture[texture].amp.t = this.graph.texturesInfo[texture].amplif_factor.t; 
+	
+	console.log("AQUIIIIIIII");
+	console.log(this.texture);
+
+	}
+}
+
+XMLscene.prototype.processMaterials = function(){
+
+	this.materials = {};
+
+	for(material in this.graph.materialsInfo){
+
+		this.materials[material] = new CGFappearance(this);
+		this.materials[material].setShininess(this.graph.materialsInfo[material].shininess);
+
+		this.materials[material].setSpecular(this.graph.materialsInfo[material].specular.r,
+			this.graph.materialsInfo[material].specular.g,
+			this.graph.materialsInfo[material].specular.b,
+			this.graph.materialsInfo[material].specular.a);
+
+		this.materials[material].setDiffuse(this.graph.materialsInfo[material].diffuse.r,
+			this.graph.materialsInfo[material].diffuse.g,
+			this.graph.materialsInfo[material].diffuse.b,
+			this.graph.materialsInfo[material].diffuse.a
+			);
+
+		this.materials[material].setAmbient(this.graph.materialsInfo[material].ambient.r,
+			this.graph.materialsInfo[material].ambient.g,
+			this.graph.materialsInfo[material].ambient.b,
+			this.graph.materialsInfo[material].ambient.a
+			);
+
+		this.materials[material].setEmission(this.graph.materialsInfo[material].emission.r,
+			this.graph.materialsInfo[material].emission.g,
+			this.graph.materialsInfo[material].emission.b,
+			this.graph.materialsInfo[material].emission.a);
+
+	}
+
+	console.log(this.materials);
+}
 
 
 XMLscene.prototype.processLeaves = function(){
@@ -130,6 +181,39 @@ XMLscene.prototype.processLeaves = function(){
 	
 };
 
+
+
+XMLscene.prototype.drawLeaf = function (leaf, s, t){
+	
+	if(leaf._type == "rectangle"){
+		if(s!=1 || t!=1){
+		leaf = new Rectangle(this, leaf.ltx, leaf.lty, leaf.rbx, leaf.rby, s, t);
+	}
+		leaf.display();
+	}
+	else if(leaf._type == "triangle"){
+		if(s!=1 || t!=1){
+		leaf = new Triangle(this, leaf.x1, leaf.y1, leaf.z1, leaf.x2, leaf.y2, 
+			leaf.z2, leaf.x3, leaf.y3, leaf.z3, s, t);
+	}
+		leaf.display();
+	}
+	else if (leaf._type== "cylinder"){
+		if(s!=1 || t!=1){
+		leaf = new Cylinder(this, leaf.height, leaf.stacks, leaf.slices, leaf.brad, leaf.trad); // s e t
+	}
+		this.scale(1,leaf.height,1);
+		leaf.display();
+	}
+	else if(leaf._type == "sphere"){
+		if(s!=1 || t!=1){
+		leaf = new Sphere(this, leaf.radius, leaf.stacks, leaf.slices, s, t);
+	}
+		this.scale(leaf.radius*2, leaf.radius*2, leaf.radius*2);
+		leaf.display();
+	}
+};
+
 // Handler called when the graph is finally loaded. 
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function () 
@@ -141,7 +225,7 @@ XMLscene.prototype.onGraphLoaded = function ()
 	this.camera.near = this.graph.initialsInfo.frustum.near;
     this.camera.far = this.graph.initialsInfo.frustum.far;
 
-    //this.axis= new CGFaxis(this.graph.initialsInfo.ref.length_axis);
+    this.axis = new CGFaxis(this, this.graph.initialsInfo.ref);
 
     this.translate(this.graph.initialsInfo.translation.x, 
     	this.graph.initialsInfo.translation.y, 
@@ -163,6 +247,12 @@ XMLscene.prototype.onGraphLoaded = function ()
 	//LEAVES
 	this.processLeaves();
 
+	//TEXTURES
+	this.processTextures();
+
+	//MATERIALS
+	this.processMaterials();
+
 	//this.processTransfMatrixes();
 	//console.log(this.graph.nodes[0]);
 	//this.drawNode(this.graph.nodes[0]);
@@ -170,86 +260,12 @@ XMLscene.prototype.onGraphLoaded = function ()
 
 };
 
-XMLscene.prototype.drawNode = function(node){
-	this.pushMatrix();
-
-	var matID = node.material;
-	var texID = node.texture;
-
-	if(texID != "null" ) {
-		currTex=texID;
-		if(matID != "null"){
-			currMat=matID;
-		this.materials[matID].setTexture(this.texture[texID]);
-		this.materials[matID].apply();
-		//console.log(matID);
-		//console.debug(this.materials[matID]);
-		}
-	}
-	this.multMatrix(node.matrix);
-	for(var i in node.descendants){
-		if(this.isLeaf(node.descendants[i])){
-			//if (texID != null)
-			//console.debug(this.leaves[node.descendants[i]]);
-			this.drawLeaf(this.leaves[node.descendants[i]], this.texture[currTex].amplif.s, this.texture[currTex].amplif.t);
-			//console.log(node.descendants[i]);
-		}
-		else this.drawNode(this.graph.nodes[node.descendants[i]]);
-	}
-	this.popMatrix();
-}
-
-/*XMLscene.prototype.processTransfMatrixes = function(){
-	
-	for(node in this.graph.nodes){
-		var matrix = mat4.create();
-		console.log();
-		for(var j in this.graph.nodes[i].count){
-			if(this.graph.nodes[i].transf[j].type == 0){
-				var tx = this.graph.nodes[i].transf[j].tx;
-				var ty = this.graph.nodes[i].transf[j].ty;
-				var tz = this.graph.nodes[i].transf[j].tz;
-				mat4.translate(matrix, matrix, [tx, ty, tz]);
-			}
-			else if(this.graph.nodes[i].transf[j]._type == 1){
-				var angle = this.graph.nodes[i].transf[j].ang;
-				switch(this.graph.nodes[i].transf[j].ax){
-					case "x": 
-							mat4.rotate(matrix, matrix, degToRad(angle), [1,0,0]);
-							break;
-
-					case "y": 
-							mat4.rotate(matrix, matrix, degToRad(angle), [0,1,0]);
-							break;
-
-					case "x": 
-							mat4.rotate(matrix, matrix, degToRad(angle), [0,0,1]);
-							break;
-				}
-			}
-			else if(this.graph.nodes[i].transf[j]._type == 2){
-				var sx = this.graph.nodes[i].transf[j].sx;
-				var sy = this.graph.nodes[i].transf[j].sy;
-				var sz = this.graph.nodes[i].transf[j].sz;
-				mat4.scale(matrix,matrix,[sx,sy,sz]);
-			}
-		}
-		this.graph.nodes[i].matrix = matrix;
-		
-
-	}
-};
-*/
-
-XMLscene.prototype.drawLeaf = function(leaf, s, t){
-	
-}
-
-
 XMLscene.prototype.updateLights = function(){
 	for (i = 0; i < this.lights.length; i++)
 		this.lights[i].update();
 };
+
+
 
 
 XMLscene.prototype.display = function () {
@@ -272,8 +288,9 @@ XMLscene.prototype.display = function () {
 
 	this.setDefaultAppearance();
 	//this.rect.display();
-	//this.cl.display();
-	this.tri.display();
+	this.sp.display();
+	//this.cyl.display();
+	
 	// ---- END Background, camera and axis setup
 
 	// it is important that things depending on the proper loading of the graph

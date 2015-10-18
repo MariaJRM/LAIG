@@ -89,9 +89,9 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	var reference = getUniqueElement(initials, "reference");
 	this.initialsInfo.ref = {};
 
-	this.initialsInfo.ref['length_axis'] = this.reader.getFloat(reference, "length");
+	this.initialsInfo.ref = this.reader.getFloat(reference, "length");
 
-	//console.log(this.initialsInfo.ref.length_axis);
+	console.log(this.initialsInfo.ref);
 
 };
 
@@ -177,62 +177,73 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 	var textures = getUniqueElement(rootElement, "TEXTURES");
 
 	for (var i = 0; i < textures.children.length; i++){
-		var currTexture = {};
+		var texture = {};
 
-		currTexture['id'] = this.reader.getString(textures.children[i], "id")
+		texture['id'] = this.reader.getString(textures.children[i], "id")
 		var file = getUniqueElement(textures.children[i], "file");
-		currTexture['file'] = this.reader.getString(file, "path");
+		texture['path'] = this.reader.getString(file, "path");
 
 		var amplif_factor = getUniqueElement(textures.children[i], "amplif_factor");
-		currTexture['amplif_factor'] = {};
-		currTexture['amplif_factor']['s'] = this.reader.getString(amplif_factor, "s");
-		currTexture['amplif_factor']['t'] = this.reader.getString(amplif_factor, "t");
+		texture['amplif_factor'] = {};
+		texture['amplif_factor']['s'] = this.reader.getFloat(amplif_factor, "s");
+		texture['amplif_factor']['t'] = this.reader.getFloat(amplif_factor, "t");
 
-		this.texturesInfo[currTexture['id']] = currTexture;
+		this.texturesInfo[texture['id']] = texture;
 	}
+	console.log(this.texturesInfo);
 };
 
 MySceneGraph.prototype.parseMaterials= function(rootElement) {
 	
-	this.materials = {};
+	this.materialsInfo = {};
 
 	var materials = getUniqueElement(rootElement, "MATERIALS");
 
 	for (var i = 0; i < materials.children.length; i++){
-		var id = this.reader.getString(materials.children[i], "id")
+
+		this.material = {};
+		this.material['id'] = this.reader.getString(materials.children[i], "id")
 		var shininess = getUniqueElement(materials.children[i], "shininess");
-		var value = this.reader.getFloat(shininess, "value");
+		this.material['shininess'] = this.reader.getFloat(shininess, "value");
 
+		this.material['specular'] = {};
 		var specular = getUniqueElement(materials.children[i], "specular");
-		var rS = this.reader.getString(specular, "r");
-		var gS = this.reader.getString(specular, "g");
-		var bS = this.reader.getString(specular, "b");
-		var aS = this.reader.getString(specular, "a");
+		this.material['specular']['r'] = this.reader.getFloat(specular, "r");
+		this.material['specular']['g'] = this.reader.getFloat(specular, "g");
+		this.material['specular']['b'] = this.reader.getFloat(specular, "b");
+		this.material['specular']['a'] = this.reader.getFloat(specular, "a");
 
+		this.material['diffuse'] = {};
 		var diffuse = getUniqueElement(materials.children[i], "diffuse");
-		var rD = this.reader.getString(diffuse, "r");
-		var gD = this.reader.getString(diffuse, "g");
-		var bD = this.reader.getString(diffuse, "b");
-		var aD = this.reader.getString(diffuse, "a");
+		this.material['diffuse']['r'] = this.reader.getFloat(diffuse, "r");
+		this.material['diffuse']['g'] = this.reader.getFloat(diffuse, "g");
+		this.material['diffuse']['b'] = this.reader.getFloat(diffuse, "b");
+		this.material['diffuse']['a'] = this.reader.getFloat(diffuse, "a");
 
+		this.material['ambient'] = {};
 		var ambient = getUniqueElement(materials.children[i], "ambient");
-		var rA = this.reader.getString(ambient, "r");
-		var gA = this.reader.getString(ambient, "g");
-		var bA = this.reader.getString(ambient, "b");
-		var aA = this.reader.getString(ambient, "a");
+		this.material['ambient']['r'] = this.reader.getFloat(ambient, "r");
+		this.material['ambient']['g'] = this.reader.getFloat(ambient, "g");
+		this.material['ambient']['b'] = this.reader.getFloat(ambient, "b");
+		this.material['ambient']['a'] = this.reader.getFloat(ambient, "a");
 
+		this.material['emission'] = {};
 		var emission = getUniqueElement(materials.children[i], "emission");
-		var rE = this.reader.getString(emission, "r");
-		var gE = this.reader.getString(emission, "g");
-		var bE = this.reader.getString(emission, "b");
-		var aE = this.reader.getString(emission, "a");
+		this.material['emission']['r'] = this.reader.getFloat(emission, "r");
+		this.material['emission']['g'] = this.reader.getFloat(emission, "g");
+		this.material['emission']['b'] = this.reader.getFloat(emission, "b");
+		this.material['emission']['a'] = this.reader.getFloat(emission, "a");
 
 		//console.log("id " + id + ". value: " + value);
 		//console.log("rS: " + rS + ". gS: " + gS + ". bS: " + bS + ". aS: " + aS);
 		//console.log("rD: " + rD + ". gD: " + gD + ". bD: " + bD + ". aD: " + aD);
 		//console.log("rA: " + rA + ". gA: " + gA + ". bA: " + bA + ". aA: " + aA);
 		//console.log("rE: " + rE + ". gE: " + gE + ". bE: " + bE + ". aE: " + aE);
+
+		this.materialsInfo[this.material['id']] = this.material;
 	}
+	console.log(this.materialsInfo);
+
 };
 
 MySceneGraph.prototype.parseLeaves= function(rootElement) {
@@ -244,13 +255,8 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 		this.leave = {};
 
 		this.leave['id'] = this.reader.getString(leaves.children[i], "id");
-		//console.log(this.leave.id);
-
 		this.leave['type'] = this.reader.getString(leaves.children[i], "type");
-		//console.log(this.leave.type);
-
 		var arguments = this.reader.getString(leaves.children[i], "args");
-		//console.log(this.leave.args);
 
 		switch (this.leave.type) {
 			case "rectangle":
