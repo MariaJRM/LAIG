@@ -24,23 +24,15 @@ XMLscene.prototype.init = function (application) {
 
     this.axis=new CGFaxis(this);
 
-    //this.rect = new rectangle(this, 0,1,1,0);
-
-    //this.obj = new CGFobject(this);
+   // this.rect = new Rectangle(this, 0,1,1,0);
+   // this.cyl = new Cylinder(this,1,convertDegtoRad(360),convertDegtoRad(360),40,40);
+    //this.tri = new Triangle(this, 0,0,0,0.5,1,0,1,0,0);
+    this.sp = new Sphere(this,convertDegtoRad(360),20,20);
 
 	
 };
 
-XMLscene.prototype.initLights = function () {
 
-    this.shader.bind();
-
-    this.lights[0].setPosition(2, 3, 3, 1);
-    this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
-    this.lights[0].update();
- 
-    this.shader.unbind();
-};
 
 XMLscene.prototype.initCameras = function () {
     this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), 
@@ -251,33 +243,7 @@ XMLscene.prototype.drawNode = function(node){
 */
 
 XMLscene.prototype.drawLeaf = function(leaf, s, t){
-	if(leaf._type == "rectangle"){
-		if(s!=1 || t!=1){
-		leaf = new Rectangle(this, leaf.ltX, leaf.ltY, leaf.rbx, leaf.rby, s, t);
-	}
-		leaf.display();
-	}
-	else if(leaf._type == "triangle"){
-		if(s!=1 || t!=1){
-		leaf = new Triangle(this, leaf.x1, leaf.y1, leaf.z1, leaf.x2, leaf.y2, 
-			leaf.z2, leaf.x3, leaf.y3, leaf.z3, s, t);
-	}
-		leaf.display();
-	}
-	else if (leaf._type== "cylinder"){
-		if(s!=1 || t!=1){
-		leaf = new Cylinder(this, leaf.height, leaf.stacks, leaf.slices, leaf.brad, leaf.trad); // s e t
-	}
-		this.scale(1,leaf.height,1);
-		leaf.display();
-	}
-	else if(leaf._type == "sphere"){
-		if(s!=1 || t!=1){
-		leaf = new Sphere(this, leaf.radius, leaf.stacks, leaf.slices, s, t);
-	}
-		this.scale(leaf.radius*2, leaf.radius*2, leaf.radius*2);
-		leaf.display();
-	}
+	
 }
 
 
@@ -306,6 +272,8 @@ XMLscene.prototype.display = function () {
 	this.axis.display();
 
 	this.setDefaultAppearance();
+	//this.rect.display();
+	this.sp.display();
 	
 	// ---- END Background, camera and axis setup
 
@@ -315,6 +283,7 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk)
 	{
 		this.updateLights();
+
 		
 	};	
 
