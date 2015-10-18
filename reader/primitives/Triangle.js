@@ -1,9 +1,9 @@
-function Triangle(scene, x0,y0,z0,x1,y1,z1,x2,y2,z2){
+function Triangle(scene, x0, y0, z0, x1, y1, z1, x2, y2, z2){
 
 	CGFobject.call(this,scene);
 
-	this.x0=x0;
-	this.y0=y0;
+	this.x0 = x0;
+	this.y0 = y0;
 	this.z0 = z0;
 
     this.x1 = x1;
@@ -44,5 +44,4 @@ Triangle.prototype.initBuffers = function() {
 
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
-    
 };

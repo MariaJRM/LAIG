@@ -24,11 +24,10 @@ XMLscene.prototype.init = function (application) {
 
     this.axis=new CGFaxis(this);
 
-   // this.rect = new Rectangle(this, 0,1,1,0);
-   // this.cyl = new Cylinder(this,1,convertDegtoRad(360),convertDegtoRad(360),40,40);
-    //this.tri = new Triangle(this, 0,0,0,0.5,1,0,1,0,0);
-    this.sp = new Sphere(this,convertDegtoRad(360),20,20);
-
+   	//this.rect = new Rectangle(this, 0,1,1,0);
+    this.tri = new Triangle(this, 0,0,0,0.5,1,0,1,0,0);
+    //this.sp = new Sphere(this,convertDegtoRad(360),20,20);
+	//this.cl = new Cylinder(this, 2, 1, 0, 20, 100);
 	
 };
 
@@ -273,8 +272,8 @@ XMLscene.prototype.display = function () {
 
 	this.setDefaultAppearance();
 	//this.rect.display();
-	this.sp.display();
-	
+	//this.cl.display();
+	this.tri.display();
 	// ---- END Background, camera and axis setup
 
 	// it is important that things depending on the proper loading of the graph
