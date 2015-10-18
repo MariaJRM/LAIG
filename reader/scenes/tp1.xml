@@ -2,33 +2,33 @@
 
 
 <INITIALS>
-    <frustum near="0.1" far="300.0"/>                      <!-- frustum planes-->
+    <frustum near="0.1" far="500"/>                      <!-- frustum planes-->
     <translation x="0" y="0" z="0" />               <!-- initial translate -->
     <rotation axis="x" angle="0" />                  <!-- initial rotation 3 -->
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
-    <scale sx="1" sy="1" sz="1" />                  <!-- initial scaling -->
+    <scale sx="1" sy="1" sz="20" />                  <!-- initial scaling -->
     <reference length="5.0" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
  
  
 <ILLUMINATION>
-    <ambient r="0.3" g="0.3" b="0.3" a="0.8" />            <!-- global ambient -->
-    <background r="0.0" g="0.0" b="0.0" a="1.0" />         <!-- background color -->
+    <ambient r="0.5" g="0.5" b="0.5" a="1.0" />            <!-- global ambient -->
+    <background r="0.0" g="0.0" b="0.0" a="0.9" />         <!-- background color -->
 </ILLUMINATION>
  
  
 <LIGHTS>
     <LIGHT id="luz_1">                                    <!-- light identifier -->
-        <enable value= "1" />                         <!-- enable/disable -->
-        <position x="0.0" y="4.0" z="0.0" w="1.0" />       <!-- light position -->
+        <enable value= "0" />                         <!-- enable/disable -->
+        <position x="1.0" y="4.0" z="0.0" w="1.0" />       <!-- light position -->
         <ambient r="0.8" g="0.5" b="0.5" a="1.0" />        <!-- ambient component -->
         <diffuse r="0.1" g="0.8" b="0.5" a="1.0" />        <!-- diffuse component -->
         <specular r="0.1" g="0.1" b="0.8" a="1.0" />       <!-- specular component -->
     </LIGHT>
  
     <LIGHT id="luz_2">                                    <!-- light identifier -->
-        <enable value= "0" />                         <!-- enable/disable -->
+        <enable value= "1" />                         <!-- enable/disable -->
         <position x="2.0" y="4.0" z="2.0" w="1.0" />       <!-- light position -->
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />        <!-- ambient component -->
         <diffuse r="0.8" g="0.8" b="0.8" a="1.0" />        <!-- diffuse component -->
@@ -36,7 +36,7 @@
     </LIGHT>
  
     <LIGHT id="luz_3">                                    <!-- light identifier -->
-        <enable value= "1" />                         <!-- enable/disable -->
+        <enable value= "0" />                         <!-- enable/disable -->
         <position x="4.0" y="4.0" z="4.0" w="1.0" />       <!-- light position -->
         <ambient r="0.8" g="0.8" b="0.8" a="1.0" />        <!-- ambient component -->
         <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />        <!-- diffuse component -->
@@ -98,10 +98,10 @@
 
 <LEAVES>
     <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
-    <LEAF id="1" type="square" args="0.0 0.0 1.0 1.0" />
+    <LEAF id="1" type="rectangle" args="0.0 0.0 1.0 1.0" />
     <LEAF id="2" type="cylinder" args="1.0 1.0 1.0 30.0 30.0" />
     <LEAF id="3" type="sphere" args="1.0 30.0 30.0" />
-    <LEAF id="4" type="triangle" args="0.0 0.0 0.5 1.0 1.0 0.0" />
+    <LEAF id="4" type="triangle" args="0.0 0.0 0.0 0.5 1.0 0.0 1.0 0.0 0.0" />
 </LEAVES>
 
 
@@ -153,7 +153,7 @@
         <SCALE sx="1.0" sy="8.0" sz="20.0"/>
         <ROTATION axis="y" angle="90" />
         <DESCENDANTS>
-            <DESCENDANT id="square" />                             
+            <DESCENDANT id="rectangle" />                             
         </DESCENDANTS>
 
     </NODE>
@@ -162,7 +162,7 @@
         <TEXTURE id="parede" />
         <SCALE sx="18.0" sy="8.0" sz="1.0"/>    
         <DESCENDANTS>
-            <DESCENDANT id="square" />                                             
+            <DESCENDANT id="rectangle" />                                             
         </DESCENDANTS>
 
     </NODE>
@@ -173,7 +173,7 @@
         <SCALE sx="18.0" sy="1.0" sz="20.0"/>
         <ROTATION axis="x" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="square" />                                             
+            <DESCENDANT id="rectangle" />                                             
         </DESCENDANTS>
 
     </NODE>
@@ -287,7 +287,7 @@
 
         <TRANSLATION x="0.0" y="0.0" z="1.0" />
         <DESCENDANTS>
-            <DESCENDANT id="square" />  
+            <DESCENDANT id="rectangle" />  
         </DESCENDANTS>
 
     </NODE>
@@ -295,7 +295,7 @@
         <TRANSLATION x="0.0" y="1.0" z="0.0" />
         <ROTATION axis="x" angle="180" />
         <DESCENDANTS>
-            <DESCENDANT id="square" />  
+            <DESCENDANT id="rectangle" />  
         </DESCENDANTS>
 
     </NODE>
@@ -304,7 +304,7 @@
         <TRANSLATION x="0.0" y="1.0" z="1.0" />
         <ROTATION axis="x" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="square" />  
+            <DESCENDANT id="rectangle" />  
         </DESCENDANTS>
 
     </NODE>
@@ -312,7 +312,7 @@
 
         <ROTATION axis="x" angle="90" />
         <DESCENDANTS>
-            <DESCENDANT id="square" />  
+            <DESCENDANT id="rectangle" />  
         </DESCENDANTS>
 
     </NODE>
@@ -320,7 +320,7 @@
 
         <ROTATION axis="y" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="square" />  
+            <DESCENDANT id="rectangle" />  
         </DESCENDANTS>
 
     </NODE>
@@ -328,7 +328,7 @@
         <TRANSLATION x="1.0" y="0.0" z="1.0" />
         <ROTATION axis="y" angle="90" />
         <DESCENDANTS>
-            <DESCENDANT id="square" />  
+            <DESCENDANT id="rectangle" />  
         </DESCENDANTS>
 
     </NODE>

@@ -87,10 +87,11 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 
 	//--reference--
 	var reference = getUniqueElement(initials, "reference");
+	this.initialsInfo.ref = {};
 
-	this.initialsInfo.reference = this.reader.getFloat(reference, "length");
+	this.initialsInfo.ref['length_axis'] = this.reader.getFloat(reference, "length");
 
-	//console.log(this.initialsInfo);
+	//console.log(this.initialsInfo.ref.length_axis);
 
 };
 
@@ -128,44 +129,44 @@ MySceneGraph.prototype.parseLights= function(rootElement) {
 	this.lightsInfo= {};
 	
 	var lights = getUniqueElement(rootElement, "LIGHTS");
-	//console.log(lights.children.length);
 
 	for(var i = 0; i < lights.children.length; ++i){
-		var currLight = {};
+		
+		this.light = {};
 
-		currLight['id'] = this.reader.getString(lights.children[i], "id");
+		this.light['id'] = this.reader.getString(lights.children[i], "id");
 		var enable = getUniqueElement(lights.children[i],"enable");
-		currLight['enable'] = this.reader.getBoolean(enable, "value");
+		this.light['enable'] = this.reader.getBoolean(enable, "value");
 
 		var position = getUniqueElement(lights.children[i],"position");
-		currLight['position'] = {};
-		currLight['position']['x'] = this.reader.getString(position, "x");
-		currLight['position']['y'] = this.reader.getString(position, "y");
-		currLight['position']['z'] = this.reader.getString(position, "z");
-		currLight['position']['w'] = this.reader.getString(position, "w");
+		this.light['position'] = {};
+		this.light['position']['x'] = this.reader.getString(position, "x");
+		this.light['position']['y'] = this.reader.getString(position, "y");
+		this.light['position']['z'] = this.reader.getString(position, "z");
+		this.light['position']['w'] = this.reader.getString(position, "w");
 
 		var ambient = getUniqueElement(lights.children[i],"ambient");
-		currLight['ambient'] = {};
-		currLight['ambient']['r'] = this.reader.getString(ambient, "r");
-		currLight['ambient']['g'] = this.reader.getString(ambient, "g");
-		currLight['ambient']['b'] = this.reader.getString(ambient, "b");
-		currLight['ambient']['a'] = this.reader.getString(ambient, "a");
+		this.light['ambient'] = {};
+		this.light['ambient']['r'] = this.reader.getString(ambient, "r");
+		this.light['ambient']['g'] = this.reader.getString(ambient, "g");
+		this.light['ambient']['b'] = this.reader.getString(ambient, "b");
+		this.light['ambient']['a'] = this.reader.getString(ambient, "a");
 
 		var diffuse = getUniqueElement(lights.children[i],"diffuse");
-		currLight['diffuse'] = {};
-		currLight['diffuse']['r'] = this.reader.getString(diffuse, "r");
-		currLight['diffuse']['g'] = this.reader.getString(diffuse, "g");
-		currLight['diffuse']['b'] = this.reader.getString(diffuse, "b");
-		currLight['diffuse']['a'] = this.reader.getString(diffuse, "a");
+		this.light['diffuse'] = {};
+		this.light['diffuse']['r'] = this.reader.getString(diffuse, "r");
+		this.light['diffuse']['g'] = this.reader.getString(diffuse, "g");
+		this.light['diffuse']['b'] = this.reader.getString(diffuse, "b");
+		this.light['diffuse']['a'] = this.reader.getString(diffuse, "a");
 
 		var specular = getUniqueElement(lights.children[i],"specular");
-		currLight['specular'] = {};
-		currLight['specular']['r'] = this.reader.getString(diffuse, "r");
-		currLight['specular']['g'] = this.reader.getString(diffuse, "g");
-		currLight['specular']['b'] = this.reader.getString(diffuse, "b");
-		currLight['specular']['a'] = this.reader.getString(diffuse, "a");
+		this.light['specular'] = {};
+		this.light['specular']['r'] = this.reader.getString(diffuse, "r");
+		this.light['specular']['g'] = this.reader.getString(diffuse, "g");
+		this.light['specular']['b'] = this.reader.getString(diffuse, "b");
+		this.light['specular']['a'] = this.reader.getString(diffuse, "a");
 
-		this.lightsInfo[currLight['id']] = currLight;
+		this.lightsInfo[this.light['id']] = this.light;
 	}
 };
 
@@ -240,27 +241,85 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 	this.leavesInfo = {};
 
 	for (var i = 0; i < leaves.children.length; ++i) {
-		
-		this.leavesInfo['id'] = this.reader.getString(leaves.children[i], "id");
-		this.leavesInfo['type'] = this.reader.getString(leaves.children[i], "type");
-		this.leavesInfo['args'] = this.reader.getString(leaves.children[i], "args");
-		/*switch (type) {
-			case "square":
+		this.leave = {};
+
+		this.leave['id'] = this.reader.getString(leaves.children[i], "id");
+		//console.log(this.leave.id);
+
+		this.leave['type'] = this.reader.getString(leaves.children[i], "type");
+		//console.log(this.leave.type);
+
+		var arguments = this.reader.getString(leaves.children[i], "args");
+		//console.log(this.leave.args);
+
+		switch (this.leave.type) {
+			case "rectangle":
+				var argsSplit = arguments.split(" ");
+				if(argsSplit.length != 4)
+					return "Rectangle - Must be 4 args: <leftTopX> <leftTopY> <rightBottomX> <rightBottomY>";
 				
+				this.leave['args'] = {};
+				this.leave['args']['ltX'] = parseFloat(argsSplit[0]);
+				this.leave['args']['ltY'] = parseFloat(argsSplit[1]);
+				this.leave['args']['rbX'] = parseFloat(argsSplit[2]);
+				this.leave['args']['rbY'] = parseFloat(argsSplit[3]);
+				//console.log(this.leave);
+
 				break;
 			case "cylinder":
+				var argsSplit = arguments.split(" ");
+				if(argsSplit.length != 5)
+					return "Cylinder - Must be 5 args: <height> <bottomRad> <topRad> <stacks> <slices>";
+				
+				this.leave['args'] = {};
+				this.leave['args']['height'] = parseFloat(argsSplit[0]);
+				this.leave['args']['bRad'] = parseFloat(argsSplit[1]);
+				this.leave['args']['tRad'] = parseFloat(argsSplit[2]);
+				this.leave['args']['stacks'] = parseFloat(argsSplit[3]);
+				this.leave['args']['slices'] = parseFloat(argsSplit[4]);
+				//console.log(this.leave);
 				
 				break;
 			case "sphere":
+				var argsSplit = arguments.split(" ");
+				if(argsSplit.length != 3)
+					return "Sphere - Must be 3 args: <rad> <stacks> <slices>";
+				
+				this.leave['args'] = {};
+				this.leave['args']['rad'] = parseFloat(argsSplit[0]);
+				this.leave['args']['stacks'] = parseFloat(argsSplit[1]);
+				this.leave['args']['slices'] = parseFloat(argsSplit[2]);
+				//console.log(this.leave);
 				
 				break;
 			case "triangle":
+
+				var argsSplit = arguments.split(" ");
+				if(argsSplit.length != 9)
+					return "Triangle - Must be 9 args: <xLeftBottom> <yLeftBottom> <zLeftBottom> <xMiddleTop> <yMiddleTop> <zMiddleTop> <xRightBottom> <yRightBottom> <zRightBottom>";
+				
+				this.leave['args'] = {};
+				this.leave['args']['x0'] = parseFloat(argsSplit[0]);
+				this.leave['args']['y0'] = parseFloat(argsSplit[1]);
+				this.leave['args']['z0'] = parseFloat(argsSplit[2]);
+
+				this.leave['args']['x1'] = parseFloat(argsSplit[3]);
+				this.leave['args']['y1'] = parseFloat(argsSplit[4]);
+				this.leave['args']['z1'] = parseFloat(argsSplit[5]);
+
+				this.leave['args']['x2'] = parseFloat(argsSplit[6]);
+				this.leave['args']['y2'] = parseFloat(argsSplit[7]);
+				this.leave['args']['z2'] = parseFloat(argsSplit[8]);
+				//console.log(this.leave);
 				
 				break;
 			default:
-				return "Unknown LEAF type: " + type;*/
+				return "Unknown LEAF type: " + this.leavesInfo.type;
+			}
+
+			this.leavesInfo[this.leave['id']] = this.leave;
+		}
 		//console.log(this.leavesInfo);
-	}
 };
 
 
@@ -270,56 +329,65 @@ MySceneGraph.prototype.parseNodes= function(rootElement) {
 
 	var root = getUniqueElement(nodes, "ROOT");
 	var id = this.reader.getString(root,"id");
+
+	this.nodes = {};
+
 	
-	for(var i = 1; i < nodes.children.length; ++i){
-		
+	for(var i = 0; i < nodes.children.length; ++i){
+
+		this.node = {};
+		this.node['id'] = {};
+		this.node['id'] = this.reader.getString(nodes.children[i],"id");
+		//console.log(this.node.id);
+
+		if(nodes.children[i].tagName == "NODE"){
 		var material = getUniqueElement(nodes.children[i], "MATERIAL");
 		var texture = getUniqueElement(nodes.children[i], "TEXTURE");
 		var translation = getUniqueElement(nodes.children[i], "TRANSLATION");
 		var scale = getUniqueElement(nodes.children[i], "SCALE");
 		var rotation = getUniqueElement(nodes.children[i], "ROTATION");
 		var descendants = getUniqueElement(nodes.children[i], "DESCENDANTS");
-		//console.log(descendants.children.length);
+		var count = 0;
 
 		if(material.tagName == "MATERIAL"){
-			var id_m = this.reader.getString(material, "id");
-			//console.log(id_m);
+			this.node['material'] = {};
+			this.node['material'] = this.reader.getString(material, "id");
 		}
 		if(texture.tagName == "TEXTURE"){
-			var id_t = this.reader.getString(texture, "id");
-			//console.log(id_t);
+			this.node['texture'] = {};
+			this.node['texture']= this.reader.getString(texture, "id");
 		}
 		if(translation.tagName == "TRANSLATION"){
-			var trans_x = this.reader.getString(translation, "x");
-			//console.log(trans_x);
-			var trans_y = this.reader.getString(translation, "y");
-			//console.log(trans_y);
-			var trans_z = this.reader.getString(translation, "z");
-			//console.log(trans_z);
+			this.node['translation'] = {};
+			this.node['translation']['x'] = parseFloat(this.reader.getString(translation, "x"));
+			this.node['translation']['y']= parseFloat(this.reader.getString(translation, "y"));
+			this.node['translation']['z'] = parseFloat(this.reader.getString(translation, "z"));
+			count += 1;
 		}
 		if(rotation.tagName == "ROTATION"){
-			var axis = this.reader.getString(rotation, "axis");
-			//console.log(axis);
-			var angle = this.reader.getString(rotation, "angle");
-			//console.log(angle);
+			this.node['rotation'] = {};
+			this.node['rotation']['axis'] = this.reader.getString(rotation, "axis");
+			this.node['rotation']['angle'] = parseFloat(this.reader.getString(rotation, "angle"));
+			count += 1;
 		}
 		if(scale.tagName == "SCALE"){
-			var sx = this.reader.getFloat(scale, "sx");
-			//console.log(sx);
-			var sy = this.reader.getFloat(scale, "sy");
-			//console.log(sy);
-			var sz = this.reader.getFloat(scale, "sz");
-			//console.log(sz);
+			this.node['scale'] = {};
+			this.node['scale']['sx'] = parseFloat(this.reader.getFloat(scale, "sx"));
+			this.node['scale']['sy'] = parseFloat(this.reader.getFloat(scale, "sy"));
+			this.node['scale']['sz'] = parseFloat(this.reader.getFloat(scale, "sz"));
+			count += 1;
 		}
 
+		this.node['descedant'] = {};
 		for(var j = 0; j < descendants.children.length; ++j){
-			var descendant = this.reader.getString(descendants.children[j], "id");
-			//create descedant
-			//push_back 
-			//console.log(descendant);
+			this.node['descedant'][j] = this.reader.getString(descendants.children[j], "id");
 		}
+		this.node['count'] = count;
+	}
+	this.nodes[this.node['id']] = this.node;
 		
 	}
+	console.log(this.nodes);
 
 };
 
