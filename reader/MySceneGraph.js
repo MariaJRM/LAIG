@@ -91,8 +91,6 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 
 	this.initialsInfo.ref = this.reader.getFloat(reference, "length");
 
-	console.log(this.initialsInfo.ref);
-
 };
 
 MySceneGraph.prototype.parseIllumination = function(rootElement) {
@@ -190,7 +188,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 
 		this.texturesInfo[texture['id']] = texture;
 	}
-	console.log(this.texturesInfo);
+	//console.log(this.texturesInfo);
 };
 
 MySceneGraph.prototype.parseMaterials= function(rootElement) {
@@ -242,7 +240,7 @@ MySceneGraph.prototype.parseMaterials= function(rootElement) {
 
 		this.materialsInfo[this.material['id']] = this.material;
 	}
-	console.log(this.materialsInfo);
+	//console.log(this.materialsInfo);
 
 };
 
@@ -328,74 +326,102 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 		//console.log(this.leavesInfo);
 };
 
+MySceneGraph.prototype.parseNodes = function(rootElement){
 
-MySceneGraph.prototype.parseNodes= function(rootElement) {
+	var nodeList = getUniqueElement(rootElement, 'NODES');
+	//console.log(nodeList);
 
-	var nodes = getUniqueElement(rootElement, "NODES");
+	var nodes = nodeList.getElementsByTagName('NODE');
+	//console.log(nodes);
 
-	var root = getUniqueElement(nodes, "ROOT");
-	var id = this.reader.getString(root,"id");
+	console.log(nodes.length + " nodes to be processed");
 
-	this.nodes = {};
+	this.nodesInfo = {};
 
-	
-	for(var i = 0; i < nodes.children.length; ++i){
+	for(var i = 0; i < nodes.length; i++){
 
 		this.node = {};
-		this.node['id'] = {};
-		this.node['id'] = this.reader.getString(nodes.children[i],"id");
+		var id = this.reader.getString(nodes[i],"id");
+		this.node['id'] = this.reader.getString(nodes[i],"id");
 		//console.log(this.node.id);
 
-		if(nodes.children[i].tagName == "NODE"){
-		var material = getUniqueElement(nodes.children[i], "MATERIAL");
-		var texture = getUniqueElement(nodes.children[i], "TEXTURE");
-		var translation = getUniqueElement(nodes.children[i], "TRANSLATION");
-		var scale = getUniqueElement(nodes.children[i], "SCALE");
-		var rotation = getUniqueElement(nodes.children[i], "ROTATION");
-		var descendants = getUniqueElement(nodes.children[i], "DESCENDANTS");
-		var count = 0;
-
-		if(material.tagName == "MATERIAL"){
-			this.node['material'] = {};
-			this.node['material'] = this.reader.getString(material, "id");
-		}
-		if(texture.tagName == "TEXTURE"){
-			this.node['texture'] = {};
-			this.node['texture']= this.reader.getString(texture, "id");
-		}
-		if(translation.tagName == "TRANSLATION"){
-			this.node['translation'] = {};
-			this.node['translation']['x'] = parseFloat(this.reader.getString(translation, "x"));
-			this.node['translation']['y']= parseFloat(this.reader.getString(translation, "y"));
-			this.node['translation']['z'] = parseFloat(this.reader.getString(translation, "z"));
-			count += 1;
-		}
-		if(rotation.tagName == "ROTATION"){
-			this.node['rotation'] = {};
-			this.node['rotation']['axis'] = this.reader.getString(rotation, "axis");
-			this.node['rotation']['angle'] = parseFloat(this.reader.getString(rotation, "angle"));
-			count += 1;
-		}
-		if(scale.tagName == "SCALE"){
-			this.node['scale'] = {};
-			this.node['scale']['sx'] = parseFloat(this.reader.getFloat(scale, "sx"));
-			this.node['scale']['sy'] = parseFloat(this.reader.getFloat(scale, "sy"));
-			this.node['scale']['sz'] = parseFloat(this.reader.getFloat(scale, "sz"));
-			count += 1;
-		}
-
-		this.node['descedant'] = {};
-		for(var j = 0; j < descendants.children.length; ++j){
-			this.node['descedant'][j] = this.reader.getString(descendants.children[j], "id");
-		}
-		this.node['count'] = count;
-	}
-	this.nodes[this.node['id']] = this.node;
 		
+		var material = getUniqueElement(nodes[i],'MATERIAL');
+		
+		if(material.tagName == 'MATERIAL'){
+			this.node['material'] = {};
+			this.node['material'] = this.reader.getString(material, 'id');
+			//console.log("ID MATERIAL: " + this.node.material);
+		}
+
+		var texture = getUniqueElement(nodes[i], "TEXTURE");
+		if(texture.tagName == 'TEXTURE'){
+			this.node['texture'] = {};
+			this.node['texture'] = this.reader.getString(texture, 'id');
+			//console.log("ID TEXTURE: " + this.node.texture);
 	}
-	console.log(this.nodes);
+		var descendants = getUniqueElement(nodes[i], "DESCENDANTS");
+		this.node['descendants'] = {};
+		var desc = descendants.getElementsByTagName('DESCENDANT');
+		//console.log(desc);
+
+		for(var j = 0; j < desc.length; j++){
+			var id_d = this.reader.getString(desc[j], 'id');
+			//console.log("DESC ID: " + id_d);
+
+			this.node['descendants'][j] = id_d;
+		}
+
+		//console.log(this.node.descendants);
+
+		var transformations = nodes[i].getElementsByTagName('*');
+		//console.log(trasnformations);
+		this.node['transformations'] = {};
+		var order = 0;
+
+		for(var j = 0; j < transformations.length; j++){
+
+			this.node['transformations'][order] = {};
+			
+			if(transformations[j].tagName == "TRANSLATION"){
+			
+			this.node['transformations'][order].type = "translation";
+			this.node['transformations'][order].x = this.reader.getFloat(transformations[j], 'x');
+			this.node['transformations'][order].y= this.reader.getFloat(transformations[j],'y');
+			this.node['transformations'][order].z = this.reader.getFloat(transformations[j],'z');
+			order++;
+			}
+
+			if(transformations[j].tagName == "ROTATION"){
+
+			this.node['transformations'][order].type = "rotation";
+			this.node['transformations'][order].axis = this.reader.getString(transformations[j],'axis');
+			this.node['transformations'][order].angle = this.reader.getFloat(transformations[j],'angle');
+			order++;
+			}
+
+			if(transformations[j].tagName == "SCALE"){
+
+			this.node['transformations'][order].type = "scale";
+			this.node['transformations'][order].sx = this.reader.getFloat(transformations[j],'sx');
+			this.node['transformations'][order].sy = this.reader.getFloat(transformations[j],'sy');
+			this.node['transformations'][order].sz = this.reader.getFloat(transformations[j],'sz');
+			order++;
+
+			}
+		}
+		this.nodesInfo[this.node['id']] = this.node;
+	}
+
+	var root = nodeList.getElementsByTagName('ROOT');
+	
+	this.root_id = root[0].attributes.getNamedItem("id").value;
+	//console.log(this.root_id);
+
 
 };
+
+
 
 /*
  * Callback to be executed after successful reading

@@ -10,9 +10,6 @@ function Cylinder(scene, height, bottomRad, topRad, stacks, slices) {
 	this.bottomRad = bottomRad;
 	this.topRad = topRad;
 
-//	this.s = s || 1;
-//	this.t = t || 1;
-
  	this.initBuffers();
 };
 

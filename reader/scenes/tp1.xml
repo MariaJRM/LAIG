@@ -8,7 +8,7 @@
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
     <scale sx="1" sy="1" sz="1" />                  <!-- initial scaling -->
-    <reference length="2.0" />                          <!-- axis length; "0" means no axis-->
+    <reference length="5.0" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
  
  
@@ -83,6 +83,14 @@
  
      <MATERIAL id="opaco">
         <shininess value="2" />
+        <specular r="0.1" g="0.1" b="0.1" a="0.8" />        <!-- specular reflection -->
+        <diffuse r="0.78" g="0.6" b="0.35" a="0.8" />       <!-- diffuse reflection -->
+        <ambient r="0.78" g="0.6" b="0.35" a="0.2" />       <!-- ambient reflection -->
+        <emission r="0.0" g="0.0" b="0.0" a="0.0" />        <!-- emission component -->
+     </MATERIAL>
+
+      <MATERIAL id="default">
+        <shininess value="20" />
         <specular r="0.1" g="0.1" b="0.1" a="0.8" />        <!-- specular reflection -->
         <diffuse r="0.78" g="0.6" b="0.35" a="0.8" />       <!-- diffuse reflection -->
         <ambient r="0.78" g="0.6" b="0.35" a="0.2" />       <!-- ambient reflection -->
@@ -167,9 +175,9 @@
     <NODE id="chao">
         <MATERIAL id="opaco" />
         <TEXTURE id="madeira2" />
+        <ROTATION axis="x" angle="-90" />
         <TRANSLATION x="0.0" y="0.0" z="20" />
         <SCALE sx="18.0" sy="1.0" sz="20.0"/>
-        <ROTATION axis="x" angle="-90" />
         <DESCENDANTS>
             <DESCENDANT id="rectangle" />                                             
         </DESCENDANTS>
@@ -243,7 +251,7 @@
         <MATERIAL id="opaco" />     
 
             <TEXTURE id="metal" />   
-            <ROTATION axis="x" angle="-90" />   
+            <ROTATION axis="z" angle="-90" />   
             <TRANSLATION x="9" y="0" z="5" />  
             <SCALE sx="1" sy="1" sz="5" />  
  

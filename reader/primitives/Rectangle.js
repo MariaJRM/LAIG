@@ -7,9 +7,6 @@ function Rectangle(scene, xt, yt, xb, yb) {
 
 	this.x2 = xb;
 	this.y2 = yb;
-	
-	/*this.s = s || 1;		
-	this.t = t || 1;*/
 
 	this.initBuffers();
 
