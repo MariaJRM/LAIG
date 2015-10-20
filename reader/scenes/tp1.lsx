@@ -109,8 +109,8 @@
 <LEAVES>
     <LEAF id="rect" type="rectangle" args="-0.5 0.5 0.5 -0.5" />
     <LEAF id="cyl" type="cylinder" args="1.0 1.0 1.0 30.0 30.0" />
-    <LEAF id="cone" type="cylinder" args="0.5 0.4 0.3 30.0 30.0" />
-    <LEAF id="cone1" type="cylinder" args="1 0.3 0.6 30.0 30.0" />
+    <LEAF id="cone" type="cylinder" args="0.5 0.3 0.4 30.0 30.0" />
+    <LEAF id="cone1" type="cylinder" args="1 0.6 0.3 30.0 30.0" />
     <LEAF id="cone2" type="cylinder" args="1.5 0.4 0.2 30.0 30.0" />
     <LEAF id="cone3" type="cylinder" args="0.25 0.2 0.1 30.0 30.0" />
     <LEAF id="circ" type="cylinder" args="0 0.1 0 30.0 30.0" />
@@ -252,7 +252,7 @@
         <TEXTURE id="lava" />
 
         <TRANSLATION x="1.5" y="4" z="5" />
-        <ROTATION axis="x" angle="90" />
+        <ROTATION axis="x" angle="-90" />
         <SCALE sx="1" sy="1" sz="1" />
 
         <DESCENDANTS>
@@ -291,7 +291,7 @@
         <TEXTURE id="metal" />
 
         <TRANSLATION x="1.5" y="4.85" z="5" />
-        <ROTATION axis="x" angle="90" />
+        <ROTATION axis="x" angle="-90" />
         <SCALE sx="1" sy="1" sz="1" />
 
         <DESCENDANTS>
@@ -304,7 +304,7 @@
         <TEXTURE id="metal" />
 
         <TRANSLATION x="1.5" y="4.95" z="5" />
-        <ROTATION axis="x" angle="90" />
+        <ROTATION axis="x" angle="-90" />
         <SCALE sx="1" sy="1" sz="1" />
 
         <DESCENDANTS>

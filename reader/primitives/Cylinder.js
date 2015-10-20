@@ -1,90 +1,119 @@
-function Cylinder(scene, height, bottomRad, topRad, stacks, slices) {
- 	
- 	CGFobject.call(this,scene);
-	
-	this.height = height;
+function Cylinder(scene, height, botradius, topradius, stacks, slices) {
+       
+        CGFobject.call(this,scene);
+ 
+        this.slices=slices;
+        this.stacks=stacks;
+        this.height=height;
+        this.botradius=botradius;
+        this.topradius=topradius;
 
-	this.slices=slices;
-	this.stacks=stacks;
-
-	this.bottomRad = bottomRad;
-	this.topRad = topRad;
-
- 	this.initBuffers();
+        this.initBuffers();
 };
-
-Cylinder.prototype = Object.create(CGFobject.prototype);
-Cylinder.prototype.constructor = Cylinder;
-
-Cylinder.prototype.initBuffers = function() {
-
-	 this.vertices = [];
-	 this.indices = [];
-	 this.normals = [];
-	 this.texCoords = [];
-
-	 var r = this.bottomRad;
-	 var delta_r = (this.topRad-this.bottomRad) / this.stacks;
-	 var delta_rad = 2*Math.PI/this.slices;
-	 var delta_z = this.height / this.stacks;
-	 var m = this.height/(this.bottomRad - this.topRad);
-	 var maxheight;
-	 if(this.bottomRad > this.topRad)
-	 	maxheight = this.topRad*m+this.height;
-	 else maxheight = this.bottomRad*m+this.height;
-	 var indice = 0;
-	 
-	 var acc = 0;
-	 for(var i = 0; i <= this.stacks; i++){
-	 	for(var j= 0; j <= this.slices; j++){
-	   	this.vertices.push(
-		r * Math.cos(j*delta_rad),
-		r * Math.sin(j*delta_rad), 
-		i*delta_z
-		);
-	   if(Math.abs(this.bottomRad - this.topRad) < 0.0001){
-		this.normals.push(
-		Math.cos(j*delta_rad),
-		Math.sin(j*delta_rad), 
-		0);
-	   }
-	   else if(this.bottomRad > this.topRad){
-		this.normals.push(
-		maxheight * Math.cos(j*delta_rad)/Math.sqrt(Math.pow(this.bottomRad, 2) + Math.pow(maxheight, 2)),
-		maxheight * Math.sin(j*delta_rad)/Math.sqrt(Math.pow(this.bottomRad, 2) + Math.pow(maxheight, 2)), 
-		this.bottomRad/Math.sqrt(Math.pow(this.bottomRad, 2) + Math.pow(maxheight, 2))
-		);
-	   }
-	   else{
-		this.normals.push(
-		maxheight * Math.cos(j*delta_rad)/Math.sqrt(Math.pow(this.topRad, 2) + Math.pow(maxheight, 2)),
-		maxheight * Math.sin(j*delta_rad)/Math.sqrt(Math.pow(this.topRad, 2) + Math.pow(maxheight, 2)), 
-		this.topRad/Math.sqrt(Math.pow(this.topRad, 2) + Math.pow(maxheight, 2))
-		);
-	   }
-	   this.texCoords.push(j/this.slices, i/this.stacks);
-	   
-	  }
-	  r = (i+1) * delta_r + this.bottomRad;
-	 }
-
-	 for(var i = 0; i < this.stacks; i++){
-	  acc = 0;
-	  for(var j = 0; j < this.slices; j++){
-		this.indices.push(
-		 i*(this.slices+1)+j,
-		 i*(this.slices+1)+(j+1),
-		 (i+1)*(this.slices+1)+(j+1)
-		 );
-		this.indices.push(
-		 (i+1)*(this.slices+1)+(j+1),
-		 (i+1)*(this.slices+1)+j,
-		 i*(this.slices+1)+j
-		 );
-
-	  }
-	 }
-
-	 this.primitiveType = this.scene.gl.TRIANGLES;
-	 this.initGLBuffers();
+ 
+ Cylinder.prototype = Object.create(CGFobject.prototype);
+ Cylinder.prototype.constructor = Cylinder;
+ 
+ Cylinder.prototype.initBuffers = function() {
+ 
+        var degToRad = Math.PI / 180.0;
+ 
+        var ang = 360 * degToRad / this.slices;
+ 
+        this.vertices = [];
+        this.indices = [];
+        this.normals = [];
+        this.texCoords = [];
+ 
+        var ind_j = 0;
+        var aux_j = 4 * this.slices;
+ 
+        var aux_br = 1;
+        var aux_tr = 0;
+ 
+        for (j = 0; j < this.stacks; j++) {
+               
+                var ang_now = 0;
+                var ind_i = 0;
+ 
+                for (i = 0; i < this.slices; i++) {
+ 
+                        var x1 = Math.cos(ang_now) * (aux_br * this.botradius + aux_tr * this.topradius);
+                        var y1 = Math.sin(ang_now) * (aux_br * this.botradius + aux_tr * this.topradius);
+                        var z1 = j / this.stacks - 0.5;
+                        var x3 = Math.cos(ang_now) * ((aux_br-1/this.stacks) * this.botradius + (aux_tr+1/this.stacks) * this.topradius);
+                        var y3 = Math.sin(ang_now) * ((aux_br-1/this.stacks) * this.botradius + (aux_tr+1/this.stacks) * this.topradius);
+                        ang_now += ang;
+                        var x2 = Math.cos(ang_now) * (aux_br * this.botradius + aux_tr * this.topradius);
+                        var y2 = Math.sin(ang_now) * (aux_br * this.botradius + aux_tr * this.topradius);
+                        var z2 = (j + 1) / this.stacks - 0.5;
+                        var x4 = Math.cos(ang_now) * ((aux_br-1/this.stacks) * this.botradius + (aux_tr+1/this.stacks) * this.topradius);
+                        var y4 = Math.sin(ang_now) * ((aux_br-1/this.stacks) * this.botradius + (aux_tr+1/this.stacks) * this.topradius);
+                        
+                        this.vertices.push(x1);
+                        this.vertices.push(y1);
+                        this.vertices.push(z1); // vertex 0
+                        
+                        this.vertices.push(x2);
+                        this.vertices.push(y2);
+                        
+                        this.vertices.push(z1); // vertex 1
+                        this.vertices.push(x3)
+                        this.vertices.push(y3);
+                        
+                        this.vertices.push(z2); // vertex 2
+                        this.vertices.push(x4);
+                        this.vertices.push(y4);
+                        this.vertices.push(z2); 
+ 
+                        var ind_i_j = ind_i + ind_j;
+ 
+                        this.indices.push(ind_i_j);             
+                        this.indices.push(ind_i_j + 1); 
+                        this.indices.push(ind_i_j + 2); 
+ 
+                        this.indices.push(ind_i_j + 3); 
+                        this.indices.push(ind_i_j + 2); 
+                        this.indices.push(ind_i_j + 1); 
+ 
+                        ind_i += 4;
+ 
+                       
+                        this.normals.push(x1);
+                        this.normals.push(y1);
+                        this.normals.push(0);
+                       
+                    
+                        this.normals.push(x2);
+                        this.normals.push(y2);
+                        this.normals.push(0);
+ 
+                    
+                        this.normals.push(x1);
+                        this.normals.push(y1);
+                        this.normals.push(0);
+                       
+                  
+                        this.normals.push(x2);
+                        this.normals.push(y2);
+                        this.normals.push(0);
+ 
+                     
+                        this.texCoords.push(1 - i / this.slices, j / this.stacks);
+                        this.texCoords.push(1 - (i + 1) / this.slices, j / this.stacks);
+                        this.texCoords.push(1 - i / this.slices, (j + 1) / this.stacks);
+                        this.texCoords.push(1 - (i + 1) / this.slices, (j + 1) / this.stacks);
+ 
+                }                      
+                ind_j += aux_j;
+ 
+                aux_br -= 1/this.stacks;
+                aux_tr += 1/this.stacks;
+               
+        }
+ 
+        this.primitiveType = this.scene.gl.TRIANGLES;
+        this.initGLBuffers();
+ 
+ 
  };

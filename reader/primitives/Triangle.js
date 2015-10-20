@@ -1,4 +1,4 @@
-function Triangle(scene, x0, y0, z0, x1, y1, z1, x2, y2, z2){
+function Triangle(scene, x0, y0, z0, x1, y1, z1, x2, y2, z2, s, t){
 
 	CGFobject.call(this,scene);
 
@@ -14,8 +14,17 @@ function Triangle(scene, x0, y0, z0, x1, y1, z1, x2, y2, z2){
     this.y2 = y2;
     this.z2 = z2;
 
-   /* this.s = s||1;
-    this.t = t||1;*/
+    this.s = s;
+    this.t = t;
+
+    this.lenAC = Math.sqrt((this.tx3 - this.tx1) * (this.tx3 - this.tx1) 
+        + (this.ty3 - this.ty1) * (this.ty3 - this.ty1) + (this.tz3 - this.tz1) * (this.tz3 - this.tz1));
+    this.lenAB = Math.sqrt((this.tx2 - this.tx1) * (this.tx2 - this.tx1) 
+        + (this.ty2 - this.ty1) * (this.ty2 - this.ty1) + (this.tz2 - this.tz1) * (this.tz2 - this.tz1));
+    this.lenBC = Math.sqrt((this.tx3 - this.tx2) * (this.tx3 - this.tx2) 
+        + (this.ty3 - this.ty2) * (this.ty3 - this.ty2) + (this.tz3 - this.tz2) * (this.tz3 - this.tz2));
+    this.cos = (this.lenAC * this.lenAC - this.lenBC * this.lenBC + this.lenAB * this.lenAB) / (2 * this.lenAC * this.lenBC);
+    this.sin = Math.sqrt(1 - this.cos * this.cos);
 
     this.initBuffers();
 
@@ -42,6 +51,18 @@ Triangle.prototype.initBuffers = function() {
     		0,0,1
     ];
 
+    this.texCoords = [
+                0, 0,
+             this.lenAB/this.s, 0,
+             (this.lenAB - this.lenBC * this.cos)/this.s, (this.lenAC * this.sin)/this.t ];
+
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
+};
+
+Triangle.prototype.updateAmpl = function(s, t){
+    this.texCoords = [
+             0, 0,
+             this.lenAB/s, 0,
+             (this.lenAB - this.lenBC * this.cos)/s, (this.lenAC * this.sin)/t ];
 };

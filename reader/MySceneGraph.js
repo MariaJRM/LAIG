@@ -10,11 +10,7 @@ function MySceneGraph(filename, scene) {
 	// File reading 
 	this.reader = new CGFXMLreader();
 
-	/*
-	 * Read the contents of the xml file, and refer to this class for loading and error handlers.
-	 * After the file is read, the reader calls onXMLReady on this object.
-	 * If any error occurs, the reader calls onXMLError on this object, with an error message
-	 */
+	this.root_id = null;
 	 
 	this.reader.open('scenes/'+filename, this);  
 }
@@ -73,8 +69,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	this.initialsInfo.rotation = {};
 
 	for (var i = 0; i < rotation.length; ++i) {
-		this.initialsInfo.rotation['axis'] = this.reader.getString(rotation[i], "axis");
-		this.initialsInfo.rotation['angle'] = this.reader.getString(rotation[i], "angle");
+		this.initialsInfo.rotation[this.reader.getString(rotation[i], "axis")] = this.reader.getFloat(rotation[i], "angle");
 	}
 
 	//--scale-- DONE
@@ -232,12 +227,6 @@ MySceneGraph.prototype.parseMaterials= function(rootElement) {
 		this.material['emission']['b'] = this.reader.getFloat(emission, "b");
 		this.material['emission']['a'] = this.reader.getFloat(emission, "a");
 
-		//console.log("id " + id + ". value: " + value);
-		//console.log("rS: " + rS + ". gS: " + gS + ". bS: " + bS + ". aS: " + aS);
-		//console.log("rD: " + rD + ". gD: " + gD + ". bD: " + bD + ". aD: " + aD);
-		//console.log("rA: " + rA + ". gA: " + gA + ". bA: " + bA + ". aA: " + aA);
-		//console.log("rE: " + rE + ". gE: " + gE + ". bE: " + bE + ". aE: " + aE);
-
 		this.materialsInfo[this.material['id']] = this.material;
 	}
 	//console.log(this.materialsInfo);
@@ -297,9 +286,9 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 				
 				break;
 			case "triangle":
-
 				var argsSplit = arguments.split(" ");
-				if(argsSplit.length != 9)
+				//console.log(argsSplit);
+				if(argsSplit.length != 11)
 					return "Triangle - Must be 9 args: <xLeftBottom> <yLeftBottom> <zLeftBottom> <xMiddleTop> <yMiddleTop> <zMiddleTop> <xRightBottom> <yRightBottom> <zRightBottom>";
 				
 				this.leave['args'] = {};
@@ -307,13 +296,17 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 				this.leave['args']['y0'] = parseFloat(argsSplit[1]);
 				this.leave['args']['z0'] = parseFloat(argsSplit[2]);
 
-				this.leave['args']['x1'] = parseFloat(argsSplit[3]);
-				this.leave['args']['y1'] = parseFloat(argsSplit[4]);
-				this.leave['args']['z1'] = parseFloat(argsSplit[5]);
+				this.leave['args']['x1'] = parseFloat(argsSplit[4]);
+				this.leave['args']['y1'] = parseFloat(argsSplit[5]);
+				this.leave['args']['z1'] = parseFloat(argsSplit[6]);
 
-				this.leave['args']['x2'] = parseFloat(argsSplit[6]);
-				this.leave['args']['y2'] = parseFloat(argsSplit[7]);
-				this.leave['args']['z2'] = parseFloat(argsSplit[8]);
+				this.leave['args']['x2'] = parseFloat(argsSplit[8]);
+				this.leave['args']['y2'] = parseFloat(argsSplit[9]);
+				this.leave['args']['z2'] = parseFloat(argsSplit[10]);
+
+				console.log(this.leave.args.x0);
+				console.log(this.leave.args.y0);
+
 				//console.log(this.leave);
 				
 				break;
@@ -411,15 +404,16 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 			}
 		}
 		this.nodesInfo[this.node['id']] = this.node;
+		//console.log(this.nodesInfo);
 	}
 
 	var root = nodeList.getElementsByTagName('ROOT');
-	
-	this.root_id = root[0].attributes.getNamedItem("id").value;
-	//console.log(this.root_id);
 
+	this.root_id = root[0].attributes.getNamedItem("id").value;
+	//console.log("ROOT_ID: " + this.root_id);
 
 };
+
 
 
 

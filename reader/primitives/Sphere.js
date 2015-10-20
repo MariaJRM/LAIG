@@ -104,10 +104,10 @@ function Sphere(scene, rad, slices, stacks) {
 			this.normals.push(z3);
 
 			// coordenadas textura
-			/*this.texCoords.push(0.5 - i / this.slices, j / this.stacks);
+			this.texCoords.push(0.5 - i / this.slices, j / this.stacks);
 			this.texCoords.push(0.5 - (i + 1) / this.slices, j / this.stacks);
 			this.texCoords.push(0.5- i / this.slices, (j + 1) / this.stacks);
-			this.texCoords.push(0.5 - (i + 1) / this.slices, (j + 1) / this.stacks);*/
+			this.texCoords.push(0.5 - (i + 1) / this.slices, (j + 1) / this.stacks);
 		}
 
 		ang_stacks_now += ang_stacks;
