@@ -7,7 +7,7 @@
     <rotation axis="x" angle="0" />                  <!-- initial rotation 3 -->
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
-    <scale sx="0.5" sy="0.5" sz="0.5" />                  <!-- initial scaling -->
+    <scale sx="0.3" sy="0.3" sz="0.3" />                  <!-- initial scaling -->
     <reference length="3" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
  
@@ -21,7 +21,7 @@
 <LIGHTS>
     <LIGHT id="luz_1">                                    <!-- light identifier -->
         <enable value= "1" />                         <!-- enable/disable -->
-        <position x="4.0" y="5.0" z="4.0" w="1.0" />       <!-- light position -->
+        <position x="4.0" y="3.0" z="3.0" w="1.0" />       <!-- light position -->
         <ambient r="0" g="0" b="0" a="1.0" />        <!-- ambient component -->
         <diffuse r="1.0" g="1.0" b="1.0" a="0.5" />        
         <specular r="1.0" g="1.0" b="1.0" a="0.5" />
@@ -29,20 +29,11 @@
  
     <LIGHT id="luz_2">                              <!-- light identifier -->
         <enable value= "0" />                         <!-- enable/disable -->
-        <position x="0.75" y="2" z="2.5" w="1.0" />       <!-- light position -->
+        <position x="0.75" y="3.0" z="2.5" w="1.0" />       <!-- light position -->
         <ambient r="1" g="1" b="1" a="1.0" />        <!-- ambient component -->
         <diffuse r="1" g="1" b="1" a="1.0" />        <!-- diffuse component -->
         <specular r="1" g="1" b="1" a="1.0" />       <!-- specular component -->
     </LIGHT>
- <!--
-    <LIGHT id="luz_3">
-        <enable value= "0" />
-        <position x="0" y="3" z="3" w="1.0" />
-        <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
-        <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
-        <specular r="0.8" g="0.8" b="0.8" a="1.0" />
-    </LIGHT>
--->
    
 </LIGHTS>
 

@@ -14,18 +14,15 @@ function Sphere(scene, rad, slices, stacks) {
 
  Sphere.prototype.initBuffers = function() {
 
-
- 	var degToRad = Math.PI /180.0;
-
-	var ang_slices = 360 * degToRad / this.slices;
-	var ang_stacks = 180 * degToRad / this.stacks;
+	var ang_slices = 360 * (Math.PI /180.0) / this.slices;
+	var ang_stacks = 180 * (Math.PI /180.0) / this.stacks;
 
 	this.vertices = [];
 	this.indices = [];
 	this.normals = [];
 	this.texCoords = [];
 
-	var ang_stacks_now = 0;
+	var angStacks = 0;
 	var ang_stacks_then = ang_stacks;
 	var ind_j = 0;
 	var aux_j = 4 * this.slices;
@@ -37,9 +34,9 @@ function Sphere(scene, rad, slices, stacks) {
 
 		for (i = 0; i < this.slices; i++) {
 
-			var x0 = (Math.sin(ang_stacks_now) * Math.cos(ang_slices_now))/2;
-			var y0 = Math.cos(ang_stacks_now)/2;
-			var z0 = (Math.sin(ang_stacks_now) * Math.sin(ang_slices_now))/2;
+			var x0 = (Math.sin(angStacks) * Math.cos(ang_slices_now))/2;
+			var y0 = Math.cos(angStacks)/2;
+			var z0 = (Math.sin(angStacks) * Math.sin(ang_slices_now))/2;
 
 			var x2 = (Math.sin(ang_stacks_then) * Math.cos(ang_slices_now))/2;
 			var y2 = Math.cos(ang_stacks_then)/2;
@@ -47,9 +44,9 @@ function Sphere(scene, rad, slices, stacks) {
 
 			ang_slices_now += ang_slices;
 
-			var x1= (Math.sin(ang_stacks_now) * Math.cos(ang_slices_now))/2;
-			var y1 = Math.cos(ang_stacks_now)/2;
-			var z1 = (Math.sin(ang_stacks_now) * Math.sin(ang_slices_now))/2;
+			var x1= (Math.sin(angStacks) * Math.cos(ang_slices_now))/2;
+			var y1 = Math.cos(angStacks)/2;
+			var z1 = (Math.sin(angStacks) * Math.sin(ang_slices_now))/2;
 
 			var x3 = (Math.sin(ang_stacks_then) * Math.cos(ang_slices_now))/2;
 			var y3 = Math.cos(ang_stacks_then)/2;
@@ -57,19 +54,19 @@ function Sphere(scene, rad, slices, stacks) {
 
 			this.vertices.push(x0);
 			this.vertices.push(y0);
-			this.vertices.push(z0); // vertice 0
+			this.vertices.push(z0); 
 
 			this.vertices.push(x1);
 			this.vertices.push(y1);
-			this.vertices.push(z1); // vertice 1
+			this.vertices.push(z1); 
 
 			this.vertices.push(x2)
 			this.vertices.push(y2);
-			this.vertices.push(z2); // vertice 2
+			this.vertices.push(z2);
 
 			this.vertices.push(x3);
 			this.vertices.push(y3);
- 			this.vertices.push(z3); // vertice 3
+ 			this.vertices.push(z3);
 
  			var ind_i_j = ind_i + ind_j;
 
@@ -83,7 +80,6 @@ function Sphere(scene, rad, slices, stacks) {
 
 			ind_i += 4;
 
-			// normal a vertice 0
 			this.normals.push(x0);
 			this.normals.push(y0);
 			this.normals.push(z0);
@@ -110,7 +106,7 @@ function Sphere(scene, rad, slices, stacks) {
 			this.texCoords.push(0.5 - (i + 1) / this.slices, (j + 1) / this.stacks);
 		}
 
-		ang_stacks_now += ang_stacks;
+		angStacks += ang_stacks;
 		ang_stacks_then += ang_stacks;
 		ind_j += aux_j;
 

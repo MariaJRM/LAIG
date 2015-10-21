@@ -8,13 +8,18 @@ function Rectangle(scene, x1, y1, x2, y2, s , t) {
 	this.x2 = x2;
 	this.y2 = y2;
 
-	if(this.y1 < 0) this.lenZ = -y1-x1;
-	else this.lenZ=y1-x1;
-	if(this.x2 < 0) this.lenX = -x2-x1;
-	else this.lenX=x2-x1;
-
 	this.s = s;
 	this.t = t;
+
+	if(this.x2 < 0)
+		this.lenX = -x2 - x1;
+	else 
+		this.lenX = x2 - x1;
+
+	if(this.y1 < 0) 
+		this.lenY = -y1 - x1;
+	else 
+		this.lenY = y1 - x1;
 
 	this.initBuffers();
 
@@ -47,9 +52,9 @@ Rectangle.prototype.initBuffers = function () {
         0, 0, 1
     ];
 
-     this.texCoords = [    
-    	0, this.lenZ/this.t,
-    	this.lenX/this.s,this.lenZ/this.t,
+    this.texCoords = [    
+    	0, this.lenY/this.t,
+    	this.lenX/this.s,this.lenY/this.t,
     	0, 0,
     	this.lenX/this.s, 0
 		];
@@ -60,9 +65,10 @@ Rectangle.prototype.initBuffers = function () {
 
 Rectangle.prototype.updateAmpl = function(s,t){
 	this.texCoords = [    
-		0, this.lenz/t,
-		this.lenX/s,this.lenz/t,
+		0, this.lenY/t,
+		this.lenX/s,this.lenY/t,
 		0, 0,
 		this.lenX/s, 0
 		];
+	this.updateTexCoordsGLBuffers();
 };

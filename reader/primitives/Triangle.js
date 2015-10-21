@@ -17,14 +17,12 @@ function Triangle(scene, x0, y0, z0, x1, y1, z1, x2, y2, z2, s, t){
     this.s = s;
     this.t = t;
 
-    this.lenAC = Math.sqrt((this.tx3 - this.tx1) * (this.tx3 - this.tx1) 
-        + (this.ty3 - this.ty1) * (this.ty3 - this.ty1) + (this.tz3 - this.tz1) * (this.tz3 - this.tz1));
-    this.lenAB = Math.sqrt((this.tx2 - this.tx1) * (this.tx2 - this.tx1) 
-        + (this.ty2 - this.ty1) * (this.ty2 - this.ty1) + (this.tz2 - this.tz1) * (this.tz2 - this.tz1));
-    this.lenBC = Math.sqrt((this.tx3 - this.tx2) * (this.tx3 - this.tx2) 
-        + (this.ty3 - this.ty2) * (this.ty3 - this.ty2) + (this.tz3 - this.tz2) * (this.tz3 - this.tz2));
-    this.cos = (this.lenAC * this.lenAC - this.lenBC * this.lenBC + this.lenAB * this.lenAB) / (2 * this.lenAC * this.lenBC);
-    this.sin = Math.sqrt(1 - this.cos * this.cos);
+    this.P0_2=Math.sqrt(Math.pow(this.x2-this.x0,2)+Math.pow(this.y2-this.y0,2)+Math.pow(this.z2-this.z0,2)); 
+    this.P0_1=Math.sqrt(Math.pow(this.x1-this.x0,2)+Math.pow(this.y1-this.y0,2)+Math.pow(this.z1-this.z0,2));
+    this.P1_2=Math.sqrt(Math.pow(this.x2-this.x1,2)+Math.pow(this.y2-this.y1,2)+Math.pow(this.z2-this.z1,2));
+    
+    this.cos = (Math.pow(this.P0_2,2)-Math.pow(this.P1_2,2)+Math.pow(this.P0_1,2))/(2*this.P0_2*this.P1_2);
+    this.sin = Math.sqrt(1-Math.pow(this.cos,2));
 
     this.initBuffers();
 
@@ -53,8 +51,8 @@ Triangle.prototype.initBuffers = function() {
 
     this.texCoords = [
                 0, 0,
-             this.lenAB/this.s, 0,
-             (this.lenAB - this.lenBC * this.cos)/this.s, (this.lenAC * this.sin)/this.t ];
+             this.P0_1/this.s, 0,
+             (this.P0_1 - this.P1_2 * this.cos)/this.s, (this.P0_2 * this.sin)/this.t ];
 
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
@@ -63,6 +61,7 @@ Triangle.prototype.initBuffers = function() {
 Triangle.prototype.updateAmpl = function(s, t){
     this.texCoords = [
              0, 0,
-             this.lenAB/s, 0,
-             (this.lenAB - this.lenBC * this.cos)/s, (this.lenAC * this.sin)/t ];
+             this.P0_1/s, 0,
+             (this.P0_1 - this.P1_2 * this.cos)/s, (this.P0_2 * this.sin)/t ];
+    this.updateTexCoordsGLBuffers();
 };

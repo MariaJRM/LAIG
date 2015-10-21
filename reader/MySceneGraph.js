@@ -2,14 +2,10 @@
 function MySceneGraph(filename, scene) {
 	this.loadedOk = null;
 	
-	// Establish bidirectional references between scene and graph
-	//this.initials = new SceneInitials(); 
 	this.scene = scene;
 	scene.graph = this;
-		
-	// File reading 
-	this.reader = new CGFXMLreader();
 
+	this.reader = new CGFXMLreader();
 	this.root_id = null;
 	 
 	this.reader.open('scenes/'+filename, this);  
@@ -25,7 +21,6 @@ function getUniqueElement(tag, nametag){
 	if (tempInitials.length != 1) {
 	    return "either zero or more than one " + nametag + " element found in" + tag + ".";
 	}
-	//console.log(nametag + " length: " +tempInitials.length);
 	return tempInitials[0];
 }
 
@@ -35,7 +30,6 @@ function getAllElements(tag, nametag){
 	if (tempInitials == null) {
 	    return (nametag + " element in " + tag + " is missing.");
 	}
-	//console.log(nametag + " length: " + tempInitials[0].length);
 	return tempInitials;
 }
 
@@ -44,16 +38,12 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	this.initialsInfo= {};
 	
 	var initials = getUniqueElement(rootElement, "INITIALS");
-
-	//--frustum-- DONE
 	var frustum = getUniqueElement(initials, "frustum");
 
 	this.initialsInfo.frustum = {};
 
 	this.initialsInfo.frustum['near'] = this.reader.getFloat(frustum, "near");
 	this.initialsInfo.frustum['far'] = this.reader.getFloat(frustum, "far");
-
-	//--translate-- DONE
 
 	var translation = getUniqueElement(initials, "translation");
 
@@ -63,16 +53,13 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	this.initialsInfo.translation['y'] = this.reader.getFloat(translation, "y");
 	this.initialsInfo.translation['z'] = this.reader.getFloat(translation, "z");
 
-	//--rotation-- DONE
 	var rotation = getAllElements(initials, "rotation");
-
 	this.initialsInfo.rotation = {};
 
 	for (var i = 0; i < rotation.length; ++i) {
 		this.initialsInfo.rotation[this.reader.getString(rotation[i], "axis")] = this.reader.getFloat(rotation[i], "angle");
 	}
 
-	//--scale-- DONE
 	var scale = getUniqueElement(initials, "scale");
 	this.initialsInfo.scale = {};
 
@@ -80,7 +67,6 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	this.initialsInfo.scale['sy'] = this.reader.getFloat(scale, "sy");
 	this.initialsInfo.scale['sz'] = this.reader.getFloat(scale, "sz");
 
-	//--reference--
 	var reference = getUniqueElement(initials, "reference");
 	this.initialsInfo.ref = {};
 
@@ -93,8 +79,6 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	this.illuminationInfo= {};
 	
 	var illumination = getUniqueElement(rootElement, "ILLUMINATION");
-
-	//--ambient-- DONE
 	var ambient = getUniqueElement(illumination, "ambient");
 
 	this.illuminationInfo.ambient = {};
@@ -104,7 +88,6 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	this.illuminationInfo.ambient['b'] = this.reader.getFloat(ambient, "b");
 	this.illuminationInfo.ambient['a'] = this.reader.getFloat(ambient, "a");
 
-	//--background-- DONE
 	var background = getUniqueElement(illumination, "background");
 
 	this.illuminationInfo.background = {};
@@ -113,8 +96,6 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	this.illuminationInfo.background['g'] = this.reader.getFloat(background, "g");
 	this.illuminationInfo.background['b'] = this.reader.getFloat(background, "b");
 	this.illuminationInfo.background['a'] = this.reader.getFloat(background, "a");
-
-	//console.log(this.illuminationInfo);
 };
 
 MySceneGraph.prototype.parseLights= function(rootElement) {
@@ -183,7 +164,6 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 
 		this.texturesInfo[texture['id']] = texture;
 	}
-	//console.log(this.texturesInfo);
 };
 
 MySceneGraph.prototype.parseMaterials= function(rootElement) {
@@ -229,8 +209,6 @@ MySceneGraph.prototype.parseMaterials= function(rootElement) {
 
 		this.materialsInfo[this.material['id']] = this.material;
 	}
-	//console.log(this.materialsInfo);
-
 };
 
 MySceneGraph.prototype.parseLeaves= function(rootElement) {
@@ -256,7 +234,6 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 				this.leave['args']['ltY'] = parseFloat(argsSplit[1]);
 				this.leave['args']['rbX'] = parseFloat(argsSplit[2]);
 				this.leave['args']['rbY'] = parseFloat(argsSplit[3]);
-				//console.log(this.leave);
 
 				break;
 			case "cylinder":
@@ -270,7 +247,6 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 				this.leave['args']['tRad'] = parseFloat(argsSplit[2]);
 				this.leave['args']['stacks'] = parseFloat(argsSplit[3]);
 				this.leave['args']['slices'] = parseFloat(argsSplit[4]);
-				//console.log(this.leave);
 				
 				break;
 			case "sphere":
@@ -282,12 +258,10 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 				this.leave['args']['rad'] = parseFloat(argsSplit[0]);
 				this.leave['args']['stacks'] = parseFloat(argsSplit[1]);
 				this.leave['args']['slices'] = parseFloat(argsSplit[2]);
-				//console.log(this.leave);
 				
 				break;
 			case "triangle":
 				var argsSplit = arguments.split(" ");
-				//console.log(argsSplit);
 				if(argsSplit.length != 11)
 					return "Triangle - Must be 9 args: <xLeftBottom> <yLeftBottom> <zLeftBottom> <xMiddleTop> <yMiddleTop> <zMiddleTop> <xRightBottom> <yRightBottom> <zRightBottom>";
 				
@@ -303,11 +277,6 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 				this.leave['args']['x2'] = parseFloat(argsSplit[8]);
 				this.leave['args']['y2'] = parseFloat(argsSplit[9]);
 				this.leave['args']['z2'] = parseFloat(argsSplit[10]);
-
-				console.log(this.leave.args.x0);
-				console.log(this.leave.args.y0);
-
-				//console.log(this.leave);
 				
 				break;
 			default:
@@ -316,16 +285,13 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 
 			this.leavesInfo[this.leave['id']] = this.leave;
 		}
-		//console.log(this.leavesInfo);
 };
 
 MySceneGraph.prototype.parseNodes = function(rootElement){
 
 	var nodeList = getUniqueElement(rootElement, 'NODES');
-	//console.log(nodeList);
 
 	var nodes = nodeList.getElementsByTagName('NODE');
-	//console.log(nodes);
 
 	console.log(nodes.length + " nodes to be processed");
 
@@ -336,39 +302,30 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		this.node = {};
 		var id = this.reader.getString(nodes[i],"id");
 		this.node['id'] = this.reader.getString(nodes[i],"id");
-		//console.log(this.node.id);
 
-		
 		var material = getUniqueElement(nodes[i],'MATERIAL');
 		
 		if(material.tagName == 'MATERIAL'){
 			this.node['material'] = {};
 			this.node['material'] = this.reader.getString(material, 'id');
-			//console.log("ID MATERIAL: " + this.node.material);
 		}
 
 		var texture = getUniqueElement(nodes[i], "TEXTURE");
 		if(texture.tagName == 'TEXTURE'){
 			this.node['texture'] = {};
 			this.node['texture'] = this.reader.getString(texture, 'id');
-			//console.log("ID TEXTURE: " + this.node.texture);
-	}
+		}
 		var descendants = getUniqueElement(nodes[i], "DESCENDANTS");
 		this.node['descendants'] = {};
 		var desc = descendants.getElementsByTagName('DESCENDANT');
-		//console.log(desc);
 
 		for(var j = 0; j < desc.length; j++){
 			var id_d = this.reader.getString(desc[j], 'id');
-			//console.log("DESC ID: " + id_d);
-
 			this.node['descendants'][j] = id_d;
 		}
 
-		//console.log(this.node.descendants);
-
 		var transformations = nodes[i].getElementsByTagName('*');
-		//console.log(trasnformations);
+
 		this.node['transformations'] = {};
 		var order = 0;
 
@@ -404,28 +361,18 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 			}
 		}
 		this.nodesInfo[this.node['id']] = this.node;
-		//console.log(this.nodesInfo);
 	}
 
 	var root = nodeList.getElementsByTagName('ROOT');
-
 	this.root_id = root[0].attributes.getNamedItem("id").value;
-	//console.log("ROOT_ID: " + this.root_id);
 
 };
 
-
-
-
-/*
- * Callback to be executed after successful reading
- */
 MySceneGraph.prototype.onXMLReady=function() 
 {
 	console.log("XML Loading finished.");
 	var rootElement = this.reader.xmlDoc.documentElement;
 	
-	// Here should go the calls for different functions to parse the various blocks
 	var error = this.parseInitials(rootElement);
 	var error = this.parseIllumination(rootElement);
 	var error = this.parseLights(rootElement);
@@ -441,18 +388,8 @@ MySceneGraph.prototype.onXMLReady=function()
 
 	this.loadedOk=true;
 	
-	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
 	this.scene.onGraphLoaded();
 };
-
-/*
- * Example of method that parses elements of one block and stores information in a specific data structure
- */
-
-	
-/*
- * Callback to be executed on any read error
- */
  
 MySceneGraph.prototype.onXMLError=function (message) {
 	console.error("XML Loading Error: "+message);	

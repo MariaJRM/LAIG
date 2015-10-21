@@ -7,9 +7,6 @@ function XMLscene() {
     CGFscene.call(this);
 }
 
-var currMat;
-var currTex;
-
 XMLscene.prototype = Object.create(CGFscene.prototype);
 XMLscene.prototype.constructor = XMLscene;
 
@@ -29,6 +26,8 @@ XMLscene.prototype.init = function (application) {
     this.leaves = {};
     this.textures = {};
     this.materials = {};
+    this.a_material=null;
+    this.a_texture=null;
 
    this.axis=new CGFaxis(this);
 	
@@ -169,28 +168,21 @@ XMLscene.prototype.processLeaves = function(){
 XMLscene.prototype.onGraphLoaded = function () 
 {
 
-	//INITIALS
-	//frustum
 	this.camera.near = this.graph.initialsInfo.frustum.near;
     this.camera.far = this.graph.initialsInfo.frustum.far;
 
     this.axis = new CGFaxis(this, this.graph.initialsInfo.ref);
 
-	//ILLUMINATION DONE
 	this.processIllumination();
-	//LIGHTS
+
 	this.processLights();
 
-	//LEAVES
 	this.processLeaves();
 
-	//TEXTURES
 	this.processTextures();
 
-	//MATERIALS
 	this.processMaterials();
 
-	// TRANSFORMATIONS
 	for(node in this.graph.nodesInfo)
 	{
 		var tmatrix = mat4.create();
@@ -233,42 +225,40 @@ XMLscene.prototype.processGraph = function(node){
 
 	this.pushMatrix();
 
-	var matID = node.material;
-	var texID = node.texture;
+	var material = node.material;
+	var texture = node.texture;
 	
-	if(texID != "null" ) {
-
-		if(matID != "null"){
-			currMat=matID;
-
-			if(texID=="clear"){
-				this.materials[matID].setTexture(null);
-				this.materials[matID].apply();
+	if(texture != "null" ) {
+		if(material != "null"){
+			this.a_material=material;
+			if(texture=="clear"){
+				this.materials[material].setTexture(null);
+				this.materials[material].apply();
 			}
 			else{
-				currTex=texID;
-				this.materials[matID].setTexture(this.textures[texID]);
-				this.materials[matID].apply();
+				this.a_texture=texture;
+				this.materials[material].setTexture(this.textures[texture]);
+				this.materials[material].apply();
 			}
 		}
 		else{
-			if(texID=="clear"){
-				this.materials[currMat].setTexture(null);
-				this.materials[currMat].apply();
+			if(texture=="clear"){
+				this.materials[this.a_material].setTexture(null);
+				this.materials[this.a_material].apply();
 			}
 			else{
-				currTex=texID;
-				this.materials[currMat].setTexture(this.textures[texID]);
-				this.materials[currMat].apply();
+				this.a_texture=texture;
+				this.materials[this.a_material].setTexture(this.textures[texture]);
+				this.materials[this.a_material].apply();
 			}
 		}
 	}
-	else if(matID != "null"){
-		currMat=matID;
+	else if(material != "null"){
+		this.a_material=material;
 		if(currTex!=undefined){
-		this.materials[matID].setTexture(this.textures[currTex]);
-	}
-		this.materials[matID].apply();
+			this.materials[material].setTexture(this.textures[this.a_texture]);
+		}
+		this.materials[material].apply();
 	}
 	
 	this.multMatrix(node.matrix);
@@ -276,11 +266,11 @@ XMLscene.prototype.processGraph = function(node){
 	for(var i in node.descendants){
 		
 		if(this.isLeaf(node.descendants[i])){
-			if(currTex==undefined){
+			if(this.a_texture==undefined){
 				this.draw(this.leaves[node.descendants[i]],1,1);
 			}
 			else{
-			this.draw(this.leaves[node.descendants[i]], this.textures[currTex].amp.s, this.textures[currTex].amp.t);
+			this.draw(this.leaves[node.descendants[i]], this.textures[this.a_texture].amp.s, this.textures[this.a_texture].amp.t);
 		}
 
 		}
@@ -299,15 +289,12 @@ XMLscene.prototype.isLeaf = function (id){
 XMLscene.prototype.draw = function(leaf,s,t){
 
 	switch(leaf.type){  
-
 		case "rectangle":
 			leaf.updateAmpl(s,t);
-			leaf.updateTexCoordsGLBuffers();
 			leaf.display();
 		break;
 		case "triangle":
 			leaf.updateAmpl(s,t);
-			leaf.updateTexCoordsGLBuffers();
 			leaf.display();
 		break;
 		case "cylinder":
@@ -319,7 +306,7 @@ XMLscene.prototype.draw = function(leaf,s,t){
 			leaf.display();
 		break;
 		default:
-		return "Type of leaf " + leaf+ " does not exist"; 
+		return "Type of leaf " + leaf+ " does not exist!"; 
 		break;
 	}
 
@@ -338,17 +325,14 @@ XMLscene.prototype.display = function () {
     this.applyViewMatrix();
     this.setDefaultAppearance();
 	
-	// LSX LOADED
 	if (this.graph.loadedOk)
 	{
 	
 		if(this.axis.length != 0) this.axis.display();
 
-		//update lights
 		for (i = 0; i < this.lights.length; i++)
 		this.lights[i].update();
 
-		
 		this.translate(this.graph.initialsInfo.translation.x, 
     	this.graph.initialsInfo.translation.y, 
     	this.graph.initialsInfo.translation.z);
