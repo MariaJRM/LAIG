@@ -1,3 +1,7 @@
+/**
+ * Rectangle
+ * @constructor
+ */
 function Rectangle(scene, x1, y1, x2, y2, s , t) {
 
 	CGFobject.call(this,scene);
@@ -63,6 +67,9 @@ Rectangle.prototype.initBuffers = function () {
 	
 };
 
+/*
+ * Method used to apply amplification values to textures on rectangles
+ */
 Rectangle.prototype.updateAmpl = function(s,t){
 	this.texCoords = [    
 		0, this.lenY/t,

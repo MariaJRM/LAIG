@@ -10,16 +10,15 @@ function getUrlVars() {
     return vars;
 }	 
 
-serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'primitives/Rectangle.js','primitives/Cylinder.js', 'primitives/Sphere.js', 'primitives/Triangle.js',
+serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'primitives/Rectangle.js','primitives/Cylinder.js', 'primitives/Sphere.js', 'primitives/Triangle.js', 'Interface.js',
 
 main=function()
 {
     var app = new CGFapplication(document.body);
     var myScene = new XMLscene();
-    var myInterface = new CGFinterface();
+    var myInterface = new Interface();
 
     app.init();
-
     app.setScene(myScene);
     app.setInterface(myInterface);
 

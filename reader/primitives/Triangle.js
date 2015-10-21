@@ -1,3 +1,7 @@
+/**
+ * Triangle
+ * @constructor
+ */
 function Triangle(scene, x0, y0, z0, x1, y1, z1, x2, y2, z2, s, t){
 
 	CGFobject.call(this,scene);
@@ -17,11 +21,11 @@ function Triangle(scene, x0, y0, z0, x1, y1, z1, x2, y2, z2, s, t){
     this.s = s;
     this.t = t;
 
-    this.P0_2=Math.sqrt(Math.pow(this.x2-this.x0,2)+Math.pow(this.y2-this.y0,2)+Math.pow(this.z2-this.z0,2)); 
-    this.P0_1=Math.sqrt(Math.pow(this.x1-this.x0,2)+Math.pow(this.y1-this.y0,2)+Math.pow(this.z1-this.z0,2));
-    this.P1_2=Math.sqrt(Math.pow(this.x2-this.x1,2)+Math.pow(this.y2-this.y1,2)+Math.pow(this.z2-this.z1,2));
+    this.AC=Math.sqrt(Math.pow(this.x2-this.x0,2)+Math.pow(this.y2-this.y0,2)+Math.pow(this.z2-this.z0,2)); 
+    this.AB=Math.sqrt(Math.pow(this.x0-this.x1,2)+Math.pow(this.y0-this.y1,2)+Math.pow(this.z0-this.z1,2));
+    this.BC=Math.sqrt(Math.pow(this.x1-this.x2,2)+Math.pow(this.y1-this.y2,2)+Math.pow(this.z1-this.z2,2));
     
-    this.cos = (Math.pow(this.P0_2,2)-Math.pow(this.P1_2,2)+Math.pow(this.P0_1,2))/(2*this.P0_2*this.P1_2);
+    this.cos = (Math.pow(this.BC,2)-Math.pow(this.AB,2)+Math.pow(this.AC,2))/(2*this.BC*this.AC);
     this.sin = Math.sqrt(1-Math.pow(this.cos,2));
 
     this.initBuffers();
@@ -50,18 +54,23 @@ Triangle.prototype.initBuffers = function() {
     ];
 
     this.texCoords = [
-                0, 0,
-             this.P0_1/this.s, 0,
-             (this.P0_1 - this.P1_2 * this.cos)/this.s, (this.P0_2 * this.sin)/this.t ];
+        this.AC/this.s, 1/this.t,
+        0, 1/this.t,
+        (this.AC - this.BC * this.cos)/this.s,0,
+    ];
 
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
 };
 
+/*
+ * Method used to apply amplification values to textures on triangles.
+ */
 Triangle.prototype.updateAmpl = function(s, t){
-    this.texCoords = [
-             0, 0,
-             this.P0_1/s, 0,
-             (this.P0_1 - this.P1_2 * this.cos)/s, (this.P0_2 * this.sin)/t ];
+    this.texCoords =[
+        this.AC/this.s, 1/this.t,
+        0, 1/this.t,
+        (this.AC - this.BC * this.cos)/this.s,0,
+        ];
     this.updateTexCoordsGLBuffers();
 };

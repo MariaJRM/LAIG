@@ -1,4 +1,6 @@
-
+/*
+ * Method to convert degrees to radians
+ */
 function convertDegtoRad(deg){
 	return (deg*Math.PI/180.0);
 } 
@@ -23,13 +25,16 @@ XMLscene.prototype.init = function (application) {
     this.gl.depthFunc(this.gl.LEQUAL);
     this.enableTextures(true);
 
+    this.lightEnable = []; 
+
     this.leaves = {};
     this.textures = {};
     this.materials = {};
     this.a_material=null;
     this.a_texture=null;
 
-   this.axis=new CGFaxis(this);
+   	this.axis=new CGFaxis(this);
+
 	
 };
 
@@ -45,10 +50,19 @@ XMLscene.prototype.setDefaultAppearance = function () {
     this.setShininess(10.0);
 };
 
+/*
+ * Method to process the parsing of Lights
+ */
 XMLscene.prototype.processLights = function(){
+
+	this.lights = [];
+	this.lightIDs = [];
 	
 	var i = 0;
     for(light in this.graph.lightsInfo){
+    	console.log(light);
+    	this.lights[i] = new CGFlight(this,i);
+    	
     	var temp_id = this.graph.lightsInfo[light].id;
     	this.lights[i].setPosition(this.graph.lightsInfo[light].position.x, this.graph.lightsInfo[light].position.y, this.graph.lightsInfo[light].position.z, this.graph.lightsInfo[light].position.w);
     	this.lights[i].setDiffuse(this.graph.lightsInfo[light].diffuse.r, this.graph.lightsInfo[light].diffuse.g, this.graph.lightsInfo[light].diffuse.b, this.graph.lightsInfo[light].diffuse.a);
@@ -56,14 +70,30 @@ XMLscene.prototype.processLights = function(){
     	this.lights[i].setSpecular(this.graph.lightsInfo[light].specular.r, this.graph.lightsInfo[light].specular.g, this.graph.lightsInfo[light].specular.b, this.graph.lightsInfo[light].specular.a);
     	this.lights[i].setVisible(true);
 
-		if(this.graph.lightsInfo[light].enable){ 
+    	this.lightIDs[i]=[];
+    	this.lightIDs[i].id=light;
+
+    	console.log(this.graph.lightsInfo[light].enable);
+    	if(this.graph.lightsInfo[light].enable == true){
 			this.lights[i].enable();
-		}
+			eval("this.lightEnable" + i + " = " + true);
+			this.lightEnable[i] = true;
+    	}
+    	else{
+			this.lights[i].disable();
+			eval("this.lightEnable" + i + " = " + false);
+			this.lightEnable[i] = false;
+    	}
 		this.lights[i].update;
 		i++;
 	}
+
+	this.lightsLoad = true;
 };
 
+/*
+ * Method to process the parsing of Illumination
+ */
 XMLscene.prototype.processIllumination = function(){
 	
 	this.gl.clearColor(this.graph.illuminationInfo.background.r,
@@ -77,6 +107,9 @@ XMLscene.prototype.processIllumination = function(){
 		this.graph.illuminationInfo.ambient.a);
 };
 
+/*
+ * Method to process the parsing of Textures
+ */
 XMLscene.prototype.processTextures = function(){
 
 	for(texture in this.graph.texturesInfo){
@@ -88,6 +121,9 @@ XMLscene.prototype.processTextures = function(){
 	}
 }
 
+/*
+ * Method to process the parsing of Materials
+ */
 XMLscene.prototype.processMaterials = function(){
 
 	for(material in this.graph.materialsInfo){
@@ -119,7 +155,9 @@ XMLscene.prototype.processMaterials = function(){
 	}
 }
 
-
+/*
+ * Method to process the parsing of Leaves
+ */
 XMLscene.prototype.processLeaves = function(){
 
 	for(leaf in this.graph.leavesInfo){
@@ -165,24 +203,34 @@ XMLscene.prototype.processLeaves = function(){
 	}
 };
 
+/*
+ * Handler called when the graph is loaded
+ */
 XMLscene.prototype.onGraphLoaded = function () 
 {
-
+	//Frustum
 	this.camera.near = this.graph.initialsInfo.frustum.near;
     this.camera.far = this.graph.initialsInfo.frustum.far;
 
+    //Axis
     this.axis = new CGFaxis(this, this.graph.initialsInfo.ref);
 
+    //Illumination
 	this.processIllumination();
 
+	//Lights
 	this.processLights();
 
+	//Leaves
 	this.processLeaves();
 
+	//Textures
 	this.processTextures();
 
+	//Materials
 	this.processMaterials();
 
+	//Nodes
 	for(node in this.graph.nodesInfo)
 	{
 		var tmatrix = mat4.create();
@@ -220,7 +268,20 @@ XMLscene.prototype.onGraphLoaded = function ()
 
 	this.processGraph(this.graph.nodesInfo[this.graph.root_id]);
 };
-	
+
+/*
+ * Method to determine if the node is a leaf through the node's id
+ */
+XMLscene.prototype.checkIfLeaf = function (id){
+	for(var i in this.graph.leavesInfo){
+		if (id==this.graph.leavesInfo[i].id) return true;
+	}
+	return false;
+};
+
+/*
+ * Method to process the graph's nodes
+ */	
 XMLscene.prototype.processGraph = function(node){
 
 	this.pushMatrix();
@@ -267,13 +328,9 @@ XMLscene.prototype.processGraph = function(node){
 	this.popMatrix();
 }
 
-XMLscene.prototype.checkIfLeaf = function (id){
-	for(var i in this.graph.leavesInfo){
-		if (id==this.graph.leavesInfo[i].id) return true;
-	}
-	return false;
-};
-
+/*
+ * Method to draw the primitives
+ */
 XMLscene.prototype.draw = function(leaf,s,t){
 
 	switch(leaf.type){  
@@ -300,6 +357,23 @@ XMLscene.prototype.draw = function(leaf,s,t){
 
 }
 
+/*
+* Function that processes Initials Tranformations
+*/
+XMLscene.prototype.processInitialsTransformations = function(){
+	this.translate(this.graph.initialsInfo.translation.x, 
+    	this.graph.initialsInfo.translation.y, 
+    	this.graph.initialsInfo.translation.z);
+
+    	this.rotate(convertDegtoRad(this.graph.initialsInfo.rotation['x']), 1,0,0);
+		this.rotate(convertDegtoRad(this.graph.initialsInfo.rotation['y']), 0,1,0);
+		this.rotate(convertDegtoRad(this.graph.initialsInfo.rotation['z']), 0,0,1);
+	
+		this.scale(this.graph.initialsInfo.scale.sx, 
+		this.graph.initialsInfo.scale.sy, 
+		this.graph.initialsInfo.scale.sz);
+}
+
 
 XMLscene.prototype.display = function () {
    
@@ -318,20 +392,21 @@ XMLscene.prototype.display = function () {
 	
 		if(this.axis.length != 0) this.axis.display();
 
-		for (i = 0; i < this.lights.length; i++)
-		this.lights[i].update();
+		for (i = 0; i < this.lights.length; i++){
+			var id = this.lightIDs[i];
+			eval("this.enLight = this.lightEnable"+i);
 
-		this.translate(this.graph.initialsInfo.translation.x, 
-    	this.graph.initialsInfo.translation.y, 
-    	this.graph.initialsInfo.translation.z);
+			if(this.enLight){
+			this.lights[i].enable();
+			this.lights[i].update();
+			}
+			else if(!this.enLight){
+			this.lights[i].disable();
+			this.lights[i].update();
+			}
+		}
 
-    	this.rotate(convertDegtoRad(this.graph.initialsInfo.rotation['x']), 1,0,0);
-		this.rotate(convertDegtoRad(this.graph.initialsInfo.rotation['y']), 0,1,0);
-		this.rotate(convertDegtoRad(this.graph.initialsInfo.rotation['z']), 0,0,1);
-	
-		this.scale(this.graph.initialsInfo.scale.sx, 
-		this.graph.initialsInfo.scale.sy, 
-		this.graph.initialsInfo.scale.sz);
+		this.processInitialsTransformations();
 
 		this.processGraph(this.graph.nodesInfo[this.graph.root_id]);
 	};	

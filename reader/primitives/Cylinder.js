@@ -1,3 +1,7 @@
+/**
+ * Cylinder
+ * @constructor
+ */
 function Cylinder(scene, height, bRad, tRad, stacks, slices) {
        
         CGFobject.call(this,scene);

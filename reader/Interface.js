@@ -1,3 +1,7 @@
+/*
+* Interface
+* @constructor
+*/
 function Interface () {
 	CGFinterface.call(this);
 }
@@ -5,14 +9,34 @@ function Interface () {
 Interface.prototype = Object.create(CGFinterface.prototype);
 Interface.prototype.constructor = Interface;
 
-Interface.prototype.ready = function(app){
+/*
+* Initializing Interface
+*/
+Interface.prototype.init = function(app){
 	CGFinterface.prototype.init.call(this,app);
 
 	this.gui = new dat.GUI();
-	this.
+	this.loaded = 0;
 	return true;
 }
 
-Interface.prototype.updateInterface = function(){
-	if()
+/*
+* Update Interface
+*/
+Interface.prototype.update = function(){
+	if(this.loaded == 0 && this.scene.lightsLoad)
+	{
+		this.loaded = 1;
+		var lightsInterface = this.gui.addFolder("LIGHTS");
+		lightsInterface.open();
+
+		for(var i in this.scene.lights){
+
+			var nome = "lightEnable" + i;
+			console.debug(this.scene.lights);
+			lightsInterface.add(this.scene, nome).name("Light " + i);
+			
+		}
+	}
+	
 }

@@ -1,4 +1,3 @@
-
 function MySceneGraph(filename, scene) {
 	this.loadedOk = null;
 	
@@ -11,7 +10,9 @@ function MySceneGraph(filename, scene) {
 	this.reader.open('scenes/'+filename, this);  
 }
 
- 
+/*
+ * Method that retrieves the element inside a nametag (ex. retrieves the object frustum inside initials)
+ */
 function getUniqueElement(tag, nametag){
 
 	var tempInitials = tag.getElementsByTagName(nametag);
@@ -24,6 +25,9 @@ function getUniqueElement(tag, nametag){
 	return tempInitials[0];
 }
 
+/*
+ * Method that retrieves the elements inside a nametag (ex. retrieves the objects rotation inside initials)
+ */
 function getAllElements(tag, nametag){
 
 	var tempInitials = tag.getElementsByTagName(nametag);
@@ -33,9 +37,12 @@ function getAllElements(tag, nametag){
 	return tempInitials;
 }
 
+/*
+ * Method that parses elements of Initials
+ */
 MySceneGraph.prototype.parseInitials = function(rootElement) {
 
-	this.initialsInfo= {};
+	this.initialsInfo = {};
 	
 	var initials = getUniqueElement(rootElement, "INITIALS");
 	var frustum = getUniqueElement(initials, "frustum");
@@ -74,6 +81,9 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 
 };
 
+/*
+ * Method that parses elements of Illumination
+ */
 MySceneGraph.prototype.parseIllumination = function(rootElement) {
 
 	this.illuminationInfo= {};
@@ -98,6 +108,9 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	this.illuminationInfo.background['a'] = this.reader.getFloat(background, "a");
 };
 
+/*
+ * Method that parses elements of Lights
+ */
 MySceneGraph.prototype.parseLights= function(rootElement) {
 
 	this.lightsInfo= {};
@@ -144,6 +157,9 @@ MySceneGraph.prototype.parseLights= function(rootElement) {
 	}
 };
 
+/*
+ * Method that parses elements of Textures
+ */
 MySceneGraph.prototype.parseTextures= function(rootElement) {
 
 	this.texturesInfo= {};
@@ -166,6 +182,9 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 	}
 };
 
+/*
+ * Method that parses elements of Materials
+ */
 MySceneGraph.prototype.parseMaterials= function(rootElement) {
 	
 	this.materialsInfo = {};
@@ -211,6 +230,9 @@ MySceneGraph.prototype.parseMaterials= function(rootElement) {
 	}
 };
 
+/*
+ * Method that parses Leaves
+ */
 MySceneGraph.prototype.parseLeaves= function(rootElement) {
 	
 	var leaves = getUniqueElement(rootElement, "LEAVES");
@@ -287,6 +309,9 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 		}
 };
 
+/*
+ * Method that parses Nodes and their elements
+ */
 MySceneGraph.prototype.parseNodes = function(rootElement){
 
 	var nodeList = getUniqueElement(rootElement, 'NODES');
@@ -368,6 +393,9 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 
 };
 
+/*
+ * Callback to be executed after successful reading
+ */
 MySceneGraph.prototype.onXMLReady=function() 
 {
 	console.log("XML Loading finished.");
@@ -395,5 +423,3 @@ MySceneGraph.prototype.onXMLError=function (message) {
 	console.error("XML Loading Error: "+message);	
 	this.loadedOk=false;
 };
-
-

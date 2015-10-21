@@ -1,3 +1,7 @@
+/**
+ * Sphere
+ * @constructor
+ */
 function Sphere(scene, rad, slices, stacks) {
  	CGFobject.call(this,scene);
 	
@@ -70,13 +74,13 @@ function Sphere(scene, rad, slices, stacks) {
 
  			var ind_i_j = ind_i + ind_j;
 
-			this.indices.push(ind_i_j); 	// 0
-			this.indices.push(ind_i_j + 1); // 1
-			this.indices.push(ind_i_j + 2); // 2
+			this.indices.push(ind_i_j); 	
+			this.indices.push(ind_i_j + 1); 
+			this.indices.push(ind_i_j + 2); 
 
-			this.indices.push(ind_i_j + 3); // 3
-			this.indices.push(ind_i_j + 2); // 2
-			this.indices.push(ind_i_j + 1); // 1
+			this.indices.push(ind_i_j + 3); 
+			this.indices.push(ind_i_j + 2);
+			this.indices.push(ind_i_j + 1); 
 
 			ind_i += 4;
 
@@ -84,22 +88,22 @@ function Sphere(scene, rad, slices, stacks) {
 			this.normals.push(y0);
 			this.normals.push(z0);
 			
-			// normal a vertice 1
+			
             this.normals.push(x1);
 			this.normals.push(y1);
 			this.normals.push(z1);
 
-			// normal a vertice 2
+			
 			this.normals.push(x2);
 			this.normals.push(y2);
 			this.normals.push(z2);
 			
-			// normal a vertice 3
+			
             this.normals.push(x3);
 			this.normals.push(y3);
 			this.normals.push(z3);
 
-			// coordenadas textura
+			
 			this.texCoords.push(0.5 - i / this.slices, j / this.stacks);
 			this.texCoords.push(0.5 - (i + 1) / this.slices, j / this.stacks);
 			this.texCoords.push(0.5- i / this.slices, (j + 1) / this.stacks);
