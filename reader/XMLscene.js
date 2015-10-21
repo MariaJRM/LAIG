@@ -231,31 +231,19 @@ XMLscene.prototype.processGraph = function(node){
 	if(texture != "null" ) {
 		if(material != "null"){
 			this.a_material=material;
-			if(texture=="clear"){
-				this.materials[material].setTexture(null);
-				this.materials[material].apply();
-			}
-			else{
-				this.a_texture=texture;
-				this.materials[material].setTexture(this.textures[texture]);
-				this.materials[material].apply();
-			}
+			this.a_texture=texture;
+			this.materials[material].setTexture(this.textures[texture]);
+			this.materials[material].apply();
 		}
 		else{
-			if(texture=="clear"){
-				this.materials[this.a_material].setTexture(null);
-				this.materials[this.a_material].apply();
-			}
-			else{
-				this.a_texture=texture;
-				this.materials[this.a_material].setTexture(this.textures[texture]);
-				this.materials[this.a_material].apply();
-			}
+			this.a_texture=texture;
+			this.materials[this.a_material].setTexture(this.textures[texture]);
+			this.materials[this.a_material].apply();
 		}
 	}
 	else if(material != "null"){
 		this.a_material=material;
-		if(currTex!=undefined){
+		if(this.a_texture!=undefined){
 			this.materials[material].setTexture(this.textures[this.a_texture]);
 		}
 		this.materials[material].apply();
@@ -265,7 +253,7 @@ XMLscene.prototype.processGraph = function(node){
 
 	for(var i in node.descendants){
 		
-		if(this.isLeaf(node.descendants[i])){
+		if(this.checkIfLeaf(node.descendants[i])){
 			if(this.a_texture==undefined){
 				this.draw(this.leaves[node.descendants[i]],1,1);
 			}
@@ -279,7 +267,7 @@ XMLscene.prototype.processGraph = function(node){
 	this.popMatrix();
 }
 
-XMLscene.prototype.isLeaf = function (id){
+XMLscene.prototype.checkIfLeaf = function (id){
 	for(var i in this.graph.leavesInfo){
 		if (id==this.graph.leavesInfo[i].id) return true;
 	}
