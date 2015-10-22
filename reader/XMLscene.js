@@ -60,7 +60,6 @@ XMLscene.prototype.processLights = function(){
 	
 	var i = 0;
     for(light in this.graph.lightsInfo){
-    	console.log(light);
     	this.lights[i] = new CGFlight(this,i);
     	
     	var temp_id = this.graph.lightsInfo[light].id;
@@ -73,7 +72,6 @@ XMLscene.prototype.processLights = function(){
     	this.lightIDs[i]=[];
     	this.lightIDs[i].id=light;
 
-    	console.log(this.graph.lightsInfo[light].enable);
     	if(this.graph.lightsInfo[light].enable == true){
 			this.lights[i].enable();
 			eval("this.lightEnable" + i + " = " + true);
@@ -351,7 +349,7 @@ XMLscene.prototype.draw = function(leaf,s,t){
 			leaf.display();
 		break;
 		default:
-		return "Type of leaf " + leaf+ " does not exist!"; 
+		return "Type of leaf " + leaf.type+ " does not exist!"; 
 		break;
 	}
 

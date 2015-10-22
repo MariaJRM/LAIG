@@ -318,8 +318,6 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 
 	var nodes = nodeList.getElementsByTagName('NODE');
 
-	console.log(nodes.length + " nodes to be processed");
-
 	this.nodesInfo = {};
 
 	for(var i = 0; i < nodes.length; i++){
@@ -350,6 +348,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		}
 
 		var transformations = nodes[i].getElementsByTagName('*');
+		//console.log(transformations);
 
 		this.node['transformations'] = {};
 		var order = 0;
