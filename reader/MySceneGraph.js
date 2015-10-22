@@ -194,7 +194,7 @@ MySceneGraph.prototype.parseMaterials= function(rootElement) {
 	for (var i = 0; i < materials.children.length; i++){
 
 		this.material = {};
-		this.material['id'] = this.reader.getString(materials.children[i], "id")
+		this.material['id'] = this.reader.getString(materials.children[i], "id");
 		var shininess = getUniqueElement(materials.children[i], "shininess");
 		this.material['shininess'] = this.reader.getFloat(shininess, "value");
 

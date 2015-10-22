@@ -21,9 +21,9 @@ function Rectangle(scene, x1, y1, x2, y2, s , t) {
 		this.lenX = x2 - x1;
 
 	if(this.y1 < 0) 
-		this.lenY = -y1 - x1;
+		this.lenY = -y1 - y2;
 	else 
-		this.lenY = y1 - x1;
+		this.lenY = y1 - y2;
 
 	this.initBuffers();
 
