@@ -158,6 +158,66 @@ MySceneGraph.prototype.parseLights= function(rootElement) {
 };
 
 /*
+ * Method that parses elements of Animations
+ */
+MySceneGraph.prototype.parseAnimations= function(rootElement) {
+
+	this.animationsInfo= {};
+	
+	var animations = getUniqueElement(rootElement, "ANIMATIONS");
+	//console.log(animations.children);
+
+
+	for(var i = 0; i < animations.children.length; ++i){
+		this.animation = {};
+		var type = this.reader.getString(animations.children[i], "type");
+		this.animation['type'] = type;
+
+		if(type == 'linear'){
+			this.animation['id'] = this.reader.getString(animations.children[i], "id");
+			this.animation['span'] = this.reader.getFloat(animations.children[i], "span");
+			var points = getAllElements(animations.children[i], "controlpoint");
+			this.animation['point'] = {};
+			for(var j = 0; j < points.length; j++){
+				
+				this.animation.point[j] = {};
+				this.animation.point[j]['xx'] = this.reader.getFloat(points[j], "xx");
+				this.animation.point[j]['yy'] = this.reader.getFloat(points[j], "yy");
+				this.animation.point[j]['zz'] = this.reader.getFloat(points[j], "zz");
+				//console.log(this.animation.point.yy);
+			}
+			//console.log(points);
+			//console.log(this.animation.id);
+			//console.log(this.animation.span);
+		}else if(type == 'circular'){
+
+			this.animation['id'] = this.reader.getString(animations.children[i], "id");
+			this.animation['span'] = this.reader.getFloat(animations.children[i], "span");
+			this.animation['center'] = this.reader.getString(animations.children[i], "center");
+			this.animation['radius'] = this.reader.getFloat(animations.children[i], "radius");
+			this.animation['startang'] = this.reader.getFloat(animations.children[i], "startang");
+			this.animation['rotang'] = this.reader.getFloat(animations.children[i], "rotang");
+
+			//console.log(this.animation.center);
+			//console.log(this.animation.radius);
+			//console.log(this.animation.startang);
+			//console.log(this.animation.rotang);
+
+		}
+		else{
+			return 'NO ANIMATION TYPE DEFINED';
+		}
+
+		this.animationsInfo[this.animation['id']] = this.animation;
+
+
+	}
+
+	console.log(this.animationsInfo);
+};
+
+
+/*
  * Method that parses elements of Textures
  */
 MySceneGraph.prototype.parseTextures= function(rootElement) {
@@ -407,6 +467,7 @@ MySceneGraph.prototype.onXMLReady=function()
 	var error = this.parseMaterials(rootElement);
 	var error = this.parseLeaves(rootElement);
 	var error = this.parseNodes(rootElement);
+	var error = this.parseAnimations(rootElement);
 
 	if (error != null) {
 		this.onXMLError(error);

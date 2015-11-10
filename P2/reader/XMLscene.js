@@ -32,6 +32,9 @@ XMLscene.prototype.init = function (application) {
     this.materials = {};
     this.a_material=null;
     this.a_texture=null;
+    
+
+    
 
    	this.axis=new CGFaxis(this);
 
@@ -200,6 +203,13 @@ XMLscene.prototype.processLeaves = function(){
 		}
 	}
 };
+
+XMLscene.prototype.processAnimations = function(){
+
+	for(anim in animationsInfo){
+		if()
+	}
+}
 
 /*
  * Handler called when the graph is loaded
