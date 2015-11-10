@@ -1,0 +1,375 @@
+<SCENE>
+
+
+<INITIALS>
+    <frustum near="0.1" far="1000"/>                      <!-- frustum planes-->
+    <translation x="0" y="0" z="0" />               <!-- initial translate -->
+    <rotation axis="x" angle="0" />                  <!-- initial rotation 3 -->
+    <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
+    <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
+    <scale sx="0.4" sy="0.4" sz="0.4" />                  <!-- initial scaling -->
+    <reference length="3" />                          <!-- axis length; "0" means no axis-->
+</INITIALS>
+ 
+ 
+<ILLUMINATION>
+    <ambient r="0.5" g="0.5" b="0.5" a="1.0" />            <!-- global ambient -->
+    <background r="0.0" g="0.0" b="0.0" a="0.9" />         <!-- background color -->
+</ILLUMINATION>
+
+<LIGHTS>
+    <LIGHT id="luz_1">                                    <!-- light identifier -->
+        <enable value= "1" />                         <!-- enable/disable -->
+        <position x="4.0" y="5.0" z="4.0" w="1.0" />       <!-- light position -->
+        <ambient r="0" g="0" b="0" a="1.0" />        <!-- ambient component -->
+        <diffuse r="1.0" g="1.0" b="1.0" a="0.5" />        
+        <specular r="1.0" g="1.0" b="1.0" a="0.5" />
+    </LIGHT>
+ 
+    <LIGHT id="luz_2">                              <!-- light identifier -->
+        <enable value= "0" />                         <!-- enable/disable -->
+        <position x="0.75" y="2" z="2.5" w="1.0" />       <!-- light position -->
+        <ambient r="1" g="1" b="1" a="1.0" />        <!-- ambient component -->
+        <diffuse r="1" g="1" b="1" a="1.0" />        <!-- diffuse component -->
+        <specular r="1" g="1" b="1" a="1.0" />       <!-- specular component -->
+    </LIGHT>
+ <!--
+    <LIGHT id="luz_3">
+        <enable value= "0" />
+        <position x="0" y="3" z="3" w="1.0" />
+        <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
+        <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+        <specular r="0.8" g="0.8" b="0.8" a="1.0" />
+    </LIGHT>
+-->
+   
+</LIGHTS>
+
+<TEXTURES>
+    <TEXTURE id="metal">
+        <file path="textures/metal.jpg" />
+        <amplif_factor s="0" t="0" />
+    </TEXTURE>
+    <TEXTURE id="parede">
+        <file path="textures/parede.png" />
+        <amplif_factor s="0.7" t="0.7" />
+    </TEXTURE>
+    <TEXTURE id="disco-ball">
+        <file path="textures/disco-ball.jpg" />
+        <amplif_factor s="1" t="1" />
+    </TEXTURE>
+    <TEXTURE id="floor">
+        <file path="textures/floor.jpg" />
+        <amplif_factor s="1" t="1" />
+    </TEXTURE>
+    <TEXTURE id="lava">
+        <file path="textures/lava.jpg" />
+        <amplif_factor s="1" t="1" />
+    </TEXTURE>
+    <TEXTURE id="star-wars">
+        <file path="textures/star-wars.jpg" />
+        <amplif_factor s="1" t="1" />
+    </TEXTURE>
+    <TEXTURE id="darth">
+        <file path="textures/darth.jpg" />
+        <amplif_factor s="1" t="1" />
+    </TEXTURE>
+</TEXTURES>
+ 
+ 
+<MATERIALS>
+    <MATERIAL id="brilhante">
+    <shininess value="30" />
+        <specular r="1.0" g="1.0" b="1.0" a="1.0" />        <!-- specular reflection -->
+        <diffuse r="0.95" g="0.95" b="0.95" a="0.6" />      <!-- diffuse reflection -->
+        <ambient r="0.95" g="0.95" b="0.95" a="0.2" />      <!-- ambient reflection -->
+        <emission r="0.0" g="0.0" b="0.0" a="0.0" />        <!-- emission component -->
+     </MATERIAL>
+ 
+     <MATERIAL id="opaco">
+        <shininess value="10.0" />
+        <specular r="0.0" g="0.0" b="0.0" a="0.1" />        <!-- specular reflection -->
+        <diffuse r="0.6" g="0.6" b="0.6" a="0.6" />         <!-- diffuse reflection -->
+        <ambient r="0.0" g="0.0" b="0.0" a="0.2" />         <!-- ambient reflection -->
+        <emission r="0.0" g="0.0" b="0.0" a="0.0" />        <!-- emission component -->
+     </MATERIAL>
+
+      <MATERIAL id="default">
+        <shininess value="20" />
+        <specular r="0.1" g="0.1" b="0.1" a="0.8" />        <!-- specular reflection -->
+        <diffuse r="0.78" g="0.6" b="0.35" a="0.8" />       <!-- diffuse reflection -->
+        <ambient r="0.78" g="0.6" b="0.35" a="0.2" />       <!-- ambient reflection -->
+        <emission r="0.0" g="0.0" b="0.0" a="0.0" />        <!-- emission component -->
+     </MATERIAL>
+</MATERIALS>
+
+
+<LEAVES>
+    <LEAF id="rect" type="rectangle" args="-0.5 0.5 0.5 -0.5" />
+    <LEAF id="cyl" type="cylinder" args="1.0 1.0 1.0 30.0 30.0" />
+    <LEAF id="cone" type="cylinder" args="0.5 0.3 0.4 30.0 30.0" />
+    <LEAF id="cone1" type="cylinder" args="1 0.6 0.3 30.0 30.0" />
+    <LEAF id="cone2" type="cylinder" args="1.5 0.4 0.2 30.0 30.0" />
+    <LEAF id="cone3" type="cylinder" args="0.25 0.2 0.1 30.0 30.0" />
+    <LEAF id="circ" type="cylinder" args="0 0.1 0 30.0 30.0" />
+    <LEAF id="sph" type="sphere" args="1 16 16" />
+    <LEAF id="tri" type="triangle" args="-0.5 -0.5 0  0.5 -0.5 0  0 0.5 0" />
+</LEAVES>
+
+
+<NODES>
+ 
+    <ROOT id="cena" />
+
+    <NODE id="walls">
+        <MATERIAL id="opaco" />
+        <TEXTURE id="parede" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="wall1" /> 
+            <DESCENDANT id="wall2" />        
+        </DESCENDANTS>
+    </NODE>
+    
+    <NODE id="wall1">
+        <MATERIAL id="null" />
+        <TEXTURE id="null" />
+
+        <TRANSLATION x="0" y="4" z="10" />
+        <ROTATION axis="y" angle="90" />
+        <SCALE sx="20" sy="8" sz="0.2" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="rect" />        
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="wall2">
+        <MATERIAL id="null" />
+        <TEXTURE id="null" />
+
+        <TRANSLATION x="7.5" y="4" z="0" />
+        <SCALE sx="15" sy="8" sz="0.2" />  
+
+        <DESCENDANTS>
+            <DESCENDANT id="rect" />            
+        </DESCENDANTS>
+
+    </NODE>
+
+    <NODE id="floor">
+        <MATERIAL id="opaco" />
+        <TEXTURE id="floor" />
+
+        <TRANSLATION x="7.5" y="0" z="10" />
+        <ROTATION axis="x" angle="-90" />
+        <SCALE sx="15" sy="20" sz="0.2" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="rect" />            
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="disco">
+        <MATERIAL id="brilhante" />
+        <TEXTURE id="disco-ball" />
+
+        <TRANSLATION x="8" y="10" z="8" />
+        <SCALE sx="1" sy="1" sz="1" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="sph" />            
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="top_closet">
+        <MATERIAL id="opaco" />
+        <TEXTURE id="metal" />
+
+        <TRANSLATION x="5" y="7" z="0.5" />
+        <ROTATION axis="x" angle="-90" />
+        <SCALE sx="5" sy="1" sz="1" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="rect" />            
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="front_closet">
+        <MATERIAL id="opaco" />
+        <TEXTURE id="star-wars" />
+
+        <TRANSLATION x="5" y="3.5" z="1" />
+        <SCALE sx="5" sy="7" sz="1" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="rect" />            
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="side1_closet">
+        <MATERIAL id="opaco" />
+        <TEXTURE id="metal" />
+
+        <TRANSLATION x="7.5" y="3.5" z="0.5" />
+        <ROTATION axis="y" angle="90" />
+        <SCALE sx="1" sy="7" sz="1" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="rect" />              
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="side2_closet">
+        <MATERIAL id="opaco" />
+        <TEXTURE id="metal" />
+
+        <TRANSLATION x="2.5" y="3.5" z="0.5" />
+        <ROTATION axis="y" angle="90" />
+        <SCALE sx="1" sy="7" sz="1" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="rect" />              
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="knob">
+        <MATERIAL id="opaco" />
+        <TEXTURE id="metal" />
+
+        <TRANSLATION x="7" y="4" z="1" />
+        <SCALE sx="0.2" sy="0.2" sz="0.2" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="sph" />              
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="lava">
+        <MATERIAL id="brilhante" />
+        <TEXTURE id="lava" />
+
+        <TRANSLATION x="1.5" y="4" z="5" />
+        <ROTATION axis="x" angle="-90" />
+        <SCALE sx="1" sy="1" sz="1" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="cone2" />            
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="lava_bottom">
+        <MATERIAL id="opaco" />
+        <TEXTURE id="metal" />
+
+        <TRANSLATION x="1.5" y="3" z="5" />
+        <ROTATION axis="x" angle="-90" />
+        <SCALE sx="1" sy="1" sz="1" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="cone" />            
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="lava_base">
+        <MATERIAL id="opaco" />
+        <TEXTURE id="metal" />
+
+        <TRANSLATION x="1.5" y="2.5" z="5" />
+        <ROTATION axis="x" angle="-90" />
+        <SCALE sx="1" sy="1" sz="1" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="cone1" />            
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="lava_top">
+        <MATERIAL id="opaco" />
+        <TEXTURE id="metal" />
+
+        <TRANSLATION x="1.5" y="4.85" z="5" />
+        <ROTATION axis="x" angle="-90" />
+        <SCALE sx="1" sy="1" sz="1" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="cone3" />            
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="lava_close">
+        <MATERIAL id="opaco" />
+        <TEXTURE id="metal" />
+
+        <TRANSLATION x="1.5" y="4.95" z="5" />
+        <ROTATION axis="x" angle="-90" />
+        <SCALE sx="1" sy="1" sz="1" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="circ" />            
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="side_table">
+        <MATERIAL id="opaco" />
+        <TEXTURE id="metal" />
+
+        <TRANSLATION x="1.5" y="2" z="5" />
+        <ROTATION axis="x" angle="-90" />
+        <SCALE sx="3" sy="3" sz="1" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="rect" />              
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="side_table_back">
+        <MATERIAL id="opaco" />
+        <TEXTURE id="metal" />
+
+        <TRANSLATION x="1.5" y="1" z="5" />
+        <SCALE sx="3" sy="2" sz="1" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="rect" />              
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="darth">
+        <MATERIAL id="opaco" />
+        <TEXTURE id="darth" />
+
+        <TRANSLATION x="0.01" y="4" z="10" />
+        <ROTATION axis="y" angle="90" />
+        <SCALE sx="4" sy="4" sz="4" />       
+
+        <DESCENDANTS>
+            <DESCENDANT id="tri" />        
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="cena">
+        <MATERIAL id="null" />
+        <TEXTURE id="null" />
+        <DESCENDANTS>
+            <DESCENDANT id="darth" />
+            <DESCENDANT id="side_table_back" />
+            <DESCENDANT id="side_table" />
+            <DESCENDANT id="knob" />
+            <DESCENDANT id="side1_closet" />
+            <DESCENDANT id="side2_closet" />
+            <DESCENDANT id="front_closet" />
+            <DESCENDANT id="top_closet" />
+            <DESCENDANT id="walls" /> 
+            <DESCENDANT id="floor" />
+            <DESCENDANT id="disco" />
+            <DESCENDANT id="lava" />
+            <DESCENDANT id="lava_bottom" />
+            <DESCENDANT id="lava_base" />
+            <DESCENDANT id="lava_top" />
+            <DESCENDANT id="lava_close" />
+        </DESCENDANTS>
+    </NODE>
+</NODES>
+
+</SCENE>

@@ -68,9 +68,9 @@ Triangle.prototype.initBuffers = function() {
  */
 Triangle.prototype.updateAmpl = function(s, t){
     this.texCoords =[
-        this.AC/this.s, 1/this.t,
-        0, 1/this.t,
-        (this.AC - this.BC * this.cos)/this.s,0,
+        this.AC/s, 1/t,
+        0, 1/t,
+        (this.AC - this.BC * this.cos)/s,0,
         ];
     this.updateTexCoordsGLBuffers();
 };
