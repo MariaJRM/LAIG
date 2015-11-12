@@ -5,6 +5,8 @@ function LinearAnimation(scene, time, c_points){
 	this.time = time;
 	this.dist = 0;
 
+	this.start = true;
+
 	this.init();
 }
 
@@ -27,6 +29,13 @@ LinearAnimation.prototype.init = function () {
 
 LinearAnimation.prototype.update = function (curtime){
 
+	//this.start = false;
 
 }
+
+LinearAnimation.prototype.apply = function (matrix){
+
+	//return matrix;
+}
+
 

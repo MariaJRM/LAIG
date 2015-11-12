@@ -33,15 +33,6 @@
         <diffuse r="1" g="1" b="1" a="1.0" />        <!-- diffuse component -->
         <specular r="1" g="1" b="1" a="1.0" />       <!-- specular component -->
     </LIGHT>
- <!--
-    <LIGHT id="luz_3">
-        <enable value= "0" />
-        <position x="0" y="3" z="3" w="1.0" />
-        <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
-        <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
-        <specular r="0.8" g="0.8" b="0.8" a="1.0" />
-    </LIGHT>
--->
    
 </LIGHTS>
 
@@ -53,7 +44,7 @@
             <controlpoint xx="3" yy="1" zz="2"/>            
         </ANIMATION>
 
-        <ANIMATION id="circle1" span="10" type="circular" center="10 10 10" radius="5" startang="40" rotang="20"/>
+        <ANIMATION id="circle1" span="1" type="circular" center="10 10 10" radius="0" startang="40" rotang="360"/>
 
         <ANIMATION id="circle2" span="10" type="circular" center="10 10 10" radius="5" startang="40" rotang="10"/>
         
@@ -86,14 +77,6 @@
     </TEXTURE>
     <TEXTURE id="darth">
         <file path="textures/darth.jpg" />
-        <amplif_factor s="1" t="1" />
-    </TEXTURE>
-    <TEXTURE id="bb8">
-        <file path="textures/bb8-final.jpg" />
-        <amplif_factor s="1" t="1" />
-    </TEXTURE>
-    <TEXTURE id="bb8-head">
-        <file path="textures/bb8-head-final.jpg" />
         <amplif_factor s="1" t="1" />
     </TEXTURE>
 </TEXTURES>
@@ -194,36 +177,12 @@
 
     <NODE id="disco">
         <ANIMATIONREF id="circle1"/>
-        <ANIMATIONREF id="line1"/>
+       <!-- <ANIMATIONREF id="line1"/>-->
         <MATERIAL id="brilhante" />
         <TEXTURE id="disco-ball" />
 
         <TRANSLATION x="8" y="10" z="8" />
         <SCALE sx="1" sy="1" sz="1" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="sph" />            
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="bb8-head">
-        <MATERIAL id="brilhante" />
-        <TEXTURE id="bb8-head" />
-
-        <TRANSLATION x="7" y="1.5" z="7" />
-        <SCALE sx="0.4" sy="0.4" sz="0.4" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="sph" />            
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="bb8">
-        <MATERIAL id="brilhante" />
-        <TEXTURE id="bb8" />
-
-        <TRANSLATION x="7" y="0.75" z="7" />
-        <SCALE sx="0.7" sy="0.7" sz="0.7" />
 
         <DESCENDANTS>
             <DESCENDANT id="sph" />            
@@ -385,7 +344,7 @@
 
     <NODE id="darth">
 
-        <ANIMATIONREF id="line1"/>
+       <!-- <ANIMATIONREF id="line1"/>-->
         <MATERIAL id="opaco" />
         <TEXTURE id="darth" />
 
@@ -402,8 +361,6 @@
         <MATERIAL id="null" />
         <TEXTURE id="null" />
         <DESCENDANTS>
-            <DESCENDANT id="bb8" />
-            <DESCENDANT id="bb8-head" />
             <DESCENDANT id="darth" />
             <DESCENDANT id="side_table_back" />
             <DESCENDANT id="side_table" />

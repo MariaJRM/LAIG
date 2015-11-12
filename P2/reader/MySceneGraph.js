@@ -383,23 +383,17 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		this.node = [];
 		var id = this.reader.getString(nodes[i],"id");
 		this.node['id'] = this.reader.getString(nodes[i],"id");
-		//console.log(nodes[i]);
-		var animRef = nodes[i].getElementsByTagName('ANIMATIONREF');
-		console.log(animRef);
-			console.log(animRef.length);
 
-		//if(anim != null) 
+		var animRef = nodes[i].getElementsByTagName('ANIMATIONREF');
+		this.node['animation'] = [];
 		for(var j = 0; j < animRef.length; j++)
-		{
-			this.node['animation'] = [];
+		{	
 			this.node['animation'][j] = this.reader.getString(animRef[j], 'id');
 		}
-		
-		console.log(this.node.animation);
 
+		//console.log(this.node.animation);
 
 		var material = getUniqueElement(nodes[i],'MATERIAL');
-		//console.log(material);
 		
 		if(material.tagName == 'MATERIAL'){
 			this.node['material'] = [];

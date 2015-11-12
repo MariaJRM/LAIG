@@ -39,6 +39,7 @@ XMLscene.prototype.init = function (application) {
 
    	
 	this.setUpdatePeriod(10);
+	this.i = 0;
 	
 };
 
@@ -314,11 +315,11 @@ XMLscene.prototype.processGraph = function(node){
 	this.pushMatrix();
 
 	var material = node.material;
-	//console.log(node.material);
 	var texture = node.texture;
-
 	var animation = node.animation;
+	console.log("TYPE:" + node.id);
 	console.log(animation);
+	
 	
 	if(texture != "null" ) {
 		if(material != "null"){
@@ -341,24 +342,20 @@ XMLscene.prototype.processGraph = function(node){
 		this.materials[material].apply();
 	}
 
-	/*if(animation.length != 0){
-		for(var i = 0; i < animation.length; i++){
-			console.log(this.animations[animation[i]]);
-			console.log(animation[i]);
-
-			//console.log(animation[i]);
-
-			var matrix = a.apply(node.matrix);
-			console.log(animation[i]);
-			node.matrix = matrix;
-			console.log("MERDA");
-		}
-	}*/
-	
-
-
 this.multMatrix(node.matrix);
+	//var mat;
+	if(animation.length != 0)
+	{
+		for(var i=0; i < animation.length; i++){
 
+			var an = this.animations[animation[i]];
+				console.log(an);
+				/*var mat = */an.apply(node.matrix);
+			//console.log(mat);			
+			//this.multMatrix(mat);
+		}
+	}
+	
 	for(var i in node.descendants){
 		
 		if(this.checkIfLeaf(node.descendants[i])){
@@ -424,7 +421,7 @@ XMLscene.prototype.processInitialsTransformations = function(){
 
 XMLscene.prototype.display = function () {
    
-    this.shader.bind();
+   // this.shader.bind();
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
@@ -459,13 +456,14 @@ XMLscene.prototype.display = function () {
 
 	};	
 
-    this.shader.unbind();
+  //  this.shader.unbind();
 };
 
 XMLscene.prototype.update = function(curtime){
 
 	for(anim in this.animations){
 			this.animations[anim].update(curtime);
-		}
+		
+	}
 
 }
