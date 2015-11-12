@@ -162,7 +162,7 @@ MySceneGraph.prototype.parseLights= function(rootElement) {
  */
 MySceneGraph.prototype.parseAnimations= function(rootElement) {
 
-	this.animationsInfo= {};
+	this.animationsInfo = [];
 	
 	var animations = getUniqueElement(rootElement, "ANIMATIONS");
 	//console.log(animations.children);
@@ -176,21 +176,24 @@ MySceneGraph.prototype.parseAnimations= function(rootElement) {
 		if(type == 'linear'){
 			this.animation['id'] = this.reader.getString(animations.children[i], "id");
 			this.animation['span'] = this.reader.getFloat(animations.children[i], "span");
+			
 			var points = getAllElements(animations.children[i], "controlpoint");
-			this.animation['point'] = {};
+			this.animation['point'] = [];
 			for(var j = 0; j < points.length; j++){
 				
-				this.animation.point[j] = {};
+				this.animation.point[j] = [];
 				this.animation.point[j]['xx'] = this.reader.getFloat(points[j], "xx");
 				this.animation.point[j]['yy'] = this.reader.getFloat(points[j], "yy");
 				this.animation.point[j]['zz'] = this.reader.getFloat(points[j], "zz");
-				//console.log(this.animation.point.yy);
+				//console.log('xx:' + this.animation.point[j].xx);
+				//console.log('yy:' + this.animation.point[j].yy);
+				//console.log('zz:' + this.animation.point[j].zz);
 			}
-			//console.log(points);
+			//console.log(this.animation.point);
 			//console.log(this.animation.id);
 			//console.log(this.animation.span);
 		}else if(type == 'circular'){
-
+			//console.log(this.animation.type);
 			this.animation['id'] = this.reader.getString(animations.children[i], "id");
 			this.animation['span'] = this.reader.getFloat(animations.children[i], "span");
 			this.animation['center'] = this.reader.getString(animations.children[i], "center");
@@ -207,13 +210,8 @@ MySceneGraph.prototype.parseAnimations= function(rootElement) {
 		else{
 			return 'NO ANIMATION TYPE DEFINED';
 		}
-
 		this.animationsInfo[this.animation['id']] = this.animation;
-
-
 	}
-
-	console.log(this.animationsInfo);
 };
 
 
@@ -378,28 +376,43 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 
 	var nodes = nodeList.getElementsByTagName('NODE');
 
-	this.nodesInfo = {};
+	this.nodesInfo = [];
 
 	for(var i = 0; i < nodes.length; i++){
 
-		this.node = {};
+		this.node = [];
 		var id = this.reader.getString(nodes[i],"id");
 		this.node['id'] = this.reader.getString(nodes[i],"id");
+		//console.log(nodes[i]);
+		var animRef = nodes[i].getElementsByTagName('ANIMATIONREF');
+		console.log(animRef);
+			console.log(animRef.length);
+
+		//if(anim != null) 
+		for(var j = 0; j < animRef.length; j++)
+		{
+			this.node['animation'] = [];
+			this.node['animation'][j] = this.reader.getString(animRef[j], 'id');
+		}
+		
+		console.log(this.node.animation);
+
 
 		var material = getUniqueElement(nodes[i],'MATERIAL');
+		//console.log(material);
 		
 		if(material.tagName == 'MATERIAL'){
-			this.node['material'] = {};
+			this.node['material'] = [];
 			this.node['material'] = this.reader.getString(material, 'id');
 		}
 
 		var texture = getUniqueElement(nodes[i], "TEXTURE");
 		if(texture.tagName == 'TEXTURE'){
-			this.node['texture'] = {};
+			this.node['texture'] = [];
 			this.node['texture'] = this.reader.getString(texture, 'id');
 		}
 		var descendants = getUniqueElement(nodes[i], "DESCENDANTS");
-		this.node['descendants'] = {};
+		this.node['descendants'] = [];
 		var desc = descendants.getElementsByTagName('DESCENDANT');
 
 		for(var j = 0; j < desc.length; j++){
@@ -410,7 +423,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		var transformations = nodes[i].getElementsByTagName('*');
 		//console.log(transformations);
 
-		this.node['transformations'] = {};
+		this.node['transformations'] = [];
 		var order = 0;
 
 		for(var j = 0; j < transformations.length; j++){

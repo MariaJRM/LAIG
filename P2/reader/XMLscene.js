@@ -30,14 +30,15 @@ XMLscene.prototype.init = function (application) {
     this.leaves = {};
     this.textures = {};
     this.materials = {};
+    this.animations = {};
     this.a_material=null;
     this.a_texture=null;
     
 
-    
-
    	this.axis=new CGFaxis(this);
 
+   	
+	this.setUpdatePeriod(10);
 	
 };
 
@@ -206,9 +207,27 @@ XMLscene.prototype.processLeaves = function(){
 
 XMLscene.prototype.processAnimations = function(){
 
-	for(anim in animationsInfo){
-		if()
+	for(anim in this.graph.animationsInfo){
+		//console.log(anim);
+		//console.log(this.graph.animationsInfo);
+		if(this.graph.animationsInfo[anim].type == "linear"){
+			this.animations[this.graph.animationsInfo[anim].id] = new LinearAnimation(this,
+				this.graph.animationsInfo[anim].span, 
+				this.graph.animationsInfo[anim].point);
+		}
+		else if(this.graph.animationsInfo[anim].type == "circular"){
+			this.animations[this.graph.animationsInfo[anim].id] = new CircularAnimation(this,
+				this.graph.animationsInfo[anim].center, 
+				this.graph.animationsInfo[anim].radius,
+				this.graph.animationsInfo[anim].startang,
+				this.graph.animationsInfo[anim].rotang,
+				this.graph.animationsInfo[anim].span);
+			//console.log("MERDAAA");	
+		}
+		//console.log(this.graph.animationsInfo[anim].id);
 	}
+	//console.log(this.animations);
+
 }
 
 /*
@@ -237,6 +256,8 @@ XMLscene.prototype.onGraphLoaded = function ()
 
 	//Materials
 	this.processMaterials();
+
+	this.processAnimations();
 
 	//Nodes
 	for(node in this.graph.nodesInfo)
@@ -272,8 +293,6 @@ XMLscene.prototype.onGraphLoaded = function ()
 		}
 		this.graph.nodesInfo[node].matrix = tmatrix;
 	}
-
-
 	this.processGraph(this.graph.nodesInfo[this.graph.root_id]);
 };
 
@@ -295,7 +314,11 @@ XMLscene.prototype.processGraph = function(node){
 	this.pushMatrix();
 
 	var material = node.material;
+	//console.log(node.material);
 	var texture = node.texture;
+
+	var animation = node.animation;
+	console.log(animation);
 	
 	if(texture != "null" ) {
 		if(material != "null"){
@@ -317,8 +340,24 @@ XMLscene.prototype.processGraph = function(node){
 		}
 		this.materials[material].apply();
 	}
+
+	/*if(animation.length != 0){
+		for(var i = 0; i < animation.length; i++){
+			console.log(this.animations[animation[i]]);
+			console.log(animation[i]);
+
+			//console.log(animation[i]);
+
+			var matrix = a.apply(node.matrix);
+			console.log(animation[i]);
+			node.matrix = matrix;
+			console.log("MERDA");
+		}
+	}*/
 	
-	this.multMatrix(node.matrix);
+
+
+this.multMatrix(node.matrix);
 
 	for(var i in node.descendants){
 		
@@ -417,7 +456,16 @@ XMLscene.prototype.display = function () {
 		this.processInitialsTransformations();
 
 		this.processGraph(this.graph.nodesInfo[this.graph.root_id]);
+
 	};	
 
     this.shader.unbind();
 };
+
+XMLscene.prototype.update = function(curtime){
+
+	for(anim in this.animations){
+			this.animations[anim].update(curtime);
+		}
+
+}

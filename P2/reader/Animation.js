@@ -7,7 +7,3 @@ Animation.prototype.constructor = Animation;
 Animation.prototype.init = function () {
 
 };
-
-Animation.prototype.update = function () {
-
-};

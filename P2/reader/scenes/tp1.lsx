@@ -193,6 +193,8 @@
     </NODE>
 
     <NODE id="disco">
+        <ANIMATIONREF id="circle1"/>
+        <ANIMATIONREF id="line1"/>
         <MATERIAL id="brilhante" />
         <TEXTURE id="disco-ball" />
 
@@ -382,6 +384,8 @@
     </NODE>
 
     <NODE id="darth">
+
+        <ANIMATIONREF id="line1"/>
         <MATERIAL id="opaco" />
         <TEXTURE id="darth" />
 
