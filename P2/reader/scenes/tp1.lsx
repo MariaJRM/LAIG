@@ -45,6 +45,20 @@
    
 </LIGHTS>
 
+<ANIMATIONS>
+        <ANIMATION id="line1" span="30" type="linear">
+            <controlpoint xx="1" yy="1" zz="1"/>            
+            <controlpoint xx="1" yy="1" zz="2"/>    
+            <controlpoint xx="2" yy="1" zz="2"/>                    
+            <controlpoint xx="3" yy="1" zz="2"/>            
+        </ANIMATION>
+
+        <ANIMATION id="circle1" span="10" type="circular" center="10 10 10" radius="5" startang="40" rotang="20"/>
+
+        <ANIMATION id="circle2" span="10" type="circular" center="10 10 10" radius="5" startang="40" rotang="10"/>
+        
+</ANIMATIONS>
+
 <TEXTURES>
     <TEXTURE id="metal">
         <file path="textures/metal.jpg" />
