@@ -38,7 +38,7 @@
 
 <ANIMATIONS>
         <ANIMATION id="line1" span="30" type="linear">
-            <controlpoint xx="1" yy="1" zz="1"/>            
+            <controlpoint xx="2" yy="1" zz="1"/>            
             <controlpoint xx="1" yy="1" zz="2"/>    
             <controlpoint xx="2" yy="1" zz="2"/>                    
             <controlpoint xx="3" yy="1" zz="2"/>            
@@ -344,7 +344,7 @@
 
     <NODE id="darth">
 
-       <!-- <ANIMATIONREF id="line1"/>-->
+       <ANIMATIONREF id="line1"/>
         <MATERIAL id="opaco" />
         <TEXTURE id="darth" />
 

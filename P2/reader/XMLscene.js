@@ -39,7 +39,7 @@ XMLscene.prototype.init = function (application) {
 
    	
 	this.setUpdatePeriod(10);
-	this.i = 0;
+	//this.i = 0;
 	
 };
 
@@ -317,8 +317,8 @@ XMLscene.prototype.processGraph = function(node){
 	var material = node.material;
 	var texture = node.texture;
 	var animation = node.animation;
-	console.log("TYPE:" + node.id);
-	console.log(animation);
+	//console.log("TYPE:" + node.id);
+	//console.log(animation);
 	
 	
 	if(texture != "null" ) {
@@ -349,8 +349,8 @@ this.multMatrix(node.matrix);
 		for(var i=0; i < animation.length; i++){
 
 			var an = this.animations[animation[i]];
-				console.log(an);
-				/*var mat = */an.apply(node.matrix);
+				//console.log(an);
+				/*var mat = */an.apply();
 			//console.log(mat);			
 			//this.multMatrix(mat);
 		}
