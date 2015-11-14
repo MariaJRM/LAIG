@@ -368,10 +368,9 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 				break;
 			case "plane":
 					this.leave['parts'] = this.reader.getFloat(leaves.children[i], "parts");
-					//console.log(this.leave.parts);
 				break;
 			case "patch":
-				
+
 					
 				break;
 			default:
