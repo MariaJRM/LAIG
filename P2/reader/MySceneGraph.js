@@ -301,7 +301,14 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 
 		this.leave['id'] = this.reader.getString(leaves.children[i], "id");
 		this.leave['type'] = this.reader.getString(leaves.children[i], "type");
-		var arguments = this.reader.getString(leaves.children[i], "args");
+		
+		if(this.leave.type == "rectangle" ||
+			this.leave.type == "cylinder"||
+			this.leave.type == "sphere"||
+			this.leave.type == "triangle"){
+			
+			var arguments = this.reader.getString(leaves.children[i], "args");
+		}
 
 		switch (this.leave.type) {
 			case "rectangle":
@@ -359,13 +366,24 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 				this.leave['args']['z2'] = parseFloat(argsSplit[10]);
 				
 				break;
+			case "plane":
+					this.leave['parts'] = this.reader.getFloat(leaves.children[i], "parts");
+					//console.log(this.leave.parts);
+				break;
+			case "patch":
+				
+					
+				break;
 			default:
 				return "Unknown LEAF type: " + this.leavesInfo.type;
 			}
 
 			this.leavesInfo[this.leave['id']] = this.leave;
 		}
+		//console.log(this.leavesInfo);
 };
+
+
 
 /*
  * Method that parses Nodes and their elements

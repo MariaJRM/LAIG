@@ -33,6 +33,8 @@ XMLscene.prototype.init = function (application) {
     this.animations = {};
     this.a_material=null;
     this.a_texture=null;
+
+   // this.plane = new Plane(this);
     
 
    	this.axis=new CGFaxis(this);
@@ -201,6 +203,14 @@ XMLscene.prototype.processLeaves = function(){
 					 this.graph.leavesInfo[leaf].args.stacks, 
 					 this.graph.leavesInfo[leaf].args.slices);
 				this.leaves[leaf].type = "sphere";
+
+				break;
+			case "plane":
+			console.log("PLANEEEEEE");
+				this.leaves[leaf] = new Plane(this, 
+					 this.graph.leavesInfo[leaf].parts);
+				this.leaves[leaf].type = "plane";
+				console.log(this.leaves);
 				break;
 		}
 	}
@@ -209,8 +219,6 @@ XMLscene.prototype.processLeaves = function(){
 XMLscene.prototype.processAnimations = function(){
 
 	for(anim in this.graph.animationsInfo){
-		//console.log(anim);
-		//console.log(this.graph.animationsInfo);
 		if(this.graph.animationsInfo[anim].type == "linear"){
 			this.animations[this.graph.animationsInfo[anim].id] = new LinearAnimation(this,
 				this.graph.animationsInfo[anim].span, 
@@ -223,12 +231,8 @@ XMLscene.prototype.processAnimations = function(){
 				this.graph.animationsInfo[anim].startang,
 				this.graph.animationsInfo[anim].rotang,
 				this.graph.animationsInfo[anim].span);
-			//console.log("MERDAAA");	
 		}
-		//console.log(this.graph.animationsInfo[anim].id);
 	}
-	//console.log(this.animations);
-
 }
 
 /*
@@ -343,18 +347,16 @@ XMLscene.prototype.processGraph = function(node){
 	}
 
 this.multMatrix(node.matrix);
-	//var mat;
-	if(animation.length != 0)
+
+	//ANIMATIONS HERE
+	/*if(animation.length != 0)
 	{
 		for(var i=0; i < animation.length; i++){
 
 			var an = this.animations[animation[i]];
-				//console.log(an);
-				/*var mat = */an.apply();
-			//console.log(mat);			
-			//this.multMatrix(mat);
+			an.apply();
 		}
-	}
+	}*/
 	
 	for(var i in node.descendants){
 		
@@ -376,8 +378,9 @@ this.multMatrix(node.matrix);
  * Method to draw the primitives
  */
 XMLscene.prototype.draw = function(leaf,s,t){
-
+console.log(leaf.type);
 	switch(leaf.type){  
+
 		case "rectangle":
 			leaf.updateAmpl(s,t);
 			leaf.display();
@@ -394,6 +397,11 @@ XMLscene.prototype.draw = function(leaf,s,t){
 			this.scale(leaf.radius*2, leaf.radius*2, leaf.radius*2);
 			leaf.display();
 		break;
+		case "plane":
+			console.log('ENTRA AQUI');
+			leaf.display();
+		break;
+
 		default:
 		return "Type of leaf " + leaf.type+ " does not exist!"; 
 		break;
@@ -421,7 +429,6 @@ XMLscene.prototype.processInitialsTransformations = function(){
 
 XMLscene.prototype.display = function () {
    
-   // this.shader.bind();
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
@@ -453,17 +460,13 @@ XMLscene.prototype.display = function () {
 		this.processInitialsTransformations();
 
 		this.processGraph(this.graph.nodesInfo[this.graph.root_id]);
-
 	};	
-
-  //  this.shader.unbind();
 };
 
-XMLscene.prototype.update = function(curtime){
+//UPDATE ANIMATIONS
+/*XMLscene.prototype.update = function(curtime){
 
 	for(anim in this.animations){
 			this.animations[anim].update(curtime);
-		
 	}
-
-}
+}*/
