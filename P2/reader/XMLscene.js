@@ -222,6 +222,14 @@ XMLscene.prototype.processLeaves = function(){
 				this.leaves[leaf].type = "patch";
 				//console.log(this.leaves);
 				break;
+			case "vehicle":
+				//this.leaves[leaf] = new Vehicle();
+				//this.leaves[leaf].type = "vehicle";
+			break;
+			case "terrain":
+				//this.leaves[leaf] = new Vehicle();
+				//this.leaves[leaf].type = "vehicle";
+			break;
 		}
 	}
 };
@@ -384,8 +392,7 @@ this.multMatrix(node.matrix);
  * Method to draw the primitives
  */
 XMLscene.prototype.draw = function(leaf,s,t){
-	 
-console.log(leaf.type);
+
 	switch(leaf.type){ 
 		case "rectangle":
 			leaf.updateAmpl(s,t);
@@ -408,7 +415,7 @@ console.log(leaf.type);
 			leaf.display();
 		break;
 		case "patch":
-			console.log('ENTRA AQUI');
+			//console.log('ENTRA AQUI');
 			leaf.display();
 		break;
 

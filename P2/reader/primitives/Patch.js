@@ -17,12 +17,12 @@ function Patch(scene, order, partsU, partsV, c_points) {
 
 	if(order > 0 && order < 4){
 		var knots = createKnot(order);
-		console.log(knots);
+		//console.log(knots);
 	}
 
 	var controlVertexes = [];
 
-	// É preciso otimizar isto!!! Está a rebentar porque isto está mal feito eheheheh
+	// É preciso otimizar isto!!! 
 	if(order == 1){
 		controlVertexes[0] = [c_points[0],c_points[1]];
 		controlVertexes[1] = [c_points[2],c_points[3]];
@@ -36,16 +36,16 @@ function Patch(scene, order, partsU, partsV, c_points) {
 	else if(order == 3){
 	
 		controlVertexes[0] = [c_points[0],c_points[1], c_points[2] , c_points[3]];
-			console.log(controlVertexes[0]);
+			//console.log(controlVertexes[0]);
 		controlVertexes[1] = [c_points[4],c_points[5], c_points[6], c_points[7]];
 		controlVertexes[2] = [c_points[8],c_points[9], c_points[10] , c_points[11]];
 		controlVertexes[3] = [c_points[12],c_points[13], c_points[14], c_points[15]];
 	}
 
-	console.log(controlVertexes);
+	//console.log(controlVertexes);
 
-	console.log(order);
-	console.log(knots);
+//	console.log(order);
+//	console.log(knots);
 
 	var nurbsSurface = new CGFnurbsSurface(order, order, 
 		knots, knots, controlVertexes);

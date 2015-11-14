@@ -128,26 +128,19 @@
     <LEAF id="sph" type="sphere" args="1 16 16" />
     <LEAF id="tri" type="triangle" args="-0.5 -0.5 0  0.5 -0.5 0  0 0.5 0" />
     <LEAF id="plan" type="plane" parts="20"/>
-   <LEAF id="pat" type="patch" order="3" partsU="10" partsV="10">
-        <controlpoint x="0" y="0" z="0" />
-            <controlpoint x="1" y="-2.0" z="2" />
-            <controlpoint x="2" y="2" z="2" />
-            <controlpoint x="3" y="-1.5" z="0" />
-            <controlpoint x="4" y="-2.0" z="2" />
-            <controlpoint x="5" y="2" z="2" />
-            <controlpoint x="6" y="-1.5" z="0" />
-            <controlpoint x="7" y="-2.0" z="2" />
-            <controlpoint x="8" y="2" z="2" />
-            <controlpoint x="2" y="2" z="2" />
-            <controlpoint x="3" y="-1.5" z="0" />
-            <controlpoint x="4" y="-2.0" z="2" />
-            <controlpoint x="5" y="2" z="2" />
-            <controlpoint x="6" y="-1.5" z="0" />
-            <controlpoint x="7" y="-2.0" z="2" />
-            <controlpoint x="8" y="2" z="2" />
+   <LEAF id="pat" type="patch" order="2" partsU="10" partsV="10">
+       <controlpoint x="0.5" y="0" z="-0.5" />
+                  <controlpoint x="0.5" y="-2" z="0" />
+                  <controlpoint x="0.5" y="0" z="0.5" />
+                  <controlpoint x="0" y="0" z="-0.5" />
+                  <controlpoint x="0" y="-2" z="0" />
+                  <controlpoint x="0" y="0" z="0.5" />
+                  <controlpoint x="-0.5"  y="0" z="-0.5" />
+                  <controlpoint x="-0.5" y="-2" z="0" />
+                  <controlpoint x="-0.5"  y="0" z="0.5" />
     </LEAF>
-    <!--<LEAF id="ss" type="vehicle"/>
-    <LEAF id="ss" type="terrain" texture="bdb" heightmap="sdbd"/>-->
+   <LEAF id="vec" type="vehicle"/>
+    <!-- <LEAF id="ss" type="terrain" texture="bdb" heightmap="sdbd"/>-->
 </LEAVES>
 
 

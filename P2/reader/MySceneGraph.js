@@ -300,8 +300,9 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 		this.leave = {};
 
 		this.leave['id'] = this.reader.getString(leaves.children[i], "id");
+		console.log(this.leave.id);
 		this.leave['type'] = this.reader.getString(leaves.children[i], "type");
-		
+		console.log(this.leave.type);
 		if(this.leave.type == "rectangle" ||
 			this.leave.type == "cylinder"||
 			this.leave.type == "sphere"||
@@ -379,8 +380,6 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 					console.error("PATCH: Number of Control Points wrong, need to be equal to (order+1)^2.");
 					return;
 				}
-
-				
 				var points = [];
 				for(var j = 0; j < cPoints.length; j++){
 
@@ -390,20 +389,25 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 					point[2] = this.reader.getFloat(cPoints[j], "z");
 					point[3] = 1;
 					points.push(point);
-
-					
 				}
-				console.log(points);
 				this.leave["ctrlPoints"] = points;
-				//console.log(this.leave.ctrlPoints);					
+									
+				break;
+			case "vehicle":
+			break;
+			case "terrain":
+				
+									
 				break;
 			default:
 				return "Unknown LEAF type: " + this.leavesInfo.type;
 			}
+			console.log(this.leave);
 
 			this.leavesInfo[this.leave['id']] = this.leave;
 		}
-		//console.log(this.leavesInfo);
+
+		
 };
 
 
@@ -432,8 +436,6 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 			this.node['animation'][j] = this.reader.getString(animRef[j], 'id');
 		}
 
-		//console.log(this.node.animation);
-
 		var material = getUniqueElement(nodes[i],'MATERIAL');
 		
 		if(material.tagName == 'MATERIAL'){
@@ -456,7 +458,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		}
 
 		var transformations = nodes[i].getElementsByTagName('*');
-		//console.log(transformations);
+
 
 		this.node['transformations'] = [];
 		var order = 0;
