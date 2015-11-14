@@ -370,8 +370,32 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 					this.leave['parts'] = this.reader.getFloat(leaves.children[i], "parts");
 				break;
 			case "patch":
+				this.leave['order'] = this.reader.getFloat(leaves.children[i], "order");
+				this.leave['partsU'] = this.reader.getFloat(leaves.children[i], "partsU");
+				this.leave['partsV'] = this.reader.getFloat(leaves.children[i], "partsV");
+				var cPoints = getAllElements(leaves.children[i],"controlpoint");
+				var nPoints = Math.pow((this.leave.order+1),2);
+				if(nPoints != cPoints.length){ 
+					console.error("PATCH: Number of Control Points wrong, need to be equal to (order+1)^2.");
+					return;
+				}
+
+				
+				var points = [];
+				for(var j = 0; j < cPoints.length; j++){
+
+					var point = new Array(4);
+					point[0] = this.reader.getFloat(cPoints[j], "x");
+					point[1] = this.reader.getFloat(cPoints[j], "y");
+					point[2] = this.reader.getFloat(cPoints[j], "z");
+					point[3] = 1;
+					points.push(point);
 
 					
+				}
+				console.log(points);
+				this.leave["ctrlPoints"] = points;
+				//console.log(this.leave.ctrlPoints);					
 				break;
 			default:
 				return "Unknown LEAF type: " + this.leavesInfo.type;

@@ -120,11 +120,25 @@
     <LEAF id="sph" type="sphere" args="1 16 16" />
     <LEAF id="tri" type="triangle" args="-0.5 -0.5 0  0.5 -0.5 0  0 0.5 0" />
     <LEAF id="plan" type="plane" parts="20"/>
-   <!-- <LEAF id="ss" type="patch" order="ii" partsU="ii" partsV="ii">
-        <controlpoints x="ff" y="ff" z="ff"/>
-        <controlpoints x="ff" y="ff" z="ff"/>
+   <LEAF id="pat" type="patch" order="1" partsU="10" partsV="5">
+        <controlpoint x="0" y="0" z="0"/> 
+        <controlpoint x="2" y="2" z="2"/>
+        <controlpoint x="6" y="2" z="5"/>
+        <controlpoint x="4" y="4" z="4"/>
+       <!-- <controlpoint x="1" y="0" z="8"/>
+        <controlpoint x="2" y="0" z="3"/>
+        <controlpoint x="2" y="0" z="4"/>
+        <controlpoint x="5" y="0" z="6"/>
+        <controlpoint x="6" y="0" z="7"/>
+        <controlpoint x="ff" y="0" z="ff"/>
+        <controlpoint x="ff" y="0" z="ff"/>
+        <controlpoint x="ff" y="0" z="ff"/>
+        <controlpoint x="ff" y="0" z="ff"/>
+        <controlpoint x="ff" y="0" z="ff"/>
+        <controlpoint x="ff" y="0" z="ff"/>
+        <controlpoint x="ff" y="0" z="ff"/>-->
     </LEAF>
-    <LEAF id="ss" type="vehicle"/>
+    <!--<LEAF id="ss" type="vehicle"/>
     <LEAF id="ss" type="terrain" texture="bdb" heightmap="sdbd"/>-->
 </LEAVES>
 
@@ -371,7 +385,7 @@
         <TEXTURE id="darth" />    
 
         <DESCENDANTS>
-            <DESCENDANT id="plan" />        
+            <DESCENDANT id="pat" />        
         </DESCENDANTS>
     </NODE>
 

@@ -206,11 +206,21 @@ XMLscene.prototype.processLeaves = function(){
 
 				break;
 			case "plane":
-			console.log("PLANEEEEEE");
+			//console.log("PLANEEEEEE");
 				this.leaves[leaf] = new Plane(this, 
 					 this.graph.leavesInfo[leaf].parts);
 				this.leaves[leaf].type = "plane";
-				console.log(this.leaves);
+				//console.log(this.leaves);
+				break;
+			case "patch":
+			//console.log("PLANEEEEEE");
+				this.leaves[leaf] = new Patch(this, 
+					 this.graph.leavesInfo[leaf].order,
+					 this.graph.leavesInfo[leaf].partsU,
+					 this.graph.leavesInfo[leaf].partsV,
+					 this.graph.leavesInfo[leaf].ctrlPoints);
+				this.leaves[leaf].type = "patch";
+				//console.log(this.leaves);
 				break;
 		}
 	}
@@ -321,9 +331,6 @@ XMLscene.prototype.processGraph = function(node){
 	var material = node.material;
 	var texture = node.texture;
 	var animation = node.animation;
-	//console.log("TYPE:" + node.id);
-	//console.log(animation);
-	
 	
 	if(texture != "null" ) {
 		if(material != "null"){
@@ -357,7 +364,6 @@ this.multMatrix(node.matrix);
 			an.apply();
 		}
 	}*/
-	
 	for(var i in node.descendants){
 		
 		if(this.checkIfLeaf(node.descendants[i])){
@@ -378,9 +384,9 @@ this.multMatrix(node.matrix);
  * Method to draw the primitives
  */
 XMLscene.prototype.draw = function(leaf,s,t){
+	 
 console.log(leaf.type);
-	switch(leaf.type){  
-
+	switch(leaf.type){ 
 		case "rectangle":
 			leaf.updateAmpl(s,t);
 			leaf.display();
@@ -398,6 +404,10 @@ console.log(leaf.type);
 			leaf.display();
 		break;
 		case "plane":
+			//console.log('ENTRA AQUI');
+			leaf.display();
+		break;
+		case "patch":
 			console.log('ENTRA AQUI');
 			leaf.display();
 		break;
