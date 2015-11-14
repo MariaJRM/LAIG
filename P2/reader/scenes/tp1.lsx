@@ -140,7 +140,7 @@
                   <controlpoint x="-0.5"  y="0" z="0.5" />
     </LEAF>
    <LEAF id="vec" type="vehicle"/>
-    <!-- <LEAF id="ss" type="terrain" texture="bdb" heightmap="sdbd"/>-->
+    <LEAF id="ss" type="terrain" texture="bdb" heightmap="  "/>
 </LEAVES>
 
 
