@@ -87,6 +87,22 @@
         <file path="textures/bb8-head-final.jpg" />
         <amplif_factor s="1" t="1" />
     </TEXTURE>
+    <TEXTURE id="glass">
+        <file path="textures/glass.jpg" />
+        <amplif_factor s="1" t="1" />
+    </TEXTURE>
+    <TEXTURE id="ship_bottom">
+        <file path="textures/ship_bot.jpg" />
+        <amplif_factor s="1" t="1" />
+    </TEXTURE>
+    <TEXTURE id="ship_top">
+        <file path="textures/ship_tp.jpg" />
+        <amplif_factor s="1" t="1" />
+    </TEXTURE>
+    <TEXTURE id="ship_ext">
+        <file path="textures/ship_ex.jpg" />
+        <amplif_factor s="1" t="1" />
+    </TEXTURE>
 </TEXTURES>
  
  
@@ -128,7 +144,87 @@
     <LEAF id="sph" type="sphere" args="1 16 16" />
     <LEAF id="tri" type="triangle" args="-0.5 -0.5 0  0.5 -0.5 0  0 0.5 0" />
     <LEAF id="plan" type="plane" parts="20"/>
-   <LEAF id="pat" type="patch" order="2" partsU="10" partsV="10">
+
+    <LEAF id="bottom_ship" type="patch" order="3" partsU="50" partsV="50">
+        <controlpoint x="-1.650" y="-0.550" z="-0.350" />
+        <controlpoint x="-2.050" y="-0.150" z="-0.400" />
+        <controlpoint x="-2.050" y="0.150" z="-0.400" />
+        <controlpoint x="-1.650" y="0.550" z="-0.350" />
+        <controlpoint x="-0.500" y="-0.650," z="-0.350" />
+        <controlpoint x="-0.950" y="0.550" z="0.400" />
+        <controlpoint x="-0.950" y="-0.550" z="0.400" />
+        <controlpoint x="-0.500" y="0.650" z="-0.350" />
+        <controlpoint x="0.500" y="-0.650" z="-0.350" />
+        <controlpoint x="0.950" y="0.550" z="0.400" />
+        <controlpoint x="0.950" y="-0.550" z="0.400" />
+        <controlpoint x="0.500" y="0.650" z="-0.350" />
+        <controlpoint x="1.650" y="-0.550" z="-0.350" />
+        <controlpoint x="2.050" y="-0.150" z="-0.400" />
+        <controlpoint x="2.050" y="0.150" z="-0.400" />
+        <controlpoint x="1.650" y="0.550" z="-0.350" />
+    </LEAF>
+
+    <LEAF id="window" type="patch" order="3" partsU="50" partsV="50">
+        <controlpoint x="-0.300" y="-0.750," z="-0.450" />
+        <controlpoint x="-0.500" y="-0.000," z="-0.700" />
+        <controlpoint x="-0.500" y="-0.000," z="-0.700" />
+        <controlpoint x="-0.300" y="0.750" z="-0.450" />
+        <controlpoint x="-0.100" y="-0.750," z="-0.400" />
+        <controlpoint x="-0.600" y="-0.500," z="0.600" />
+        <controlpoint x="-0.600" y="0.500" z=" 0.600" />
+        <controlpoint x="-0.100" y="0.750" z="-0.400" />
+        <controlpoint x="0.100" y="-0.750 " z="-0.400" />
+        <controlpoint x="0.600" y="-0.500 " z="0.600" />
+        <controlpoint x="0.600" y="0.500" z="0.600" />
+        <controlpoint x="0.100" y="0.750" z="-0.400" />
+        <controlpoint x="0.300" y="-0.750" z="-0.450" />
+        <controlpoint x="0.500" y="-0.000" z="-0.700" />
+        <controlpoint x="0.500" y="-0.000" z="-0.700" />
+        <controlpoint x="0.300" y="0.750" z="-0.450" />
+    </LEAF>
+
+    <LEAF id="top_ship" type="patch" order="3" partsU="50" partsV="50">
+        <controlpoint x="-1.650" y="-0.550" z="-0.400" />
+        <controlpoint x="-2.100" y="-0.150" z="-0.350" />
+        <controlpoint x="-2.100" y="0.150" z="-0.350" />
+        <controlpoint x="-1.650" y="0.550" z="-0.400" />
+        <controlpoint x="-0.500" y="-0.650" z="-0.400" />
+        <controlpoint x="-1.000" y="-0.450" z="1.200" />
+        <controlpoint x="-1.000" y="0.450" z="1.200" />
+        <controlpoint x="-0.500" y="0.650" z="-0.400" />
+        <controlpoint x="0.500" y="-0.650" z="-0.400" />
+        <controlpoint x="1.000" y="-0.450" z="1.200" />
+        <controlpoint x="1.000" y="0.450" z="1.200" />
+        <controlpoint x="0.500" y="0.650" z="-0.400" />
+        <controlpoint x="1.650" y="-0.550" z="-0.400" />
+        <controlpoint x="2.100" y="-0.150" z="-0.350" />
+        <controlpoint x="2.100" y="0.150" z="-0.350" />
+        <controlpoint x="1.650" y="0.550" z="-0.400" />
+    </LEAF>
+
+
+    <LEAF id="ex_ship" type="patch" order="3" partsU="50" partsV="50">
+        <controlpoint x="-0.250" y="-0.050" z="-0.700" />
+        <controlpoint x="-0.500" y="-0.000" z="-0.700" />
+        <controlpoint x="-0.500" y="-0.000" z="-0.700" />
+        <controlpoint x="-0.250" y="0.050" z="-0.700" />
+        <controlpoint x="0.000" y="-0.000" z="-0.700" />
+        <controlpoint x="-0.500" y="-0.150" z="-0.050" />
+        <controlpoint x="-0.500" y="0.150" z="-0.050" />
+        <controlpoint x="0.000" y="-0.000" z="-0.700" />
+        <controlpoint x="0.000" y="-0.000" z="-0.700" />
+        <controlpoint x="0.500" y="-0.150" z="-0.050" />
+        <controlpoint x="0.500" y="0.150" z="-0.050" />
+        <controlpoint x="0.000" y="-0.000" z="-0.700" />
+        <controlpoint x="0.250" y="-0.050" z="-0.700" />
+        <controlpoint x="0.500" y="-0.000" z="-0.700" />
+        <controlpoint x="0.500" y="-0.000" z="-0.700" />
+        <controlpoint x="0.250" y="0.050" z="-0.700" />
+    </LEAF>
+
+
+<!--
+    <LEAF id="pat" type="patch" order="2" partsU="10" partsV="10">
        <controlpoint x="0.5" y="0" z="-0.5" />
                   <controlpoint x="0.5" y="-2" z="0" />
                   <controlpoint x="0.5" y="0" z="0.5" />
@@ -138,7 +234,7 @@
                   <controlpoint x="-0.5"  y="0" z="-0.5" />
                   <controlpoint x="-0.5" y="-2" z="0" />
                   <controlpoint x="-0.5"  y="0" z="0.5" />
-    </LEAF>
+    </LEAF>-->
     <LEAF id="vec" type="vehicle"/>
     <LEAF id="ter" type="terrain" texture="terrain.jpg" heightmap="terrainmap.jpg"/>
 </LEAVES>
@@ -423,10 +519,84 @@
         </DESCENDANTS>
     </NODE>
 
+    <NODE id="teste">
+        <MATERIAL id="brilhante" />
+        <TEXTURE id="glass" />
+
+        <SCALE sx="1" sy="1" sz="1" />
+
+        <TRANSLATION x="5" y="5" z="5" />
+        <ROTATION axis="y" angle="-90" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="pat" />            
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="janela">
+        <MATERIAL id="brilhante" />
+        <TEXTURE id="glass" />
+
+        <SCALE sx="1" sy="1" sz="1" />
+
+        <TRANSLATION x="10" y="6.7" z="10" />
+        <ROTATION axis="x" angle="-90" />
+        <ROTATION axis="z" angle="90" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="window" />            
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="starship_top">
+        <MATERIAL id="brilhante" />
+        <TEXTURE id="ship_top" />
+
+        <SCALE sx="1" sy="1" sz="1" />
+
+        <TRANSLATION x="10" y="6" z="10" />
+        <ROTATION axis="x" angle="270" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="top_ship" />            
+        </DESCENDANTS>
+    </NODE>
+    
+    <NODE id="starship_bottom">
+        <MATERIAL id="brilhante" />
+        <TEXTURE id="ship_bottom" />
+
+        <TRANSLATION x="10" y="5.25" z="10" />
+        <ROTATION axis="x" angle="-270" />
+        
+
+        <DESCENDANTS>
+            <DESCENDANT id="bottom_ship" />            
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="starship_extra">
+        <MATERIAL id="brilhante" />
+        <TEXTURE id="ship_ext" />
+
+        <TRANSLATION x="11.7" y="6.7" z="10" />
+        <ROTATION axis="x" angle="270" />
+        <ROTATION axis="y" angle="30" />
+        
+
+        <DESCENDANTS>
+            <DESCENDANT id="ex_ship" />            
+        </DESCENDANTS>
+    </NODE>
+
     <NODE id="cena">
         <MATERIAL id="null" />
         <TEXTURE id="null" />
         <DESCENDANTS>
+            <DESCENDANT id="starship_top" />
+            <DESCENDANT id="starship_bottom" />
+            <DESCENDANT id="starship_extra" />
+            <DESCENDANT id="janela" />
             <DESCENDANT id="bb8" />
             <DESCENDANT id="terr" />
             <DESCENDANT id="bb8-head" />
