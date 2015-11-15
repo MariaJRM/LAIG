@@ -8,7 +8,7 @@
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
     <scale sx="0.4" sy="0.4" sz="0.4" />                  <!-- initial scaling -->
-    <reference length="3" />                          <!-- axis length; "0" means no axis-->
+    <reference length="0" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
  
  
@@ -20,20 +20,35 @@
 <LIGHTS>
     <LIGHT id="luz_1">                                    <!-- light identifier -->
         <enable value= "1" />                         <!-- enable/disable -->
-        <position x="4.0" y="5.0" z="4.0" w="1.0" />       <!-- light position -->
+        <position x="4.0" y="25.0" z="10.0" w="1.0" />       <!-- light position -->
         <ambient r="0" g="0" b="0" a="1.0" />        <!-- ambient component -->
         <diffuse r="1.0" g="1.0" b="1.0" a="0.5" />        
         <specular r="1.0" g="1.0" b="1.0" a="0.5" />
     </LIGHT>
  
     <LIGHT id="luz_2">                              <!-- light identifier -->
-        <enable value= "0" />                         <!-- enable/disable -->
-        <position x="0.75" y="2" z="2.5" w="1.0" />       <!-- light position -->
+        <enable value= "1" />                         <!-- enable/disable -->
+        <position x="0.75" y="20" z="10.5" w="1.0" />       <!-- light position -->
+        <ambient r="1" g="1" b="1" a="1.0" />        <!-- ambient component -->
+        <diffuse r="1" g="1" b="1" a="1.0" />        <!-- diffuse component -->
+        <specular r="1" g="1" b="1" a="1.0" />       <!-- specular component -->
+    </LIGHT>
+
+    <LIGHT id="luz_3">                              <!-- light identifier -->
+        <enable value= "1" />                         <!-- enable/disable -->
+        <position x="10" y="20" z="10" w="1.0" />       <!-- light position -->
         <ambient r="1" g="1" b="1" a="1.0" />        <!-- ambient component -->
         <diffuse r="1" g="1" b="1" a="1.0" />        <!-- diffuse component -->
         <specular r="1" g="1" b="1" a="1.0" />       <!-- specular component -->
     </LIGHT>
    
+   <LIGHT id="luz_4">                              <!-- light identifier -->
+        <enable value= "1" />                         <!-- enable/disable -->
+        <position x="0" y="0" z="25" w="1.0" />       <!-- light position -->
+        <ambient r="1" g="1" b="1" a="1.0" />        <!-- ambient component -->
+        <diffuse r="1" g="1" b="1" a="1.0" />        <!-- diffuse component -->
+        <specular r="1" g="1" b="1" a="1.0" />       <!-- specular component -->
+    </LIGHT>
 </LIGHTS>
 
 <ANIMATIONS>
@@ -56,15 +71,15 @@
         <amplif_factor s="0" t="0" />
     </TEXTURE>
     <TEXTURE id="parede">
-        <file path="textures/parede.png" />
-        <amplif_factor s="0.7" t="0.7" />
-    </TEXTURE>
-    <TEXTURE id="disco-ball">
-        <file path="textures/disco-ball.jpg" />
+        <file path="textures/desert-wall.jpg" />
         <amplif_factor s="1" t="1" />
     </TEXTURE>
     <TEXTURE id="floor">
-        <file path="textures/floor.jpg" />
+        <file path="textures/sand.jpg" />
+        <amplif_factor s="1" t="1" />
+    </TEXTURE>
+    <TEXTURE id="disco-ball">
+        <file path="textures/disco-ball.jpg" />
         <amplif_factor s="1" t="1" />
     </TEXTURE>
     <TEXTURE id="lava">
@@ -222,21 +237,7 @@
         <controlpoint x="0.250" y="0.050" z="-0.700" />
     </LEAF>
 
-
-<!--
-    <LEAF id="pat" type="patch" order="2" partsU="10" partsV="10">
-       <controlpoint x="0.5" y="0" z="-0.5" />
-                  <controlpoint x="0.5" y="-2" z="0" />
-                  <controlpoint x="0.5" y="0" z="0.5" />
-                  <controlpoint x="0" y="0" z="-0.5" />
-                  <controlpoint x="0" y="-2" z="0" />
-                  <controlpoint x="0" y="0" z="0.5" />
-                  <controlpoint x="-0.5"  y="0" z="-0.5" />
-                  <controlpoint x="-0.5" y="-2" z="0" />
-                  <controlpoint x="-0.5"  y="0" z="0.5" />
-    </LEAF>-->
-    <LEAF id="vec" type="vehicle"/>
-    <LEAF id="ter" type="terrain" texture="terrain.jpg" heightmap="terrainmap.jpg"/>
+    <LEAF id="ter" type="terrain" texture="terrain2.jpg" heightmap="terrainmap.jpg"/>
 </LEAVES>
 
 
@@ -258,9 +259,9 @@
         <MATERIAL id="null" />
         <TEXTURE id="null" />
 
-        <TRANSLATION x="0" y="4" z="10" />
+        <TRANSLATION x="-17.5" y="12.5" z="10" />
         <ROTATION axis="y" angle="90" />
-        <SCALE sx="20" sy="8" sz="0.2" />
+        <SCALE sx="50" sy="25" sz="0.2" />
 
         <DESCENDANTS>
             <DESCENDANT id="rect" />        
@@ -271,8 +272,8 @@
         <MATERIAL id="null" />
         <TEXTURE id="null" />
 
-        <TRANSLATION x="7.5" y="4" z="0" />
-        <SCALE sx="15" sy="8" sz="0.2" />  
+        <TRANSLATION x="7.5" y="12.5" z="-15" />
+        <SCALE sx="50" sy="25" sz="0.2" />  
 
         <DESCENDANTS>
             <DESCENDANT id="rect" />            
@@ -286,194 +287,10 @@
 
         <TRANSLATION x="7.5" y="0" z="10" />
         <ROTATION axis="x" angle="-90" />
-        <SCALE sx="15" sy="20" sz="0.2" />
+        <SCALE sx="50" sy="50" sz="0.2" />
 
         <DESCENDANTS>
             <DESCENDANT id="rect" />            
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="disco">
-            <!--    <ANIMATIONREF id="line1"/> -->
-                        <ANIMATIONREF id="circle1"/>
-       
-        <MATERIAL id="brilhante" />
-        <TEXTURE id="disco-ball" />
-
-        <TRANSLATION x="8" y="10" z="8" />
-        <SCALE sx="1" sy="1" sz="1" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="sph" />            
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="top_closet">
-        <MATERIAL id="opaco" />
-        <TEXTURE id="metal" />
-
-        <TRANSLATION x="5" y="7" z="0.5" />
-        <ROTATION axis="x" angle="-90" />
-        <SCALE sx="5" sy="1" sz="1" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="rect" />            
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="front_closet">
-
-        <MATERIAL id="opaco" />
-        <TEXTURE id="star-wars" />
-
-        <TRANSLATION x="5" y="3.5" z="1" />
-        <SCALE sx="5" sy="7" sz="1" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="rect" />            
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="side1_closet">
-        <MATERIAL id="opaco" />
-        <TEXTURE id="metal" />
-
-        <TRANSLATION x="7.5" y="3.5" z="0.5" />
-        <ROTATION axis="y" angle="90" />
-        <SCALE sx="1" sy="7" sz="1" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="rect" />              
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="side2_closet">
-        <MATERIAL id="opaco" />
-        <TEXTURE id="metal" />
-
-        <TRANSLATION x="2.5" y="3.5" z="0.5" />
-        <ROTATION axis="y" angle="90" />
-        <SCALE sx="1" sy="7" sz="1" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="rect" />              
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="knob">
-        <MATERIAL id="opaco" />
-        <TEXTURE id="metal" />
-
-        <TRANSLATION x="7" y="4" z="1" />
-        <SCALE sx="0.2" sy="0.2" sz="0.2" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="sph" />              
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="lava">
-
-        <MATERIAL id="brilhante" />
-        <TEXTURE id="lava" />
-
-        <TRANSLATION x="1.5" y="4" z="5" />
-        <ROTATION axis="x" angle="-90" />
-        <SCALE sx="1" sy="1" sz="1" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="cone2" />            
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="lava_bottom">
-        <MATERIAL id="opaco" />
-        <TEXTURE id="metal" />
-
-        <TRANSLATION x="1.5" y="3" z="5" />
-        <ROTATION axis="x" angle="-90" />
-        <SCALE sx="1" sy="1" sz="1" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="cone" />            
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="lava_base">
-        <MATERIAL id="opaco" />
-        <TEXTURE id="metal" />
-
-        <TRANSLATION x="1.5" y="2.5" z="5" />
-        <ROTATION axis="x" angle="-90" />
-        <SCALE sx="1" sy="1" sz="1" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="cone1" />            
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="lava_top">
-        <MATERIAL id="opaco" />
-        <TEXTURE id="metal" />
-
-        <TRANSLATION x="1.5" y="4.85" z="5" />
-        <ROTATION axis="x" angle="-90" />
-        <SCALE sx="1" sy="1" sz="1" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="cone3" />            
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="lava_close">
-        <MATERIAL id="opaco" />
-        <TEXTURE id="metal" />
-
-        <TRANSLATION x="1.5" y="4.95" z="5" />
-        <ROTATION axis="x" angle="-90" />
-        <SCALE sx="1" sy="1" sz="1" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="circ" />            
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="side_table">
-
-        <MATERIAL id="opaco" />
-        <TEXTURE id="metal" />
-
-        <TRANSLATION x="1.5" y="2" z="5" />
-        <ROTATION axis="x" angle="-90" />
-        <SCALE sx="3" sy="3" sz="1" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="rect" />              
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="side_table_back">
-        <MATERIAL id="opaco" />
-        <TEXTURE id="metal" />
-
-        <TRANSLATION x="1.5" y="1" z="5" />
-        <SCALE sx="3" sy="2" sz="1" />
-
-        <DESCENDANTS>
-            <DESCENDANT id="rect" />              
-        </DESCENDANTS>
-    </NODE>
-
-    <NODE id="darth">
-        <MATERIAL id="opaco" />
-        <TEXTURE id="darth" />
-
-        <TRANSLATION x="0.01" y="4" z="10" />
-        <ROTATION axis="y" angle="90" />
-        <SCALE sx="4" sy="4" sz="4" />       
-
-        <DESCENDANTS>
-            <DESCENDANT id="tri" />        
         </DESCENDANTS>
     </NODE>
 
@@ -486,11 +303,25 @@
         </DESCENDANTS>
     </NODE>
 
+    <NODE id="bb8">
+        <MATERIAL id="null" />
+        <TEXTURE id="null" />    
+
+        <TRANSLATION x="-20" y="0" z="-12" />
+        <SCALE sx="3" sy="3" sz="3" />
+
+
+        <DESCENDANTS>
+            <DESCENDANT id="bb8-head" /> 
+            <DESCENDANT id="bb8-bottom" />       
+        </DESCENDANTS>
+    </NODE>
+
     <NODE id="bb8-head">
         <MATERIAL id="brilhante" />
         <TEXTURE id="bb8-head" />
 
-        <TRANSLATION x="7" y="1.5" z="7" />
+        <TRANSLATION x="7" y="1.5" z="10" />
         <SCALE sx="0.4" sy="0.4" sz="0.4" />
 
         <DESCENDANTS>
@@ -498,11 +329,11 @@
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="bb8">
+    <NODE id="bb8-bottom">
         <MATERIAL id="brilhante" />
         <TEXTURE id="bb8" />
 
-        <TRANSLATION x="7" y="0.75" z="7" />
+        <TRANSLATION x="7" y="0.75" z="10" />
         <SCALE sx="0.7" sy="0.7" sz="0.7" />
 
         <DESCENDANTS>
@@ -512,24 +343,28 @@
 
     <NODE id="terr">
         <MATERIAL id="brilhante" />
-        <SCALE sx="5" sy="5" sz="5" />
+        <SCALE sx="15" sy="15'" sz="15" />
+
+        <TRANSLATION x="0" y="-0.1" z="0" />
 
         <DESCENDANTS>
             <DESCENDANT id="ter" />            
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="teste">
-        <MATERIAL id="brilhante" />
-        <TEXTURE id="glass" />
+    <NODE id="starship">
+        <MATERIAL id="null" />
+        <TEXTURE id="null" />    
 
-        <SCALE sx="1" sy="1" sz="1" />
+        <TRANSLATION x="-20" y="0" z="-12" />
+        <SCALE sx="3" sy="3" sz="3" />
 
-        <TRANSLATION x="5" y="5" z="5" />
-        <ROTATION axis="y" angle="-90" />
 
         <DESCENDANTS>
-            <DESCENDANT id="pat" />            
+            <DESCENDANT id="janela" /> 
+            <DESCENDANT id="starship_top" />
+            <DESCENDANT id="starship_bottom" /> 
+            <DESCENDANT id="starship_extra" />       
         </DESCENDANTS>
     </NODE>
 
@@ -593,30 +428,11 @@
         <MATERIAL id="null" />
         <TEXTURE id="null" />
         <DESCENDANTS>
-            <DESCENDANT id="starship_top" />
-            <DESCENDANT id="starship_bottom" />
-            <DESCENDANT id="starship_extra" />
-            <DESCENDANT id="janela" />
+            <DESCENDANT id="starship" />
             <DESCENDANT id="bb8" />
             <DESCENDANT id="terr" />
-            <DESCENDANT id="bb8-head" />
-            <DESCENDANT id="p" />
-            <DESCENDANT id="darth" />
-            <DESCENDANT id="side_table_back" />
-            <DESCENDANT id="side_table" />
-            <DESCENDANT id="knob" />
-            <DESCENDANT id="side1_closet" />
-            <DESCENDANT id="side2_closet" />
-            <DESCENDANT id="front_closet" />
-            <DESCENDANT id="top_closet" />
             <DESCENDANT id="walls" /> 
             <DESCENDANT id="floor" />
-            <DESCENDANT id="disco" />
-            <DESCENDANT id="lava" />
-            <DESCENDANT id="lava_bottom" />
-            <DESCENDANT id="lava_base" />
-            <DESCENDANT id="lava_top" />
-            <DESCENDANT id="lava_close" />
         </DESCENDANTS>
     </NODE>
 </NODES>
