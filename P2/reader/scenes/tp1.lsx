@@ -386,7 +386,7 @@
         <TEXTURE id="darth" />    
 
         <DESCENDANTS>
-            <DESCENDANT id="pat" />        
+            <DESCENDANT id="plan" />        
         </DESCENDANTS>
     </NODE>
 

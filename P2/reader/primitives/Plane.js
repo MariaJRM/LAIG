@@ -1,10 +1,17 @@
-/**
- * Plane
- * @constructor
- */
 function Plane(scene, parts) {
+
+	CGFobject.call(this,scene);
+	this.parts = parts;
 	
-	var nurbsSurface = new CGFnurbsSurface(1, 1, 
+	this.initBuffers();
+};
+
+Plane.prototype = Object.create(CGFobject.prototype);
+Plane.prototype.constructor=Plane;
+
+Plane.prototype.initBuffers = function() {
+  
+	this.makeSurface(1, 1, 
 		[0,0,1,1], [0,0,1,1], 
 				[	// U = 0
 						[ // V = 0..1;
@@ -18,13 +25,20 @@ function Plane(scene, parts) {
 							 [ 1.0, 0.0, -1.0, 1 ]							 
 						]
 					]);
+};
 
+Plane.prototype.makeSurface = function (degree1, degree2, knots1, knots2, controlvertexes) {
+		
+	var nurbsSurface = new CGFnurbsSurface(degree1, degree2, knots1, knots2, controlvertexes);
 	getSurfacePoint = function(u, v) {
 		return nurbsSurface.getPoint(u, v);
 	};
 
-	CGFnurbsObject.call(this, scene, getSurfacePoint, parts, parts);
+	this.surface = new CGFnurbsObject(this.scene, getSurfacePoint,this.parts,this.parts);
+
 };
 
-Plane.prototype = Object.create(CGFnurbsObject.prototype);
-Plane.prototype.constructor=Plane;
+Plane.prototype.display = function() {
+
+	this.surface.display();
+};
