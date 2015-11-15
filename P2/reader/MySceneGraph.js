@@ -396,8 +396,10 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 			case "vehicle":
 			break;
 			case "terrain":
-				
-									
+				this.leave['texture'] = this.reader.getString(leaves.children[i], "texture");
+				console.log(this.leave.texture);
+				this.leave['height'] = this.reader.getString(leaves.children[i], "heightmap");
+				console.log(this.leave.height);					
 				break;
 			default:
 				return "Unknown LEAF type: " + this.leavesInfo.type;

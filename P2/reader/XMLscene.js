@@ -34,15 +34,10 @@ XMLscene.prototype.init = function (application) {
     this.a_material=null;
     this.a_texture=null;
 
-   // this.plane = new Plane(this);
-    
-
    	this.axis=new CGFaxis(this);
 
    	
 	this.setUpdatePeriod(10);
-	//this.i = 0;
-	
 };
 
 XMLscene.prototype.initCameras = function () {
@@ -206,29 +201,26 @@ XMLscene.prototype.processLeaves = function(){
 
 				break;
 			case "plane":
-			//console.log("PLANEEEEEE");
 				this.leaves[leaf] = new Plane(this, 
 					 this.graph.leavesInfo[leaf].parts);
 				this.leaves[leaf].type = "plane";
-				//console.log(this.leaves);
 				break;
 			case "patch":
-			//console.log("PLANEEEEEE");
 				this.leaves[leaf] = new Patch(this, 
 					 this.graph.leavesInfo[leaf].order,
 					 this.graph.leavesInfo[leaf].partsU,
 					 this.graph.leavesInfo[leaf].partsV,
 					 this.graph.leavesInfo[leaf].ctrlPoints);
 				this.leaves[leaf].type = "patch";
-				//console.log(this.leaves);
 				break;
 			case "vehicle":
 				//this.leaves[leaf] = new Vehicle();
 				//this.leaves[leaf].type = "vehicle";
 			break;
 			case "terrain":
-				//this.leaves[leaf] = new Vehicle();
-				//this.leaves[leaf].type = "vehicle";
+				this.leaves[leaf] = new Terrain(this, this.graph.leavesInfo[leaf].texture,
+					this.graph.leavesInfo[leaf].height);
+				this.leaves[leaf].type = "terrain";
 			break;
 		}
 	}
@@ -415,6 +407,11 @@ XMLscene.prototype.draw = function(leaf,s,t){
 			leaf.display();
 		break;
 		case "patch":
+			//console.log('ENTRA AQUI');
+			leaf.display();
+		break;
+
+		case "terrain":
 			//console.log('ENTRA AQUI');
 			leaf.display();
 		break;

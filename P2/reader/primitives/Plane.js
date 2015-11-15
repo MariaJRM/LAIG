@@ -39,6 +39,5 @@ Plane.prototype.makeSurface = function (degree1, degree2, knots1, knots2, contro
 };
 
 Plane.prototype.display = function() {
-
 	this.surface.display();
 };

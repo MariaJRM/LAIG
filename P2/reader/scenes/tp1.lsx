@@ -139,8 +139,8 @@
                   <controlpoint x="-0.5" y="-2" z="0" />
                   <controlpoint x="-0.5"  y="0" z="0.5" />
     </LEAF>
-   <LEAF id="vec" type="vehicle"/>
-    <LEAF id="ss" type="terrain" texture="bdb" heightmap="  "/>
+    <LEAF id="vec" type="vehicle"/>
+    <LEAF id="ter" type="terrain" texture="terrain.jpg" heightmap="terrainmap.jpg"/>
 </LEAVES>
 
 
@@ -414,11 +414,21 @@
         </DESCENDANTS>
     </NODE>
 
+    <NODE id="terr">
+        <MATERIAL id="brilhante" />
+        <SCALE sx="5" sy="5" sz="5" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="ter" />            
+        </DESCENDANTS>
+    </NODE>
+
     <NODE id="cena">
         <MATERIAL id="null" />
         <TEXTURE id="null" />
         <DESCENDANTS>
             <DESCENDANT id="bb8" />
+            <DESCENDANT id="terr" />
             <DESCENDANT id="bb8-head" />
             <DESCENDANT id="p" />
             <DESCENDANT id="darth" />
