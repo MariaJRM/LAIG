@@ -165,8 +165,6 @@ MySceneGraph.prototype.parseAnimations= function(rootElement) {
 	this.animationsInfo = [];
 	
 	var animations = getUniqueElement(rootElement, "ANIMATIONS");
-	//console.log(animations.children);
-
 
 	for(var i = 0; i < animations.children.length; ++i){
 		this.animation = {};
@@ -185,27 +183,14 @@ MySceneGraph.prototype.parseAnimations= function(rootElement) {
 				this.animation.point[j]['xx'] = this.reader.getFloat(points[j], "xx");
 				this.animation.point[j]['yy'] = this.reader.getFloat(points[j], "yy");
 				this.animation.point[j]['zz'] = this.reader.getFloat(points[j], "zz");
-				//console.log('xx:' + this.animation.point[j].xx);
-				//console.log('yy:' + this.animation.point[j].yy);
-				//console.log('zz:' + this.animation.point[j].zz);
 			}
-			//console.log(this.animation.point);
-			//console.log(this.animation.id);
-			//console.log(this.animation.span);
 		}else if(type == 'circular'){
-			//console.log(this.animation.type);
 			this.animation['id'] = this.reader.getString(animations.children[i], "id");
 			this.animation['span'] = this.reader.getFloat(animations.children[i], "span");
 			this.animation['center'] = this.reader.getString(animations.children[i], "center");
 			this.animation['radius'] = this.reader.getFloat(animations.children[i], "radius");
 			this.animation['startang'] = this.reader.getFloat(animations.children[i], "startang");
 			this.animation['rotang'] = this.reader.getFloat(animations.children[i], "rotang");
-
-			//console.log(this.animation.center);
-			//console.log(this.animation.radius);
-			//console.log(this.animation.startang);
-			//console.log(this.animation.rotang);
-
 		}
 		else{
 			return 'NO ANIMATION TYPE DEFINED';
@@ -300,9 +285,7 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 		this.leave = {};
 
 		this.leave['id'] = this.reader.getString(leaves.children[i], "id");
-		console.log(this.leave.id);
 		this.leave['type'] = this.reader.getString(leaves.children[i], "type");
-		console.log(this.leave.type);
 		if(this.leave.type == "rectangle" ||
 			this.leave.type == "cylinder"||
 			this.leave.type == "sphere"||
@@ -397,15 +380,11 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 			break;
 			case "terrain":
 				this.leave['texture'] = this.reader.getString(leaves.children[i], "texture");
-				console.log(this.leave.texture);
-				this.leave['height'] = this.reader.getString(leaves.children[i], "heightmap");
-				console.log(this.leave.height);					
+				this.leave['height'] = this.reader.getString(leaves.children[i], "heightmap");				
 				break;
 			default:
 				return "Unknown LEAF type: " + this.leavesInfo.type;
 			}
-			console.log(this.leave);
-
 			this.leavesInfo[this.leave['id']] = this.leave;
 		}
 

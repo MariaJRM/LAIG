@@ -3,7 +3,6 @@
 
 	this.heightmap = new CGFtexture(scene, "textures/"+heightmap);
 	this.scene = scene;
-	console.log("textures/"+texture);
 	this.texture = new CGFtexture(scene, "textures/"+texture);
     this.appearance = new CGFappearance(scene);
 	this.shader = new CGFshader(scene.gl,"shaders/terrain.vert", "shaders/terrain.frag");
@@ -41,7 +40,5 @@ Terrain.prototype.display = function() {
 
 	this.plane.display();			
 	this.scene.popMatrix();
-	this.scene.setActiveShader(this.scene.defaultShader);
-
-	
+	this.scene.setActiveShader(this.scene.defaultShader);	
 }

@@ -5,9 +5,11 @@ function LinearAnimation(scene, time, c_points){
 	this.c_points = c_points;
 	this.span = time;
 	this.dist = 0;
-
-	this.finished = false;
 	this.startTime = 0;
+	this.currtime = 0;
+	this.initial = true;
+	this.current = true;
+	this.rotAng = 0;
 
 	this.init();
 }
@@ -17,102 +19,77 @@ LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
 LinearAnimation.prototype.init = function () {
 
-	//calcular dTotal
 	this.directions = [];
-	this.prevPoint=0;
+	this.index=0;
 
 
 	for(var i = 0; i < (this.c_points.length-1); i++){
-		console.log(this.c_points[i]);
 		var v = vec3.fromValues(
 			this.c_points[i+1].xx - this.c_points[i].xx,
 			this.c_points[i+1].yy - this.c_points[i].yy,
 			this.c_points[i+1].zz - this.c_points[i].zz);
 
-		console.log('v[' + i + ']=' + v);
-
 		var distVec = Math.sqrt(Math.pow(v[0],2)+
 			Math.pow(v[1],2)+
 			Math.pow(v[2],2));
-
-		console.log("DistVec = " + distVec);
-
 		this.dist += distVec;
-
-		console.log("Dist = " + this.dist);
-
 		this.directions[i] = v;
 	}
 
-	console.log(this.directions);
-
 	this.tranX = this.c_points[0].xx;
-	console.log('TransX = '+this.tranX);
 	this.tranY = this.c_points[0].yy;
-	console.log('TransY = '+this.tranY);
 	this.tranZ = this.c_points[0].zz;
-	console.log('TransZ = '+this.tranZ);
-	
-	//console.log(this.directions);
-	this.speed = this.dist/this.span;
-	console.log("SPEED: " + this.speed);
-	
+
+	this.speed = this.dist/this.span;	
 }
 
 LinearAnimation.prototype.update = function (curtime){
 
-	console.log('PrevPoint: ' + this.prevPoint);
-	if(this.prevPoint<(this.c_points.length-1) &&
-		this.tranX==this.c_points[this.prevPoint+1].xx &&
-		this.tranY==this.c_points[this.prevPoint+1].yy &&
-		this.tranZ==this.c_points[this.prevPoint+1].zz)
+	if(this.index<(this.c_points.length-1) &&
+		this.tranX==this.c_points[this.index+1].xx &&
+		this.tranY==this.c_points[this.index+1].yy &&
+		this.tranZ==this.c_points[this.index+1].zz)
 	{
-		console.log("IF 1");
-		this.prevPoint++;
+		this.index++;
 	}
-
-	if(this.prevPoint == (this.c_points.length-1))
+	if(this.index == (this.c_points.length-1))
 	{
-		console.log("IF 3");
 		this.finished = true;
+		this.current = false;
 	}
 
 	if(!this.finished)
 	{
-		console.log("IF 2");
 		var delta = (curtime - this.startTime)*0.001;
-		//console.log(delta);
 		this.startTime = curtime;
 		var vel = (this.dist/this.span)*delta;
-		//console.log(this.startTime);
 
-			var d_norm = Math.sqrt(Math.pow(this.directions[this.prevPoint][0],2)
-				+Math.pow(this.directions[this.prevPoint][1],2)
-				+Math.pow(this.directions[this.prevPoint][2],2));
-			//console.log(d_norm);
+			var d_norm = Math.sqrt(Math.pow(this.directions[this.index][0],2)
+				+Math.pow(this.directions[this.index][1],2)
+				+Math.pow(this.directions[this.index][2],2));
 			if(d_norm != 0){
-				this.directions[this.prevPoint][0] /= d_norm;
-				this.directions[this.prevPoint][1] /= d_norm;
-				this.directions[this.prevPoint][2] /= d_norm;
-		}
+				this.directions[this.index][0] /= d_norm;
+				this.directions[this.index][1] /= d_norm;
+				this.directions[this.index][2] /= d_norm;
+			}
 
-		this.directions[this.prevPoint][0] *= vel;
-		this.directions[this.prevPoint][1] *= vel;
-		this.directions[this.prevPoint][2] *= vel;
+		this.directions[this.index][0] *= vel;
+		this.directions[this.index][1] *= vel;
+		this.directions[this.index][2] *= vel;
 
-		this.tranX +=this.directions[this.prevPoint][0];
-		this.tranY +=this.directions[this.prevPoint][1];
-		this.tranZ +=this.directions[this.prevPoint][2];
+		this.tranX +=this.directions[this.index][0];
+		this.tranY +=this.directions[this.index][1];
+		this.tranZ +=this.directions[this.index][2];
 
-		if((this.directions[this.prevPoint][0] > 0 && this.tranX > this.c_points[this.prevPoint+1].xx) || (this.directions[this.prevPoint][0] < 0 && this.tranX < this.c_points[this.prevPoint+1].xx))
-			this.tranX = this.c_points[this.prevPoint+1].xx;
-		if((this.directions[this.prevPoint][1] > 0 && this.tranY > this.c_points[this.prevPoint+1].yy) || (this.directions[this.prevPoint][1] < 0 && this.tranY < this.c_points[this.prevPoint+1].yy))
-			this.tranY = this.c_points[this.prevPoint+1].yy;
-		if((this.directions[this.prevPoint][2] > 0 && this.tranZ > this.c_points[this.prevPoint+1].zz) || (this.directions[this.prevPoint][2] < 0 && this.tranZ < this.c_points[this.prevPoint+1].zz))
-			this.tranZ = this.c_points[this.prevPoint+1].zz;
+		if((this.directions[this.index][0] > 0 && this.tranX > this.c_points[this.index+1].xx) || (this.directions[this.index][0] < 0 && this.tranX < this.c_points[this.index+1].xx))
+			this.tranX = this.c_points[this.index+1].xx;
+		if((this.directions[this.index][1] > 0 && this.tranY > this.c_points[this.index+1].yy) || (this.directions[this.index][1] < 0 && this.tranY < this.c_points[this.index+1].yy))
+			this.tranY = this.c_points[this.index+1].yy;
+		if((this.directions[this.index][2] > 0 && this.tranZ > this.c_points[this.index+1].zz) || (this.directions[this.index][2] < 0 && this.tranZ < this.c_points[this.index+1].zz))
+			this.tranZ = this.c_points[this.index+1].zz;
 
-		var AB = vec2.fromValues(this.c_points[this.prevPoint+1].xx-this.c_points[this.prevPoint].xx,
-			this.c_points[this.prevPoint+1].zz-this.c_points[this.prevPoint].zz);
+		var AB = vec2.fromValues(this.c_points[this.index+1].xx-this.c_points[this.index].xx,
+			this.c_points[this.index+1].zz-this.c_points[this.index].zz);
 
 		var BC = vec2.fromValues(0,1);
 
@@ -120,16 +97,10 @@ LinearAnimation.prototype.update = function (curtime){
 				(Math.sqrt(Math.pow(AB[0],2)+Math.pow(AB[1],2))+
 				Math.sqrt(Math.pow(BC[0],2)+Math.pow(BC[1],2))))*(180/Math.PI);
 
-				//console.log(rotAng); 
+		mat4.identity(this.matrix);
+		mat4.translate(this.matrix, this.matrix,[this.tranX, this.tranY, this.tranZ]);
+		mat4.rotate(this.matrix, this.matrix,this.rotAng, [0, 1, 0]);
 	
-}
-}
-
-LinearAnimation.prototype.apply = function (){
-	if(!this.finished){
-	this.scene.translate(this.tranX, this.tranY, this.tranZ);
-	this.scene.rotate(this.rotAng, 0, 1, 0);
 	}
-};
-
-
+	console.log("LINEAR ANIMATION: " + this.finished);
+}

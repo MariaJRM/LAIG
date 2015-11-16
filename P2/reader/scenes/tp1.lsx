@@ -7,7 +7,7 @@
     <rotation axis="x" angle="0" />                  <!-- initial rotation 3 -->
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
-    <scale sx="0.4" sy="0.4" sz="0.4" />                  <!-- initial scaling -->
+    <scale sx="0.2" sy="0.2" sz="0.2" />                  <!-- initial scaling -->
     <reference length="0" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
  
@@ -53,13 +53,13 @@
 
 <ANIMATIONS>
         <ANIMATION id="line1" span="10" type="linear">
-            <controlpoint xx="1" yy="1" zz="1"/>            
+            <controlpoint xx="1" yy="0" zz="1"/>            
             <controlpoint xx="3" yy="1" zz="2"/>    
-            <controlpoint xx="2" yy="1" zz="2"/>                    
-            <controlpoint xx="5" yy="1" zz="5"/>            
+            <controlpoint xx="2" yy="3" zz="2"/>                
+            <controlpoint xx="5" yy="5" zz="5"/>            
         </ANIMATION>
 
-        <ANIMATION id="circle1" span="30" type="circular" center="10 10 10" radius="0" startang="0" rotang="1440"/>
+        <ANIMATION id="circle1" span="10" type="circular" center="0 0 0" radius="0" startang="0" rotang="360"/>
 
         <ANIMATION id="circle2" span="10" type="circular" center="10 10 10" radius="5" startang="40" rotang="10"/>
         
@@ -386,6 +386,10 @@
     </NODE>
 
     <NODE id="bb8-bottom">
+        <ANIMATIONREF id="line1"/>
+                <ANIMATIONREF id="circle1"/>
+        
+
         <MATERIAL id="brilhante" />
         <TEXTURE id="bb8" />
 
@@ -409,10 +413,11 @@
     </NODE>
 
     <NODE id="starship">
+        <ANIMATIONREF id="line1"/>
         <MATERIAL id="null" />
         <TEXTURE id="null" />    
 
-        <TRANSLATION x="-20" y="0" z="-12" />
+       <TRANSLATION x="3" y="0" z="5" />
         <SCALE sx="3" sy="3" sz="3" />
 
 
@@ -430,7 +435,7 @@
 
         <SCALE sx="1" sy="1" sz="1" />
 
-        <TRANSLATION x="10" y="6.7" z="10" />
+        <TRANSLATION x="0" y="6.7" z="0" />
         <ROTATION axis="x" angle="-90" />
         <ROTATION axis="z" angle="90" />
 
@@ -445,7 +450,7 @@
 
         <SCALE sx="1" sy="1" sz="1" />
 
-        <TRANSLATION x="10" y="6" z="10" />
+        <TRANSLATION x="0" y="6" z="0" />
         <ROTATION axis="x" angle="270" />
 
         <DESCENDANTS>
@@ -457,7 +462,7 @@
         <MATERIAL id="brilhante" />
         <TEXTURE id="ship_bottom" />
 
-        <TRANSLATION x="10" y="5.25" z="10" />
+        <TRANSLATION x="0" y="5.25" z="0" />
         <ROTATION axis="x" angle="-270" />
         
 
@@ -470,7 +475,7 @@
         <MATERIAL id="brilhante" />
         <TEXTURE id="ship_ext" />
 
-        <TRANSLATION x="11.7" y="6.7" z="10" />
+       <TRANSLATION x="0" y="6.7" z="0" />
         <ROTATION axis="x" angle="270" />
         <ROTATION axis="y" angle="30" />
         

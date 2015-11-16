@@ -230,11 +230,13 @@ XMLscene.prototype.processAnimations = function(){
 
 	for(anim in this.graph.animationsInfo){
 		if(this.graph.animationsInfo[anim].type == "linear"){
+		
 			this.animations[this.graph.animationsInfo[anim].id] = new LinearAnimation(this,
 				this.graph.animationsInfo[anim].span, 
 				this.graph.animationsInfo[anim].point);
 		}
 		else if(this.graph.animationsInfo[anim].type == "circular"){
+
 			this.animations[this.graph.animationsInfo[anim].id] = new CircularAnimation(this,
 				this.graph.animationsInfo[anim].center, 
 				this.graph.animationsInfo[anim].radius,
@@ -331,6 +333,7 @@ XMLscene.prototype.processGraph = function(node){
 	var material = node.material;
 	var texture = node.texture;
 	var animation = node.animation;
+
 	
 	if(texture != "null" ) {
 		if(material != "null"){
@@ -353,17 +356,30 @@ XMLscene.prototype.processGraph = function(node){
 		this.materials[material].apply();
 	}
 
-this.multMatrix(node.matrix);
+	this.multMatrix(node.matrix);
 
-	//ANIMATIONS HERE
-	/*if(animation.length != 0)
+	var animationMatrix;
+	if(animation.length > 0)
 	{
 		for(var i=0; i < animation.length; i++){
 
-			var an = this.animations[animation[i]];
-			an.apply();
+			if(!this.animations[animation[i]].finished)
+			{
+				
+				animationMatrix = this.animations[animation[i]].getMatrix();
+				i = this.animations[animation[i]].length;
+			}
+			if(i == animation.length-1 && animationMatrix==null)
+			{
+				animationMatrix = this.animations[animation[i]].getMatrix();
+			}
 		}
-	}*/
+	}
+
+	if (animationMatrix != null){
+		this.multMatrix(animationMatrix);
+	}
+
 	for(var i in node.descendants){
 		
 		if(this.checkIfLeaf(node.descendants[i])){
@@ -402,17 +418,16 @@ XMLscene.prototype.draw = function(leaf,s,t){
 			this.scale(leaf.radius*2, leaf.radius*2, leaf.radius*2);
 			leaf.display();
 		break;
+
 		case "plane":
-			//console.log('ENTRA AQUI');
 			leaf.display();
 		break;
+
 		case "patch":
-			//console.log('ENTRA AQUI');
 			leaf.display();
 		break;
 
 		case "terrain":
-			//console.log('ENTRA AQUI');
 			leaf.display();
 		break;
 
@@ -477,10 +492,11 @@ XMLscene.prototype.display = function () {
 	};	
 };
 
-//UPDATE ANIMATIONS
-/*XMLscene.prototype.update = function(curtime){
+XMLscene.prototype.update = function(curtime){
 
 	for(anim in this.animations){
+
+		if(this.animations[anim].current)
 			this.animations[anim].update(curtime);
 	}
-}*/
+}

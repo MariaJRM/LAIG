@@ -8,13 +8,11 @@ function CircularAnimation(scene, center, radius, angle_init, angle_rot, time){
 	this.span = time;
 
 	this.center = center.split(" ");
-
-	this.tmatrix = mat4.create();
 	this.initial = true;
+	
 	this.time = 0;
 	this.currtime = 0;
-	this.finished = false;
-
+	this.current = true;
 	this.init();
 }
 
@@ -40,21 +38,19 @@ CircularAnimation.prototype.update = function (curtime) {
 			this.currtime = curtime;
 		}
 		this.currentang = this.startang + (this.speed * (this.currtime - this.time));
+		mat4.identity(this.matrix);
+		mat4.translate(this.matrix, this.matrix,[parseFloat(this.center[0]),
+			parseFloat(this.center[1]),
+			parseFloat(this.center[2])]);
+		mat4.rotate(this.matrix, this.matrix, (this.currentang*Math.PI)/180.0, [0,1,0]);
+		mat4.translate(this.matrix, this.matrix,[this.radius,0,0]);
 	}
 	else{
 		this.finished = true;
+		this.current = false;
 	}
+
+	console.log("CIRCULAR ANIMATION: " + this.finished);
 
 };
-
-CircularAnimation.prototype.apply = function () {
-
-	if(!this.finished){
-		this.scene.translate(parseFloat(this.center[0]),
-			parseFloat(this.center[1]),
-			parseFloat(this.center[2]));
-		this.scene.rotate((this.currentang*Math.PI)/180.0, 0,1,0);
-		this.scene.translate(this.radius,0,0);
-	}
-}
 

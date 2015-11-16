@@ -113,5 +113,4 @@ function Cylinder(scene, height, bRad, tRad, stacks, slices) {
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
  
- 
  };
