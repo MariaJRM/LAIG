@@ -1,8 +1,6 @@
 function CircularAnimation(scene, center, radius, angle_init, angle_rot, time){
 	
 	Animation.call(this, scene, time);
-
-	this.id = 2;
 	this.radius = radius;
 	this.startang = angle_init;
 	this.rotang = angle_rot;

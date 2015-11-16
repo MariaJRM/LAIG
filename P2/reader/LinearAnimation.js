@@ -2,7 +2,6 @@ function LinearAnimation(scene, time, c_points){
 	
 	Animation.call(this, scene, time);
 
-	this.id = 1;
 	this.c_points = c_points;
 	this.span = time;
 	this.dist = 0;
