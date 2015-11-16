@@ -333,7 +333,8 @@ XMLscene.prototype.processGraph = function(node){
 	var material = node.material;
 	var texture = node.texture;
 	var animation = node.animation;
-
+	var animCounter = animation.length;
+	var index = 0;
 	
 	if(texture != "null" ) {
 		if(material != "null"){
@@ -361,19 +362,22 @@ XMLscene.prototype.processGraph = function(node){
 	var animationMatrix;
 	if(animation.length > 0)
 	{
-		for(var i=0; i < animation.length; i++){
+		
+		node.animC = 0;
+		console.log(node.animC);
 
-			if(!this.animations[animation[i]].finished)
+			if(node.visited == false)
 			{
-				
-				animationMatrix = this.animations[animation[i]].getMatrix();
-				i = this.animations[animation[i]].length;
+			node.visited = true;
+			this.animations[animation[0]].current = true;
 			}
-			if(i == animation.length-1 && animationMatrix==null)
-			{
-				animationMatrix = this.animations[animation[i]].getMatrix();
+
+			if(this.animations[animation[node.animC]].finished && node.animC < (animation.length-1)){
+				node.animC+=1;
+				this.animations[animation[node.animC]].current = true;
 			}
-		}
+			animationMatrix = this.animations[animation[node.animC]].getMatrix();
+		
 	}
 
 	if (animationMatrix != null){

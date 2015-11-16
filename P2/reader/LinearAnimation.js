@@ -8,8 +8,9 @@ function LinearAnimation(scene, time, c_points){
 	this.startTime = 0;
 	this.currtime = 0;
 	this.initial = true;
-	this.current = true;
+	this.current = false;
 	this.rotAng = 0;
+	this.finished = false;
 
 	this.init();
 }
@@ -58,10 +59,21 @@ LinearAnimation.prototype.update = function (curtime){
 		this.current = false;
 	}
 
+	if(this.initial)
+	{
+		this.initial = false;
+		this.startTime = 0;
+		this.currtime = curtime;
+	}
+	else
+	{
+		this.currtime = curtime;
+	}
+
 	if(!this.finished)
 	{
-		var delta = (curtime - this.startTime)*0.001;
-		this.startTime = curtime;
+		var delta = (this.currtime - this.startTime)*0.001;
+		this.startTime = this.currtime;
 		var vel = (this.dist/this.span)*delta;
 
 			var d_norm = Math.sqrt(Math.pow(this.directions[this.index][0],2)

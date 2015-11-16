@@ -9,10 +9,11 @@ function CircularAnimation(scene, center, radius, angle_init, angle_rot, time){
 
 	this.center = center.split(" ");
 	this.initial = true;
+	this.finished = false;
 	
-	this.time = 0;
-	this.currtime = 0;
-	this.current = true;
+	this.time = Date.now();
+	this.currtime = Date.now();
+	this.current = false;
 	this.init();
 }
 

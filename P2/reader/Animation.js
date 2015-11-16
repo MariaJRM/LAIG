@@ -2,7 +2,7 @@ function Animation(scene, time){
 	this.scene = scene;
 	this.time = time;
 
-	this.finished = false;
+	
 	this.matrix = mat4.create();
 }
 
