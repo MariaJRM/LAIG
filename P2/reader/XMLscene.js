@@ -366,6 +366,7 @@ XMLscene.prototype.processGraph = function(node){
 		node.animC = 0;
 		console.log(node.animC);
 
+
 			if(node.visited == false)
 			{
 			node.visited = true;
@@ -375,7 +376,37 @@ XMLscene.prototype.processGraph = function(node){
 			if(this.animations[animation[node.animC]].finished && node.animC < (animation.length-1)){
 				node.animC+=1;
 				this.animations[animation[node.animC]].current = true;
+
 			}
+			/*if(node.animC > 0)
+			{
+				if(this.animations[animation[node.animC-1]].id == 1
+					&& this.animations[animation[node.animC]].id == 1){
+					this.animations[animation[node.animC]].tranX = this.animations[animation[node.animC-1]].tranX;
+					this.animations[animation[node.animC]].tranY = this.animations[animation[node.animC-1]].tranY;
+					this.animations[animation[node.animC]].tranZ = this.animations[animation[node.animC-1]].tranZ;
+				}
+				else if(this.animations[animation[node.animC-1]].id == 1
+					&& this.animations[animation[node.animC]].id == 2)
+				{
+					this.animations[animation[node.animC]].center[0] = this.animations[animation[node.animC-1]].tranX;
+					this.animations[animation[node.animC]].center[1] = this.animations[animation[node.animC-1]].tranY;
+					this.animations[animation[node.animC]].center[2] = this.animations[animation[node.animC-1]].tranZ;
+				}
+				else if(this.animations[animation[node.animC-1]].id == 2
+					&& this.animations[animation[node.animC]].id == 1)
+				{
+					this.animations[animation[node.animC]].tranX = this.animations[animation[node.animC-1]].center[0];
+					this.animations[animation[node.animC]].tranY = this.animations[animation[node.animC-1]].center[1];
+					this.animations[animation[node.animC]].tranZ = this.animations[animation[node.animC-1]].center[2];
+				}
+				else if(this.animations[animation[node.animC-1]].id == 2
+					&& this.animations[animation[node.animC]].id == 2){
+					this.animations[animation[node.animC]].center[0] = this.animations[animation[node.animC-1]].center[0];
+				this.animations[animation[node.animC]].center[1] = this.animations[animation[node.animC-1]].center[1];
+				this.animations[animation[node.animC]].center[2] = this.animations[animation[node.animC-1]].center[2];
+				}
+			}*/
 			animationMatrix = this.animations[animation[node.animC]].getMatrix();
 		
 	}

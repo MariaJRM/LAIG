@@ -2,6 +2,7 @@ function CircularAnimation(scene, center, radius, angle_init, angle_rot, time){
 	
 	Animation.call(this, scene, time);
 
+	this.id = 2;
 	this.radius = radius;
 	this.startang = angle_init;
 	this.rotang = angle_rot;
@@ -45,6 +46,8 @@ CircularAnimation.prototype.update = function (curtime) {
 			parseFloat(this.center[2])]);
 		mat4.rotate(this.matrix, this.matrix, (this.currentang*Math.PI)/180.0, [0,1,0]);
 		mat4.translate(this.matrix, this.matrix,[this.radius,0,0]);
+
+
 	}
 	else{
 		this.finished = true;
