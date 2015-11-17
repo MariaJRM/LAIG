@@ -21,6 +21,7 @@ function CircularAnimation(scene, center, radius, angle_init, angle_rot, time){
 	this.rotang = angle_rot;
 	this.span = time;
 
+	this.id = 2;
 	this.center = center.split(" ");
 	this.initial = true;
 	this.finished = false;

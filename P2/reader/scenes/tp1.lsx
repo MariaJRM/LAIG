@@ -44,9 +44,9 @@
             <controlpoint xx="5" yy="1" zz="5"/>            
         </ANIMATION>
 
-        <ANIMATION id="circle1" span="30" type="circular" center="0 0 0" radius="0" startang="0" rotang="360"/>
+        <ANIMATION id="circle1" span="10" type="circular" center="0 0 0" radius="0" startang="0" rotang="360"/>
 
-        <ANIMATION id="circle2" span="30" type="circular" center="10 10 10" radius="5" startang="0" rotang="10"/>
+        <ANIMATION id="circle2" span="10" type="circular" center="0 0 0" radius="3" startang="0" rotang="40"/>
         
 </ANIMATIONS>
 
@@ -327,6 +327,7 @@
         <ANIMATIONREF id="line1"/>
         <ANIMATIONREF id="circle1"/>
         <ANIMATIONREF id="line1"/>
+        <ANIMATIONREF id="circle2"/>
         
         <MATERIAL id="null" />
         <TEXTURE id="null" />    

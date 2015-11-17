@@ -395,6 +395,39 @@ XMLscene.prototype.processGraph = function(node){
 			this.animations[nodeID][0].current = true;
 		if(this.animations[nodeID][node.index].finished && node.index < (animCounter-1))
 		{
+			
+			/*if(node.index > 0){
+				console.log(this.animations[nodeID][node.index-1].id);
+			console.log(this.animations[nodeID][node.index].id);
+			if(this.animations[nodeID][node.index].id == 1
+					&& this.animations[nodeID][node.index-1].id == 1){
+					this.animations[nodeID][node.index].tranX = this.animations[nodeID][node.index-1].tranX;
+					this.animations[nodeID][node.index].tranY = this.animations[nodeID][node.index-1].tranY;
+					this.animations[nodeID][node.index].tranZ = this.animations[nodeID][node.index-1].tranZ;
+				}
+				else if(this.animations[nodeID][node.index].id == 1
+					&& this.animations[nodeID][node.index-1].id == 2)
+				{
+					this.animations[nodeID][node.index].tranX = this.animations[nodeID][node.index-1].center[0];
+					this.animations[nodeID][node.index].tranY = this.animations[nodeID][node.index-1].center[1];
+					this.animations[nodeID][node.index].tranZ = this.animations[nodeID][node.index-1].center[2];
+				}
+				else if(this.animations[nodeID][node.index].id == 2
+					&& this.animations[nodeID][node.index-1].id == 1)
+				{
+					console.log("ENTRO AQUI");
+					this.animations[nodeID][node.index].center[0] = this.animations[nodeID][node.index-1].tranX;
+					this.animations[nodeID][node.index].center[1] = this.animations[nodeID][node.index-1].tranY;
+					this.animations[nodeID][node.index].center[2] = this.animations[nodeID][node.index-1].tranZ;
+				}
+				else if(this.animations[nodeID][node.index].id == 2
+					&& this.animations[nodeID][node.index-1].id == 2){
+					this.animations[nodeID][node.index].center[0] = this.animations[nodeID][node.index-1].center[0];
+					this.animations[nodeID][node.index].center[1] = this.animations[nodeID][node.index-1].center[1];
+					this.animations[nodeID][node.index].center[2] = this.animations[nodeID][node.index-1].center[2];
+				}
+			}*/
+
 			node.index+=1;
 			this.animations[nodeID][node.index].current = true;
 		}
