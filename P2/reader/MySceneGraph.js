@@ -410,6 +410,7 @@ MySceneGraph.prototype.parseNodes = function(rootElement){
 		var id = this.reader.getString(nodes[i],"id");
 		this.node['id'] = this.reader.getString(nodes[i],"id");
 		this.node['visited'] = false;
+		this.node['index'] = 0;
 
 		var animRef = nodes[i].getElementsByTagName('ANIMATIONREF');
 		this.node['animation'] = [];

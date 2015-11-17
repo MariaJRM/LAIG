@@ -7,7 +7,7 @@
     <rotation axis="x" angle="0" />                  <!-- initial rotation 3 -->
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
-    <scale sx="0.08" sy="0.08" sz="0.08" />                  <!-- initial scaling -->
+    <scale sx="0.020" sy="0.020" sz="0.020" />                  <!-- initial scaling -->
     <reference length="0" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
  
@@ -38,47 +38,19 @@
 
 <ANIMATIONS>
         <ANIMATION id="line1" span="10" type="linear">
-            <controlpoint xx="1" yy="1" zz="1"/>            
-            <controlpoint xx="3" yy="1" zz="2"/>    
+            <controlpoint xx="0" yy="0" zz="0"/>            
+            <controlpoint xx="1" yy="1" zz="2"/>    
             <controlpoint xx="2" yy="1" zz="2"/>                    
             <controlpoint xx="5" yy="1" zz="5"/>            
         </ANIMATION>
 
-        <ANIMATION id="circle1" span="30" type="circular" center="10 10 10" radius="0" startang="0" rotang="1440"/>
+        <ANIMATION id="circle1" span="30" type="circular" center="0 0 0" radius="0" startang="0" rotang="360"/>
 
-        <ANIMATION id="circle2" span="10" type="circular" center="10 10 10" radius="5" startang="40" rotang="10"/>
+        <ANIMATION id="circle2" span="30" type="circular" center="10 10 10" radius="5" startang="0" rotang="10"/>
         
 </ANIMATIONS>
 
 <TEXTURES>
-    <TEXTURE id="metal">
-        <file path="textures/metal.jpg" />
-        <amplif_factor s="0" t="0" />
-    </TEXTURE>
-    <TEXTURE id="parede">
-        <file path="textures/desert-wall.jpg" />
-        <amplif_factor s="1" t="1" />
-    </TEXTURE>
-    <TEXTURE id="floor">
-        <file path="textures/dirt.jpg" />
-        <amplif_factor s="1" t="1" />
-    </TEXTURE>
-    <TEXTURE id="disco-ball">
-        <file path="textures/disco-ball.jpg" />
-        <amplif_factor s="1" t="1" />
-    </TEXTURE>
-    <TEXTURE id="lava">
-        <file path="textures/lava.jpg" />
-        <amplif_factor s="1" t="1" />
-    </TEXTURE>
-    <TEXTURE id="star-wars">
-        <file path="textures/star-wars.jpg" />
-        <amplif_factor s="1" t="1" />
-    </TEXTURE>
-    <TEXTURE id="darth">
-        <file path="textures/darth.jpg" />
-        <amplif_factor s="1" t="1" />
-    </TEXTURE>
      <TEXTURE id="bb8">
         <file path="textures/bb8-final.jpg" />
         <amplif_factor s="1" t="1" />
@@ -352,6 +324,10 @@
     </NODE>
 
     <NODE id="bb8">
+        <ANIMATIONREF id="line1"/>
+        <ANIMATIONREF id="circle1"/>
+        <ANIMATIONREF id="line1"/>
+        
         <MATERIAL id="null" />
         <TEXTURE id="null" />    
 
@@ -378,6 +354,7 @@
     </NODE>
 
     <NODE id="bb8-bottom">
+       
         <MATERIAL id="brilhante" />
         <TEXTURE id="bb8" />
 
@@ -390,6 +367,9 @@
     </NODE>
 
     <NODE id="starship">
+        <ANIMATIONREF id="line1"/>
+       
+
         <MATERIAL id="null" />
         <TEXTURE id="null" />
 

@@ -56,7 +56,7 @@ LinearAnimation.prototype.update = function (curtime){
 	if(this.index == (this.c_points.length-1))
 	{
 		this.finished = true;
-		this.current = false;
+		//this.current = false;
 	}
 
 	if(this.initial)
@@ -114,5 +114,5 @@ LinearAnimation.prototype.update = function (curtime){
 		mat4.rotate(this.matrix, this.matrix,this.rotAng, [0, 1, 0]);
 	
 	}
-	console.log("LINEAR ANIMATION: " + this.finished);
+	//console.log("LINEAR ANIMATION: " + this.finished);
 }

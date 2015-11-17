@@ -228,7 +228,7 @@ XMLscene.prototype.processLeaves = function(){
 
 XMLscene.prototype.processAnimations = function(){
 
-	for(anim in this.graph.animationsInfo){
+	/*for(anim in this.graph.animationsInfo){
 		if(this.graph.animationsInfo[anim].type == "linear"){
 		
 			this.animations[this.graph.animationsInfo[anim].id] = new LinearAnimation(this,
@@ -244,7 +244,48 @@ XMLscene.prototype.processAnimations = function(){
 				this.graph.animationsInfo[anim].rotang,
 				this.graph.animationsInfo[anim].span);
 		}
+	}*/
+
+	for(node in this.graph.nodesInfo)
+	{
+		var animref = this.graph.nodesInfo[node].animation;
+		//console.log(animref);
+		if(animref.length > 0)
+		{
+			var idNode = this.graph.nodesInfo[node].id;
+			//console.log(idNode);
+			this.animations[idNode] = {};
+			//console.log(this.animations);
+			//console.log(this.graph.nodesInfo[node].id);
+			for(var i = 0; i < animref.length; i++)
+			{
+				//var animation = this.graph.animationsInfo[animref[i]];
+				//console.log(animation);
+				//console.log(this.graph.nodesInfo[node].id);
+				//console.log(animref[i]);
+				
+				if(this.graph.animationsInfo[animref[i]].type == "linear"){
+					//console.log("linear: " + animref[i]);
+					this.animations[idNode][i] = new LinearAnimation(this,
+					this.graph.animationsInfo[animref[i]].span, 
+					this.graph.animationsInfo[animref[i]].point);
+				}
+				else if(this.graph.animationsInfo[animref[i]].type == "circular"){
+					//console.log("circular: " + animref[i]);
+					this.animations[idNode][i] = new CircularAnimation(this,
+					this.graph.animationsInfo[animref[i]].center, 
+					this.graph.animationsInfo[animref[i]].radius,
+				this.graph.animationsInfo[animref[i]].startang,
+				this.graph.animationsInfo[animref[i]].rotang,
+				this.graph.animationsInfo[animref[i]].span);
+				}
+				//console.log(this.animations[idNode]);
+			}
+			console.log(this.animations);
+		}
+		
 	}
+	//console.log(this.animations);
 }
 
 /*
@@ -323,6 +364,8 @@ XMLscene.prototype.checkIfLeaf = function (id){
 	return false;
 };
 
+
+
 /*
  * Method to process the graph's nodes
  */	
@@ -334,7 +377,8 @@ XMLscene.prototype.processGraph = function(node){
 	var texture = node.texture;
 	var animation = node.animation;
 	var animCounter = animation.length;
-	var index = 0;
+	var nodeID = node.id;
+	
 	
 	if(texture != "null" ) {
 		if(material != "null"){
@@ -356,64 +400,71 @@ XMLscene.prototype.processGraph = function(node){
 		}
 		this.materials[material].apply();
 	}
-
+	
 	this.multMatrix(node.matrix);
-
+if(this.animations[nodeID] != undefined && animation.length > 0){
 	var animationMatrix;
-	if(animation.length > 0)
-	{
-		
-		node.animC = 0;
-		console.log(node.animC);
+	var an = this.animations[nodeID][0];
 
+	if(this.animations[nodeID][0])
+		this.animations[nodeID][0].current = true;
+	if(this.animations[nodeID][node.index].finished && node.index < (animCounter-1))
+	{
+		node.index+=1;
+		this.animations[nodeID][node.index].current = true;
+	}
+
+
+		for(anim in this.animations[nodeID])
+		{
+			/*if(node.visited == false)
+			{
+				node.visited == true;
+				an.current = true;
+			}*/
+			
+			//if(this.animations[nodeID][anim].finished){
+			//	this.animations[nodeID][anim+1].current = true;
+				animationMatrix = this.animations[nodeID][anim].getMatrix();
+				if (animationMatrix != null){
+				//mat4.identity(animationMatrix);
+				this.multMatrix(animationMatrix);
+			}
+
+			//}
+			
+		}
+		/*node.animC = 0;
 
 			if(node.visited == false)
 			{
-			node.visited = true;
-			this.animations[animation[0]].current = true;
+				
+				node.visited = true;
+				
+				//console.log(node.id + " " + node.visited);
+				//console.log(an.current);
+				an.current = true;
+				//console.log(an.current);
+				//console.log(this.animations[animation[0]]);
 			}
 
-			if(this.animations[animation[node.animC]].finished && node.animC < (animation.length-1)){
+			//console.log(this.animations[nodeID][node.animC].finished);
+			if(this.animations[nodeID][node.animC].finished && node.animC < (animation.length-1)){
+				//console.log(animation.length);
 				node.animC+=1;
-				this.animations[animation[node.animC]].current = true;
+				//console.log(node.animC);
+				this.animations[nodeID][node.animC].current = true;
+				//console.log(this.animations[animation[node.animC]]);
 
 			}
-			/*if(node.animC > 0)
-			{
-				if(this.animations[animation[node.animC-1]].id == 1
-					&& this.animations[animation[node.animC]].id == 1){
-					this.animations[animation[node.animC]].tranX = this.animations[animation[node.animC-1]].tranX;
-					this.animations[animation[node.animC]].tranY = this.animations[animation[node.animC-1]].tranY;
-					this.animations[animation[node.animC]].tranZ = this.animations[animation[node.animC-1]].tranZ;
-				}
-				else if(this.animations[animation[node.animC-1]].id == 1
-					&& this.animations[animation[node.animC]].id == 2)
-				{
-					this.animations[animation[node.animC]].center[0] = this.animations[animation[node.animC-1]].tranX;
-					this.animations[animation[node.animC]].center[1] = this.animations[animation[node.animC-1]].tranY;
-					this.animations[animation[node.animC]].center[2] = this.animations[animation[node.animC-1]].tranZ;
-				}
-				else if(this.animations[animation[node.animC-1]].id == 2
-					&& this.animations[animation[node.animC]].id == 1)
-				{
-					this.animations[animation[node.animC]].tranX = this.animations[animation[node.animC-1]].center[0];
-					this.animations[animation[node.animC]].tranY = this.animations[animation[node.animC-1]].center[1];
-					this.animations[animation[node.animC]].tranZ = this.animations[animation[node.animC-1]].center[2];
-				}
-				else if(this.animations[animation[node.animC-1]].id == 2
-					&& this.animations[animation[node.animC]].id == 2){
-					this.animations[animation[node.animC]].center[0] = this.animations[animation[node.animC-1]].center[0];
-				this.animations[animation[node.animC]].center[1] = this.animations[animation[node.animC-1]].center[1];
-				this.animations[animation[node.animC]].center[2] = this.animations[animation[node.animC-1]].center[2];
-				}
-			}*/
-			animationMatrix = this.animations[animation[node.animC]].getMatrix();
-		
-	}
+			animationMatrix = this.animations[nodeID][node.animC].getMatrix();
+
+			//for(var i = 0; i < this.animations[nodeID].length)
 
 	if (animationMatrix != null){
 		this.multMatrix(animationMatrix);
-	}
+	}*/
+}
 
 	for(var i in node.descendants){
 		
@@ -529,9 +580,15 @@ XMLscene.prototype.display = function () {
 
 XMLscene.prototype.update = function(curtime){
 
-	for(anim in this.animations){
+	for(node in this.animations){
+		
+		var animationsNode = this.animations[node];
+		
+		for(anim in animationsNode){
+			//console.log(animationsNode[anim]);
+			if(animationsNode[anim].current)
+				animationsNode[anim].update(curtime);
 
-		if(this.animations[anim].current)
-			this.animations[anim].update(curtime);
+		}
 	}
 }

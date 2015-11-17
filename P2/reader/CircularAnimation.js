@@ -38,6 +38,7 @@ CircularAnimation.prototype.update = function (curtime) {
 			this.currtime = curtime;
 		}
 		this.currentang = this.startang + (this.speed * (this.currtime - this.time));
+		//console.log(this.currentang);
 		mat4.identity(this.matrix);
 		mat4.translate(this.matrix, this.matrix,[parseFloat(this.center[0]),
 			parseFloat(this.center[1]),
@@ -49,10 +50,10 @@ CircularAnimation.prototype.update = function (curtime) {
 	}
 	else{
 		this.finished = true;
-		this.current = false;
+		//this.current = false;
 	}
 
-	console.log("CIRCULAR ANIMATION: " + this.finished);
+	//console.log("CIRCULAR ANIMATION: " + this.finished);
 
 };
 
