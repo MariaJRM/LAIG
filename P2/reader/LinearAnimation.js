@@ -1,3 +1,15 @@
+/**
+* Class LinearAnimation
+* Representes Linear Animation and it's a subclasse of Animation
+*/
+
+/**
+* Constructor
+* Creates object LinearAnimation
+* @param scene Class CGFScene
+* @param time Animation time
+* @param c_points Array with Animation Control points
+*/
 function LinearAnimation(scene, time, c_points){
 	
 	Animation.call(this, scene, time);
@@ -14,10 +26,13 @@ function LinearAnimation(scene, time, c_points){
 
 	this.init();
 }
-
-
 LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
+
+/**
+* init
+* Initializes variables that are used in the calculus on Animation update.
+*/
 LinearAnimation.prototype.init = function () {
 
 	this.directions = [];
@@ -44,6 +59,10 @@ LinearAnimation.prototype.init = function () {
 	this.speed = this.dist/this.span;	
 }
 
+/**
+* update
+* Function that updates the animatition during the time.
+*/
 LinearAnimation.prototype.update = function (curtime){
 
 	if(this.index<(this.c_points.length-1) &&
@@ -56,7 +75,6 @@ LinearAnimation.prototype.update = function (curtime){
 	if(this.index == (this.c_points.length-1))
 	{
 		this.finished = true;
-		//this.current = false;
 	}
 
 	if(this.initial)
@@ -100,6 +118,7 @@ LinearAnimation.prototype.update = function (curtime){
 		if((this.directions[this.index][2] > 0 && this.tranZ > this.c_points[this.index+1].zz) || (this.directions[this.index][2] < 0 && this.tranZ < this.c_points[this.index+1].zz))
 			this.tranZ = this.c_points[this.index+1].zz;
 
+		//ANGLE CALCULUS
 		var AB = vec2.fromValues(this.c_points[this.index+1].xx-this.c_points[this.index].xx,
 			this.c_points[this.index+1].zz-this.c_points[this.index].zz);
 
@@ -109,10 +128,10 @@ LinearAnimation.prototype.update = function (curtime){
 				(Math.sqrt(Math.pow(AB[0],2)+Math.pow(AB[1],2))+
 				Math.sqrt(Math.pow(BC[0],2)+Math.pow(BC[1],2))))*(180/Math.PI);
 
+		// TRANSFORMATIONS
 		mat4.identity(this.matrix);
 		mat4.translate(this.matrix, this.matrix,[this.tranX, this.tranY, this.tranZ]);
 		mat4.rotate(this.matrix, this.matrix,this.rotAng, [0, 1, 0]);
 	
 	}
-	//console.log("LINEAR ANIMATION: " + this.finished);
 }

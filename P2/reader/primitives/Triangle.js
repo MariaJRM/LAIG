@@ -1,6 +1,23 @@
 /**
- * Triangle
- * @constructor
+ * Class Triangle 
+ * Responsible for drawing the Triangle primitive.
+ */
+
+ /**
+ * Constructor
+ * Creates the object Triangle
+ * @param scene Class CGFScene
+ * @param x1 Point 1 x
+ * @param y1 Point 1 y
+ * @param z1 Point 1 z
+ * @param x2 Point 2 x
+ * @param y2 Point 2 y
+ * @param z2 Point 2 z
+ * @param x3 Point 3 x
+ * @param y3 Point 3 y
+ * @param z3 Point 3 z
+ * @param s Amplification factor s
+ * @param t Amplification factor t
  */
 function Triangle(scene, x0, y0, z0, x1, y1, z1, x2, y2, z2, s, t){
 
@@ -31,10 +48,14 @@ function Triangle(scene, x0, y0, z0, x1, y1, z1, x2, y2, z2, s, t){
     this.initBuffers();
 
 };
-
 Triangle.prototype = Object.create(CGFobject.prototype);
 Triangle.prototype.constructor = Triangle;
 
+/**
+ * initBuffers
+ * Function that calculates what is necessary to draw the Rectangle (vertexes of the solid,
+ * normals for the lights and textcoords for texture application)
+ */
 Triangle.prototype.initBuffers = function() {
 
     this.vertices = [
@@ -63,7 +84,8 @@ Triangle.prototype.initBuffers = function() {
     this.initGLBuffers();
 };
 
-/*
+/**
+ * updateAmpl
  * Method used to apply amplification values to textures on triangles.
  */
 Triangle.prototype.updateAmpl = function(s, t){

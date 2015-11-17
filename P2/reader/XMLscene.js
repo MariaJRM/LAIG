@@ -1,5 +1,7 @@
-/*
+/**
+ * convertDegtoRad
  * Method to convert degrees to radians
+ * @param deg angle in degrees
  */
 function convertDegtoRad(deg){
 	return (deg*Math.PI/180.0);
@@ -36,8 +38,7 @@ XMLscene.prototype.init = function (application) {
 
    	this.axis=new CGFaxis(this);
 
-   	
-	this.setUpdatePeriod(10);
+	this.setUpdatePeriod(1000/60);
 };
 
 XMLscene.prototype.initCameras = function () {
@@ -52,7 +53,8 @@ XMLscene.prototype.setDefaultAppearance = function () {
     this.setShininess(10.0);
 };
 
-/*
+/**
+ * processLights
  * Method to process the parsing of Lights
  */
 XMLscene.prototype.processLights = function(){
@@ -91,7 +93,8 @@ XMLscene.prototype.processLights = function(){
 	this.lightsLoad = true;
 };
 
-/*
+/** 
+ * processIllumination
  * Method to process the parsing of Illumination
  */
 XMLscene.prototype.processIllumination = function(){
@@ -107,7 +110,8 @@ XMLscene.prototype.processIllumination = function(){
 		this.graph.illuminationInfo.ambient.a);
 };
 
-/*
+/**
+ * processTextures
  * Method to process the parsing of Textures
  */
 XMLscene.prototype.processTextures = function(){
@@ -121,7 +125,8 @@ XMLscene.prototype.processTextures = function(){
 	}
 }
 
-/*
+/**
+ * processMaterials
  * Method to process the parsing of Materials
  */
 XMLscene.prototype.processMaterials = function(){
@@ -155,7 +160,8 @@ XMLscene.prototype.processMaterials = function(){
 	}
 }
 
-/*
+/**
+ * processLeaves
  * Method to process the parsing of Leaves
  */
 XMLscene.prototype.processLeaves = function(){
@@ -213,10 +219,6 @@ XMLscene.prototype.processLeaves = function(){
 					 this.graph.leavesInfo[leaf].ctrlPoints);
 				this.leaves[leaf].type = "patch";
 				break;
-			case "vehicle":
-				//this.leaves[leaf] = new Vehicle();
-				//this.leaves[leaf].type = "vehicle";
-			break;
 			case "terrain":
 				this.leaves[leaf] = new Terrain(this, this.graph.leavesInfo[leaf].texture,
 					this.graph.leavesInfo[leaf].height);
@@ -226,52 +228,32 @@ XMLscene.prototype.processLeaves = function(){
 	}
 };
 
+/**
+ * processAnimations
+ * Method to process the parsing of AnimationsRef
+ */
 XMLscene.prototype.processAnimations = function(){
-
-	/*for(anim in this.graph.animationsInfo){
-		if(this.graph.animationsInfo[anim].type == "linear"){
-		
-			this.animations[this.graph.animationsInfo[anim].id] = new LinearAnimation(this,
-				this.graph.animationsInfo[anim].span, 
-				this.graph.animationsInfo[anim].point);
-		}
-		else if(this.graph.animationsInfo[anim].type == "circular"){
-
-			this.animations[this.graph.animationsInfo[anim].id] = new CircularAnimation(this,
-				this.graph.animationsInfo[anim].center, 
-				this.graph.animationsInfo[anim].radius,
-				this.graph.animationsInfo[anim].startang,
-				this.graph.animationsInfo[anim].rotang,
-				this.graph.animationsInfo[anim].span);
-		}
-	}*/
 
 	for(node in this.graph.nodesInfo)
 	{
 		var animref = this.graph.nodesInfo[node].animation;
-		//console.log(animref);
+		
 		if(animref.length > 0)
 		{
 			var idNode = this.graph.nodesInfo[node].id;
-			//console.log(idNode);
 			this.animations[idNode] = {};
-			//console.log(this.animations);
-			//console.log(this.graph.nodesInfo[node].id);
+
 			for(var i = 0; i < animref.length; i++)
 			{
-				//var animation = this.graph.animationsInfo[animref[i]];
-				//console.log(animation);
-				//console.log(this.graph.nodesInfo[node].id);
-				//console.log(animref[i]);
 				
 				if(this.graph.animationsInfo[animref[i]].type == "linear"){
-					//console.log("linear: " + animref[i]);
+					
 					this.animations[idNode][i] = new LinearAnimation(this,
 					this.graph.animationsInfo[animref[i]].span, 
 					this.graph.animationsInfo[animref[i]].point);
 				}
 				else if(this.graph.animationsInfo[animref[i]].type == "circular"){
-					//console.log("circular: " + animref[i]);
+					
 					this.animations[idNode][i] = new CircularAnimation(this,
 					this.graph.animationsInfo[animref[i]].center, 
 					this.graph.animationsInfo[animref[i]].radius,
@@ -279,16 +261,13 @@ XMLscene.prototype.processAnimations = function(){
 				this.graph.animationsInfo[animref[i]].rotang,
 				this.graph.animationsInfo[animref[i]].span);
 				}
-				//console.log(this.animations[idNode]);
 			}
-			console.log(this.animations);
-		}
-		
+		}	
 	}
-	//console.log(this.animations);
 }
 
-/*
+/**
+ * onGraphLoaded
  * Handler called when the graph is loaded
  */
 XMLscene.prototype.onGraphLoaded = function () 
@@ -315,6 +294,7 @@ XMLscene.prototype.onGraphLoaded = function ()
 	//Materials
 	this.processMaterials();
 
+	//Animations
 	this.processAnimations();
 
 	//Nodes
@@ -354,8 +334,10 @@ XMLscene.prototype.onGraphLoaded = function ()
 	this.processGraph(this.graph.nodesInfo[this.graph.root_id]);
 };
 
-/*
+/**
+ * checkIfLeaf
  * Method to determine if the node is a leaf through the node's id
+ * @param id Leaf ID
  */
 XMLscene.prototype.checkIfLeaf = function (id){
 	for(var i in this.graph.leavesInfo){
@@ -366,8 +348,10 @@ XMLscene.prototype.checkIfLeaf = function (id){
 
 
 
-/*
+/**
+ * processGraph
  * Method to process the graph's nodes
+ * @param node Actual node of graph
  */	
 XMLscene.prototype.processGraph = function(node){
 
@@ -400,72 +384,29 @@ XMLscene.prototype.processGraph = function(node){
 		}
 		this.materials[material].apply();
 	}
-	
+
 	this.multMatrix(node.matrix);
-if(this.animations[nodeID] != undefined && animation.length > 0){
-	var animationMatrix;
-	var an = this.animations[nodeID][0];
+	
+	if(this.animations[nodeID] != undefined && animation.length > 0){
+		var animationMatrix;
+		var an = this.animations[nodeID][0];
 
-	if(this.animations[nodeID][0])
-		this.animations[nodeID][0].current = true;
-	if(this.animations[nodeID][node.index].finished && node.index < (animCounter-1))
-	{
-		node.index+=1;
-		this.animations[nodeID][node.index].current = true;
-	}
-
+		if(this.animations[nodeID][0])
+			this.animations[nodeID][0].current = true;
+		if(this.animations[nodeID][node.index].finished && node.index < (animCounter-1))
+		{
+			node.index+=1;
+			this.animations[nodeID][node.index].current = true;
+		}
 
 		for(anim in this.animations[nodeID])
 		{
-			/*if(node.visited == false)
-			{
-				node.visited == true;
-				an.current = true;
-			}*/
-			
-			//if(this.animations[nodeID][anim].finished){
-			//	this.animations[nodeID][anim+1].current = true;
 				animationMatrix = this.animations[nodeID][anim].getMatrix();
 				if (animationMatrix != null){
-				//mat4.identity(animationMatrix);
 				this.multMatrix(animationMatrix);
-			}
-
-			//}
-			
-		}
-		/*node.animC = 0;
-
-			if(node.visited == false)
-			{
-				
-				node.visited = true;
-				
-				//console.log(node.id + " " + node.visited);
-				//console.log(an.current);
-				an.current = true;
-				//console.log(an.current);
-				//console.log(this.animations[animation[0]]);
-			}
-
-			//console.log(this.animations[nodeID][node.animC].finished);
-			if(this.animations[nodeID][node.animC].finished && node.animC < (animation.length-1)){
-				//console.log(animation.length);
-				node.animC+=1;
-				//console.log(node.animC);
-				this.animations[nodeID][node.animC].current = true;
-				//console.log(this.animations[animation[node.animC]]);
-
-			}
-			animationMatrix = this.animations[nodeID][node.animC].getMatrix();
-
-			//for(var i = 0; i < this.animations[nodeID].length)
-
-	if (animationMatrix != null){
-		this.multMatrix(animationMatrix);
-	}*/
+		}	
+	}
 }
-
 	for(var i in node.descendants){
 		
 		if(this.checkIfLeaf(node.descendants[i])){
@@ -482,8 +423,12 @@ if(this.animations[nodeID] != undefined && animation.length > 0){
 	this.popMatrix();
 }
 
-/*
+/**
+ * draw
  * Method to draw the primitives
+ * @param leaf leaf of graph
+ * @param s Amplification factor s
+ * @param t Amplification factor t
  */
 XMLscene.prototype.draw = function(leaf,s,t){
 
@@ -524,7 +469,8 @@ XMLscene.prototype.draw = function(leaf,s,t){
 
 }
 
-/*
+/**
+* processInitialsTransformations
 * Function that processes Initials Tranformations
 */
 XMLscene.prototype.processInitialsTransformations = function(){
@@ -541,7 +487,10 @@ XMLscene.prototype.processInitialsTransformations = function(){
 		this.graph.initialsInfo.scale.sz);
 }
 
-
+/**
+* display
+* Function that makes the scene display
+*/
 XMLscene.prototype.display = function () {
    
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -573,11 +522,15 @@ XMLscene.prototype.display = function () {
 		}
 
 		this.processInitialsTransformations();
-
 		this.processGraph(this.graph.nodesInfo[this.graph.root_id]);
 	};	
 };
 
+/**
+* update
+* Function that makes the scene update
+* @param curtime Program time
+*/
 XMLscene.prototype.update = function(curtime){
 
 	for(node in this.animations){
@@ -585,7 +538,6 @@ XMLscene.prototype.update = function(curtime){
 		var animationsNode = this.animations[node];
 		
 		for(anim in animationsNode){
-			//console.log(animationsNode[anim]);
 			if(animationsNode[anim].current)
 				animationsNode[anim].update(curtime);
 

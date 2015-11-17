@@ -1,6 +1,18 @@
 /**
- * Rectangle
- * @constructor
+ * Class Rectangle 
+ * Responsible for drawing the rectangle primitive.
+ */
+
+ /**
+ * Constructor
+ * Creates the object Rectangle
+ * @param scene Class CGFScene
+ * @param x1 Left-top point x
+ * @param y1 Left-top point y
+ * @param x2 Right-bottom point x
+ * @param y2 Right-bottom point y
+ * @param s Amplification factor s
+ * @param t Amplification factor t
  */
 function Rectangle(scene, x1, y1, x2, y2, s , t) {
 
@@ -28,11 +40,14 @@ function Rectangle(scene, x1, y1, x2, y2, s , t) {
 	this.initBuffers();
 
 };
-
-
 Rectangle.prototype = Object.create(CGFobject.prototype);
 Rectangle.prototype.constructor=Rectangle;
 
+/**
+ * initBuffers
+ * Function that calculates what is necessary to draw the Rectangle (vertexes of the solid,
+ * normals for the lights and textcoords for texture application)
+ */
 Rectangle.prototype.initBuffers = function () {
 	
 	this.vertices = [
@@ -67,8 +82,9 @@ Rectangle.prototype.initBuffers = function () {
 	
 };
 
-/*
- * Method used to apply amplification values to textures on rectangles
+/**
+ * updateAmpl
+ * Method used to apply amplification values to textures on Rectangle
  */
 Rectangle.prototype.updateAmpl = function(s,t){
 	this.texCoords = [    

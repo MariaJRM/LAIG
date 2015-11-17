@@ -1,6 +1,16 @@
 /**
- * Sphere
- * @constructor
+ * Class Sphere 
+ * Responsible for drawing the Sphere primitive.
+ */
+
+
+ /**
+ * Constructor
+ * Creates the object Sphere
+ * @param scene Class CGFScene
+ * @param rad Radius Sphere
+ * @param stacks Stacks of Sphere
+ * @param slices Slices of Sphere
  */
 function Sphere(scene, rad, slices, stacks) {
  	CGFobject.call(this,scene);
@@ -11,11 +21,14 @@ function Sphere(scene, rad, slices, stacks) {
 
  	this.initBuffers();
  };
-
  Sphere.prototype = Object.create(CGFobject.prototype);
  Sphere.prototype.constructor = Sphere;
 
-
+/**
+ * initBuffers
+ * Function that calculates what is necessary to draw the cylinder (vertexes of the solid,
+ * normals for the lights and textcoords for texture application)
+ */
  Sphere.prototype.initBuffers = function() {
 
 	var ang_slices = 360 * (Math.PI /180.0) / this.slices;

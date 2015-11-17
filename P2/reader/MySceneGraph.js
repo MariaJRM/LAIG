@@ -10,8 +10,13 @@ function MySceneGraph(filename, scene) {
 	this.reader.open('scenes/'+filename, this);  
 }
 
-/*
- * Method that retrieves the element inside a nametag (ex. retrieves the object frustum inside initials)
+/**
+ * getUniqueElement
+ * Method that retrieves the element that have a 
+ * nametag (ex. retrieves the object frustum inside initials)
+ * @param tag Search Sentence
+ * @param nametag Word to search
+ * @return tempInitials Object with the nametag
  */
 function getUniqueElement(tag, nametag){
 
@@ -25,8 +30,13 @@ function getUniqueElement(tag, nametag){
 	return tempInitials[0];
 }
 
-/*
- * Method that retrieves the elements inside a nametag (ex. retrieves the objects rotation inside initials)
+/** 
+ * getAllElements
+ * Method that retrieves the elements that have a 
+ * nametag (ex. retrieves the objects rotation inside initials)
+ * @param tag Search Sentence
+ * @param nametag Word to search
+ * @return tempInitials Objects with the nametag
  */
 function getAllElements(tag, nametag){
 
@@ -37,13 +47,16 @@ function getAllElements(tag, nametag){
 	return tempInitials;
 }
 
-/*
+/** 
+ * parseInitials
  * Method that parses elements of Initials
+ * @param rootElement XML to search
  */
 MySceneGraph.prototype.parseInitials = function(rootElement) {
 
 	this.initialsInfo = {};
 	
+	//FRUSTUM
 	var initials = getUniqueElement(rootElement, "INITIALS");
 	var frustum = getUniqueElement(initials, "frustum");
 
@@ -52,6 +65,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	this.initialsInfo.frustum['near'] = this.reader.getFloat(frustum, "near");
 	this.initialsInfo.frustum['far'] = this.reader.getFloat(frustum, "far");
 
+	//TRANSLATION
 	var translation = getUniqueElement(initials, "translation");
 
 	this.initialsInfo.translation = {};
@@ -60,6 +74,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	this.initialsInfo.translation['y'] = this.reader.getFloat(translation, "y");
 	this.initialsInfo.translation['z'] = this.reader.getFloat(translation, "z");
 
+	//ROTATION
 	var rotation = getAllElements(initials, "rotation");
 	this.initialsInfo.rotation = {};
 
@@ -67,6 +82,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 		this.initialsInfo.rotation[this.reader.getString(rotation[i], "axis")] = this.reader.getFloat(rotation[i], "angle");
 	}
 
+	//SCALE
 	var scale = getUniqueElement(initials, "scale");
 	this.initialsInfo.scale = {};
 
@@ -74,6 +90,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	this.initialsInfo.scale['sy'] = this.reader.getFloat(scale, "sy");
 	this.initialsInfo.scale['sz'] = this.reader.getFloat(scale, "sz");
 
+	//REFERENCE
 	var reference = getUniqueElement(initials, "reference");
 	this.initialsInfo.ref = {};
 
@@ -81,8 +98,10 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 
 };
 
-/*
- * Method that parses elements of Illumination
+/**
+ * parseIlumination
+ * Method that parses elements of Illumination.
+ * @param rootElement XML to search
  */
 MySceneGraph.prototype.parseIllumination = function(rootElement) {
 
@@ -91,6 +110,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	var illumination = getUniqueElement(rootElement, "ILLUMINATION");
 	var ambient = getUniqueElement(illumination, "ambient");
 
+	//AMBIENT
 	this.illuminationInfo.ambient = {};
 
 	this.illuminationInfo.ambient['r'] = this.reader.getFloat(ambient, "r");
@@ -99,7 +119,8 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	this.illuminationInfo.ambient['a'] = this.reader.getFloat(ambient, "a");
 
 	var background = getUniqueElement(illumination, "background");
-
+	
+	//BACKGROUND
 	this.illuminationInfo.background = {};
 
 	this.illuminationInfo.background['r'] = this.reader.getFloat(background, "r");
@@ -108,8 +129,10 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	this.illuminationInfo.background['a'] = this.reader.getFloat(background, "a");
 };
 
-/*
+/**
+ * parseLights
  * Method that parses elements of Lights
+ * @param rootElement XML to search
  */
 MySceneGraph.prototype.parseLights= function(rootElement) {
 
@@ -125,6 +148,7 @@ MySceneGraph.prototype.parseLights= function(rootElement) {
 		var enable = getUniqueElement(lights.children[i],"enable");
 		this.light['enable'] = this.reader.getBoolean(enable, "value");
 
+		//POSITION
 		var position = getUniqueElement(lights.children[i],"position");
 		this.light['position'] = {};
 		this.light['position']['x'] = this.reader.getString(position, "x");
@@ -132,6 +156,7 @@ MySceneGraph.prototype.parseLights= function(rootElement) {
 		this.light['position']['z'] = this.reader.getString(position, "z");
 		this.light['position']['w'] = this.reader.getString(position, "w");
 
+		//AMBIENT
 		var ambient = getUniqueElement(lights.children[i],"ambient");
 		this.light['ambient'] = {};
 		this.light['ambient']['r'] = this.reader.getString(ambient, "r");
@@ -139,6 +164,7 @@ MySceneGraph.prototype.parseLights= function(rootElement) {
 		this.light['ambient']['b'] = this.reader.getString(ambient, "b");
 		this.light['ambient']['a'] = this.reader.getString(ambient, "a");
 
+		//DIFFUSE
 		var diffuse = getUniqueElement(lights.children[i],"diffuse");
 		this.light['diffuse'] = {};
 		this.light['diffuse']['r'] = this.reader.getString(diffuse, "r");
@@ -146,6 +172,7 @@ MySceneGraph.prototype.parseLights= function(rootElement) {
 		this.light['diffuse']['b'] = this.reader.getString(diffuse, "b");
 		this.light['diffuse']['a'] = this.reader.getString(diffuse, "a");
 
+		//SPECULAR
 		var specular = getUniqueElement(lights.children[i],"specular");
 		this.light['specular'] = {};
 		this.light['specular']['r'] = this.reader.getString(diffuse, "r");
@@ -157,8 +184,10 @@ MySceneGraph.prototype.parseLights= function(rootElement) {
 	}
 };
 
-/*
+/**
+ * parseAnimations
  * Method that parses elements of Animations
+ * @param rootElement XML to search
  */
 MySceneGraph.prototype.parseAnimations= function(rootElement) {
 
@@ -171,6 +200,7 @@ MySceneGraph.prototype.parseAnimations= function(rootElement) {
 		var type = this.reader.getString(animations.children[i], "type");
 		this.animation['type'] = type;
 
+		//LINEAR
 		if(type == 'linear'){
 			this.animation['id'] = this.reader.getString(animations.children[i], "id");
 			this.animation['span'] = this.reader.getFloat(animations.children[i], "span");
@@ -184,6 +214,7 @@ MySceneGraph.prototype.parseAnimations= function(rootElement) {
 				this.animation.point[j]['yy'] = this.reader.getFloat(points[j], "yy");
 				this.animation.point[j]['zz'] = this.reader.getFloat(points[j], "zz");
 			}
+		//CIRCULAR	
 		}else if(type == 'circular'){
 			this.animation['id'] = this.reader.getString(animations.children[i], "id");
 			this.animation['span'] = this.reader.getFloat(animations.children[i], "span");
@@ -200,8 +231,10 @@ MySceneGraph.prototype.parseAnimations= function(rootElement) {
 };
 
 
-/*
+/**
+ * parseTextures
  * Method that parses elements of Textures
+ * @param rootElement XML to search
  */
 MySceneGraph.prototype.parseTextures= function(rootElement) {
 
@@ -225,8 +258,10 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
 	}
 };
 
-/*
+/**
+ * parseMaterials
  * Method that parses elements of Materials
+ * @param rootElement XML to search
  */
 MySceneGraph.prototype.parseMaterials= function(rootElement) {
 	
@@ -239,8 +274,11 @@ MySceneGraph.prototype.parseMaterials= function(rootElement) {
 		this.material = {};
 		this.material['id'] = this.reader.getString(materials.children[i], "id");
 		var shininess = getUniqueElement(materials.children[i], "shininess");
+
+		//SHININESS
 		this.material['shininess'] = this.reader.getFloat(shininess, "value");
 
+		//SPECULAR
 		this.material['specular'] = {};
 		var specular = getUniqueElement(materials.children[i], "specular");
 		this.material['specular']['r'] = this.reader.getFloat(specular, "r");
@@ -248,6 +286,7 @@ MySceneGraph.prototype.parseMaterials= function(rootElement) {
 		this.material['specular']['b'] = this.reader.getFloat(specular, "b");
 		this.material['specular']['a'] = this.reader.getFloat(specular, "a");
 
+		//DIFFUSE
 		this.material['diffuse'] = {};
 		var diffuse = getUniqueElement(materials.children[i], "diffuse");
 		this.material['diffuse']['r'] = this.reader.getFloat(diffuse, "r");
@@ -255,6 +294,7 @@ MySceneGraph.prototype.parseMaterials= function(rootElement) {
 		this.material['diffuse']['b'] = this.reader.getFloat(diffuse, "b");
 		this.material['diffuse']['a'] = this.reader.getFloat(diffuse, "a");
 
+		//AMIBIENT
 		this.material['ambient'] = {};
 		var ambient = getUniqueElement(materials.children[i], "ambient");
 		this.material['ambient']['r'] = this.reader.getFloat(ambient, "r");
@@ -262,6 +302,7 @@ MySceneGraph.prototype.parseMaterials= function(rootElement) {
 		this.material['ambient']['b'] = this.reader.getFloat(ambient, "b");
 		this.material['ambient']['a'] = this.reader.getFloat(ambient, "a");
 
+		//EMISSION
 		this.material['emission'] = {};
 		var emission = getUniqueElement(materials.children[i], "emission");
 		this.material['emission']['r'] = this.reader.getFloat(emission, "r");
@@ -273,8 +314,10 @@ MySceneGraph.prototype.parseMaterials= function(rootElement) {
 	}
 };
 
-/*
+/**
+ * parseLeaves
  * Method that parses Leaves
+ * @param rootElement XML to search
  */
 MySceneGraph.prototype.parseLeaves= function(rootElement) {
 	
@@ -373,11 +416,8 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 					point[3] = 1;
 					points.push(point);
 				}
-				this.leave["ctrlPoints"] = points;
-									
+				this.leave["ctrlPoints"] = points;				
 				break;
-			case "vehicle":
-			break;
 			case "terrain":
 				this.leave['texture'] = this.reader.getString(leaves.children[i], "texture");
 				this.leave['height'] = this.reader.getString(leaves.children[i], "heightmap");				
@@ -393,13 +433,14 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 
 
 
-/*
+/**
+ * parseNodes
  * Method that parses Nodes and their elements
+ * @param rootElement XML to search
  */
 MySceneGraph.prototype.parseNodes = function(rootElement){
 
 	var nodeList = getUniqueElement(rootElement, 'NODES');
-
 	var nodes = nodeList.getElementsByTagName('NODE');
 
 	this.nodesInfo = [];

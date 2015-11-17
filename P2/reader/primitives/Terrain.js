@@ -1,4 +1,16 @@
- function Terrain(scene, texture, heightmap) {
+/**
+ * Class Terrain 
+ * Responsible for drawing the Terrain primitive.
+ */
+
+ /**
+ * Constructor
+ * Creates the object Terrain
+ * @param scene Class CGFScene
+ * @param texture Terrain texture
+ * @param heightmap Terrain heightmap
+ */
+function Terrain(scene, texture, heightmap) {
     CGFobject.call(this, scene);
 
 	this.heightmap = new CGFtexture(scene, "textures/"+heightmap);
@@ -11,10 +23,14 @@
     this.initBuffers();
  
  };
-
 Terrain.prototype = Object.create(CGFobject.prototype);
 Terrain.prototype.constructor = Terrain;
 
+/**
+ * initBuffers
+ * Function that calculates what is necessary to draw the Terrain (Appearance,
+ * and shader values)
+ */
 Terrain.prototype.initBuffers = function() {
     
 	this.appearance.setTexture(this.texture);
@@ -30,6 +46,10 @@ Terrain.prototype.initBuffers = function() {
 	
 }
 
+/**
+ * display
+ * Function that allows the Terrain display on the Scene.
+ */
 Terrain.prototype.display = function() {
 
 	this.appearance.apply();

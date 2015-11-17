@@ -1,16 +1,18 @@
 /*
 * Interface
 * @constructor
+* Creates Object Interface
 */
 function Interface () {
 	CGFinterface.call(this);
 }
-
 Interface.prototype = Object.create(CGFinterface.prototype);
 Interface.prototype.constructor = Interface;
 
 /*
+* init
 * Initializing Interface
+* @param app application
 */
 Interface.prototype.init = function(app){
 	CGFinterface.prototype.init.call(this,app);
@@ -21,7 +23,8 @@ Interface.prototype.init = function(app){
 }
 
 /*
-* Update Interface
+* update
+* Updates Interface
 */
 Interface.prototype.update = function(){
 	if(this.loaded == 0 && this.scene.lightsLoad)

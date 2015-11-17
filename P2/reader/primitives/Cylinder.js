@@ -1,6 +1,17 @@
 /**
- * Cylinder
- * @constructor
+ * Class Cylinder 
+ * Responsible for drawing the cylinder primitive.
+ */
+
+ /**
+ * Constructor
+ * Creates the object Cylinder
+ * @param scene Class CGFScene
+ * @param height Cylinder height
+ * @param bRad Bottom circle raidius
+ * @param tRad Top circle raidius
+ * @param stacks Stacks of cylinder
+ * @param slices Slices of cylinder
  */
 function Cylinder(scene, height, bRad, tRad, stacks, slices) {
        
@@ -14,10 +25,14 @@ function Cylinder(scene, height, bRad, tRad, stacks, slices) {
         
         this.initBuffers();
 };
- 
  Cylinder.prototype = Object.create(CGFobject.prototype);
  Cylinder.prototype.constructor = Cylinder;
  
+ /**
+ * initBuffers
+ * Function that calculates what is necessary to draw the cylinder (vertexes of the solid,
+ * normals for the lights and textcoords for texture application)
+ */
  Cylinder.prototype.initBuffers = function() {
 
         this.vertices = [];
